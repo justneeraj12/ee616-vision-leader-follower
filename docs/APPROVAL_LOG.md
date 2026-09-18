@@ -52,6 +52,16 @@ Acceptance criteria: Use Neeraj's formal first-person voice; trace numerical cla
 
 Delivered evidence: Eight-page DOCX and PDF report, four source figures, report builder, passing toy-simulation tests, document quality checks, updated project records, and the private repository `https://github.com/justneeraj12/ee616-vision-leader-follower`.
 
+## A007 Production-style repository documentation and CI
+
+Status: Approved and completed
+
+Approved scope: Rework the repository landing page to match the quality and structure of Neeraj's recent repositories, add continuous integration for the existing toy baseline, make dependencies and reproduction commands explicit, add contribution and citation files, update the governing documentation, and push the verified changes to the private GitHub repository.
+
+Acceptance criteria: Keep measured and planned work separate; retain the toy, Gazebo, physical-robot, and production-safety evidence boundaries; provide working clean-checkout commands; run all seven tests locally; test Python 3.11 and 3.12 in GitHub Actions; validate README links and repository metadata; exclude credentials and temporary artifacts; and use no force push.
+
+Delivered evidence: Production-style README, architecture and validation roadmap, video and faculty-deliverable links, GitHub Actions workflow, contribution guide, changelog, citation metadata, explicit package extras, updated project records, local clean-install verification, and a reviewable Git commit.
+
 ## Next approval required
 
 The ROS 2 Jazzy and Gazebo Harmonic environment-validation gate has not yet been approved for implementation. Its approval packet should define installation boundaries, smoke tests, expected resource measurements, files changed, rollback steps, and the evidence required before the camera-measurement experiment begins.

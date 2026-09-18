@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this research repository, cite the repository and the relevant external technical sources."
+title: "Vision Only Leader Follower Warehouse Coordination"
+type: software
+authors:
+  - family-names: Kanchani
+    given-names: Neeraj Kumar
+version: 0.1.1
+date-released: 2026-09-18
+repository-code: "https://github.com/justneeraj12/ee616-vision-leader-follower"
+url: "https://github.com/justneeraj12/ee616-vision-leader-follower"
+abstract: >-
+  Reproducible research code, evidence, and faculty-review material for a
+  camera-only predecessor-following warehouse material-delivery convoy. The
+  current implementation is a deterministic two-dimensional kinematic toy
+  baseline and is not ROS 2, Gazebo, physical-robot, or production-safety
+  evidence.
+keywords:
+  - leader follower robotics
+  - computer vision
+  - state estimation
+  - formation control
+  - ROS 2
+  - Gazebo
+  - warehouse robotics

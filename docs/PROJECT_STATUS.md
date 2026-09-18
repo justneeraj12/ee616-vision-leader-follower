@@ -19,6 +19,7 @@ The current environment does not yet contain a verified complete ROS 2 Jazzy, Ga
 - The eight-page initial technical explanation contains four traceable figures and has been rendered and visually checked page by page.
 - A two-dimensional warehouse demonstration video is available in `deliverables/`.
 - A private GitHub repository has been created at `https://github.com/justneeraj12/ee616-vision-leader-follower`.
+- The repository includes a production-style README, reproducible quickstart, contribution guidance, citation metadata, and GitHub Actions testing for Python 3.11 and 3.12.
 
 ## Evidence limitations
 
@@ -40,7 +41,7 @@ The current environment does not yet contain a verified complete ROS 2 Jazzy, Ga
 
 ## Repository state
 
-The project is maintained in the private GitHub repository `justneeraj12/ee616-vision-leader-follower`. The repository includes the governing documentation, source, automated tests, machine-readable evidence, report builders, and review deliverables. Internal render pages, temporary artifacts, and quality-check screenshots are excluded through `.gitignore`.
+The project is maintained in the private GitHub repository `justneeraj12/ee616-vision-leader-follower`. The repository includes the governing documentation, source, automated tests, machine-readable evidence, report builders, review deliverables, continuous integration, contribution guidance, and citation metadata. Internal render pages, temporary artifacts, and quality-check screenshots are excluded through `.gitignore`.
 
 ## Next proposed approval gate
 

@@ -1,58 +1,263 @@
-# EE 616 Grad Project Workspace
+# Vision Only Leader Follower Warehouse Coordination
 
-This is the main workspace for Neeraj Kumar Kanchani's EE 616-57 grad project on vision-only leader-follower warehouse coordination.
+[![CI](https://github.com/justneeraj12/ee616-vision-leader-follower/actions/workflows/ci.yml/badge.svg)](https://github.com/justneeraj12/ee616-vision-leader-follower/actions/workflows/ci.yml)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](work/toy_simulation/pyproject.toml)
+[![ROS 2](https://img.shields.io/badge/ROS%202-Jazzy%20planned-22314E.svg)](docs/PROJECT_STATUS.md)
+[![Gazebo](https://img.shields.io/badge/Gazebo-Harmonic%20planned-F58113.svg)](docs/PROJECT_STATUS.md)
+[![Status](https://img.shields.io/badge/status-toy%20baseline%20complete-yellow.svg)](docs/PROJECT_STATUS.md)
+[![Course](https://img.shields.io/badge/Clarkson-EE%20616-green.svg)](https://www.clarkson.edu/)
 
-Start new project work with [`PROJECT_MASTER_PROMPT.md`](PROJECT_MASTER_PROMPT.md). It contains the standing technical scope, writing voice, approval workflow, evidence rules, and session checklist.
+A reproducible research project for camera-only predecessor following in a flexible warehouse material-delivery convoy.
 
-For a shorter copy-and-paste entry point, use [`QUICK_START_PROMPT.md`](QUICK_START_PROMPT.md).
+The leader owns the route. Each independently driven follower observes the robot immediately ahead through a forward RGB camera, combines the relative visual measurement with local wheel odometry, and uses bounded control to maintain a commanded gap. The planned implementation targets ROS 2 Jazzy and Gazebo Harmonic on constrained laptop hardware.
 
-## Project application
+> **Current status:** deterministic two-dimensional toy baseline complete.
+>
+> The current results are not ROS 2, Gazebo, physical-robot, or production-safety evidence. The next proposed implementation gate is environment and reproducibility validation for ROS 2 Jazzy and Gazebo Harmonic.
 
-The proposed application is a flexible autonomous material-delivery convoy for warehouse and manufacturing aisles. A route-owning leader executes the delivery mission. Independently driven follower carts use a forward RGB camera and local odometry to maintain formation with the robot immediately ahead.
+## Research objective
 
-The current implementation is a deterministic two-dimensional toy simulator. It is not yet a ROS 2 or Gazebo result and is not evidence of production safety.
+The primary research question is:
 
-## Folder structure
+> How accurately and reliably can a resource-constrained follower robot maintain leader-relative formation using a forward RGB camera and local odometry under changes in range, heading, velocity, turns, and short visual occlusions?
 
-- `deliverables/` contains the reports, PDFs, videos, and packaged baselines intended for review or sharing.
-- `work/toy_simulation/` contains the simulator source, tests, recorded data, plots, video builders, and quality-check artifacts.
-- `work/professor_package/` contains the original faculty package builder and its document-render checks.
-- `work/industry_application_report/` contains the industry-application report builder, architecture figure, and render checks.
-- `work/technical_explanation_report/` contains the faculty technical-review report builder, four source figures, and internal render checks.
-- `references/` contains the original project-scope documents supplied for the project.
-- `docs/PROJECT_STATUS.md` records the verified current state, limitations, blockers, and next proposed gate.
-- `docs/DECISION_LOG.md` records scope and architecture decisions.
-- `docs/APPROVAL_LOG.md` records the implementation stages approved by Neeraj.
+The minimum scientific unit is one leader and one follower. Additional followers will be introduced one at a time only after the pair is validated. This ordering makes perception error, estimator behavior, closed-loop control, and rearward error propagation independently measurable.
 
-## Current review files
+## Why this project
 
-- `deliverables/Neeraj_Kanchani_EE616_Initial_Technical_Explanation_and_Preliminary_Figures.pdf`
-- `deliverables/Neeraj_Kanchani_EE616_Initial_Technical_Explanation_and_Preliminary_Figures.docx`
-- `deliverables/Neeraj_Kanchani_EE616_Industry_Application_and_System_Rationale.pdf`
-- `deliverables/Neeraj_Kanchani_EE616_Industry_Application_and_System_Rationale.docx`
-- `deliverables/Neeraj_Kanchani_EE616_Initial_Toy_Simulation_Results.pdf`
-- `deliverables/Neeraj_Kanchani_EE616_Multi_Follower_Warehouse_2D.mp4`
+Warehouse and manufacturing operations repeatedly move parts, picked goods, containers, and work-in-process inventory along common routes. The proposed convoy studies whether independently driven carts can reproduce a predecessor's motion without mechanically coupling every load or assigning full route planning to every follower.
 
-## Current toy evidence
+The project combines:
 
-The warehouse toy run includes one leader and three followers in a six-shelf maze. The 86-second seeded run completed seven path segments with zero recorded collision samples. Spacing RMSE was 0.140 m, 0.164 m, and 0.200 m from the first to the third follower. These values describe only the idealized kinematic model.
+- monocular camera geometry and target detection;
+- relative-state estimation through short measurement gaps;
+- bounded range-and-bearing control;
+- explicit `TRACK`, `PREDICT`, and `SAFE STOP` behavior;
+- isolated ROS 2 namespaces for repeated follower instances;
+- synchronized experiment logging and evaluation-only ground truth;
+- incremental multi-follower validation;
+- timing and resource measurements on constrained hardware.
 
-## Approval workflow
+## Verified evidence
 
-Neeraj approves every new implementation stage before it begins. Each approval should identify the scope, expected files, acceptance criteria, tests, and documentation updates. The next proposed implementation gate is environment and reproducibility validation for ROS 2 Jazzy and Gazebo Harmonic. The measurement-only camera baseline follows only after that gate passes.
+| Evidence | Verified result | Boundary |
+|---|---:|---|
+| Automated tests | 7 passing | Toy Python implementation only |
+| Single-pair experiment | 32 deterministic trials | Four scenarios and eight recorded seeds |
+| Synthetic range measurement | 0.011 m median RMSE | Direct camera-like geometry, not image detection |
+| Synthetic bearing measurement | 0.104° median MAE | Idealized pinhole model with pixel noise |
+| Single-pair formation error | 0.009 m median RMSE | Kinematic model with ideal follower pose |
+| Forced-occlusion reacquisition | 0.030 s median | Declared deterministic occlusion window |
+| Warehouse demonstration | 86 simulated seconds | One leader and three followers |
+| Warehouse route | 7 completed route segments | Six-shelf two-dimensional maze |
+| Warehouse collision record | 0 toy collision samples | Center/radius model; not a safety result |
+| Follower spacing RMSE | 0.140, 0.164, 0.200 m | Error increases toward the rear |
 
-## GitHub repository
+The machine-readable sources for these values are committed under [`work/toy_simulation/results`](work/toy_simulation/results) and [`work/toy_simulation/warehouse_results`](work/toy_simulation/warehouse_results).
 
-The private project repository is `https://github.com/justneeraj12/ee616-vision-leader-follower`. It contains the project documentation, source, tests, machine-readable toy evidence, report builders, and review deliverables. Internal page renders, temporary files, and quality-check screenshots are excluded.
+## System architecture
 
-## Reproducing the toy baseline
+```mermaid
+flowchart LR
+    mission["Warehouse or fleet mission"] --> leader["Leader robot<br/>route owner"]
+    leader --> f1["Follower 1<br/>tracks leader"]
+    f1 --> f2["Follower 2<br/>tracks Follower 1"]
+    f2 --> fn["Follower N<br/>tracks predecessor"]
 
-From `work/toy_simulation/`:
+    subgraph follower["Repeated follower pipeline in an isolated ROS 2 namespace"]
+        camera["Forward RGB camera"] --> detect["Predecessor detection"]
+        detect --> measure["Relative range and bearing"]
+        odom["Local wheel odometry"] --> estimate["State estimator"]
+        measure --> estimate
+        estimate --> supervisor["TRACK · PREDICT · SAFE STOP"]
+        supervisor --> control["Bounded formation controller"]
+        control --> cmd["Velocity command"]
+    end
 
-```bash
-PYTHONPATH=src python3 -m toy_swarm.run --output results
-PYTHONPATH=src python3 run_warehouse.py
-python3 -m unittest discover -s tests -v
+    truth["Gazebo ground truth"] -. evaluation only .-> logger["Experiment logger and evaluator"]
+    camera -. timestamped telemetry .-> logger
+    estimate -. state and covariance .-> logger
+    supervisor -. state transitions .-> logger
+    control -. bounded commands .-> logger
 ```
 
-The scripts that create reports and videos resolve this project folder automatically and write reviewable files to `deliverables/`.
+Gazebo ground truth may be logged for evaluation, but it must never enter detection, estimation, supervision, or control. Each robot will use the same follower interfaces under a separate namespace.
+
+## Camera measurement model
+
+The toy baseline uses a pinhole-camera relationship with a known target height:
+
+- range estimate: `r = f × H / h`
+- bearing estimate: `θ = atan((u - cx) / f)`
+
+Here `f` is focal length in pixels, `H` is known target height, `h` is detected bounding-box height, `u` is the horizontal box center, and `cx` is the camera principal point. The Gazebo measurement gate must test how this estimate changes with distance, off-axis placement, target heading, lighting, partial visibility, image resolution, and motion.
+
+## Supervisory behavior
+
+| State | Entry condition | Allowed behavior |
+|---|---|---|
+| `TRACK` | A recent valid measurement is available | Update the estimate and apply bounded control |
+| `PREDICT` | Detection is temporarily unavailable | Predict for no longer than the configured timeout |
+| `SAFE STOP` | The estimate is unavailable or stale | Command zero linear and angular velocity |
+
+These states define deterministic research behavior. They do not establish certified braking distance or person safety.
+
+## Preliminary warehouse demonstration
+
+![Recorded toy trajectories and rearward spacing error](work/technical_explanation_report/figures/figure_4_preliminary_results.png)
+
+[Download the multi-follower warehouse demonstration video](deliverables/Neeraj_Kanchani_EE616_Multi_Follower_Warehouse_2D.mp4)
+
+The video shows one leader and three independently controlled followers moving through a six-shelf maze. It is a two-dimensional kinematic demonstration intended to explain topology, logging, and presentation. It is not a Gazebo or physical-robot result.
+
+## Validation roadmap
+
+| Gate | Scope | Status |
+|---:|---|---|
+| 1 | ROS 2 Jazzy and Gazebo Harmonic environment and reproducibility validation | Proposed; approval required |
+| 2 | Camera-only range and bearing measurements against evaluation ground truth | Not started |
+| 3 | One leader and one follower with estimator, bounded controller, and recovery states | Not started |
+| 4 | Followers added incrementally with error-propagation measurements | Not started |
+| 5 | Turns, occlusions, stopped leaders, and controlled disturbances | Not started |
+| 6 | Resource and inference benchmarks on the target laptop | Not started |
+| 7 | Frozen experiments, final video, report, and submission package | Not started |
+
+The validated pair is the minimum result. One leader and three followers remain the target demonstration only if the pair and incremental-chain evidence pass.
+
+## Quickstart
+
+Clone the private repository and create a Python environment:
+
+```bash
+git clone https://github.com/justneeraj12/ee616-vision-leader-follower.git
+cd ee616-vision-leader-follower/work/toy_simulation
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -e .
+```
+
+Run the automated tests:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+Regenerate the single-pair baseline:
+
+```bash
+python -m toy_swarm.run --output results
+```
+
+Regenerate the warehouse experiment:
+
+```bash
+python run_warehouse.py
+```
+
+The commands write machine-readable summaries, time series, and figures beneath `work/toy_simulation/`. Passing the toy tests does not validate the later ROS 2 or Gazebo system.
+
+## Repository layout
+
+```text
+.
+├── .github/workflows/         Continuous integration
+├── deliverables/              Review reports, videos, and packaged baselines
+├── docs/                      Status, decisions, and implementation approvals
+├── references/                Original supplied project context
+├── work/
+│   ├── industry_application_report/
+│   ├── professor_package/
+│   ├── technical_explanation_report/
+│   └── toy_simulation/
+│       ├── src/toy_swarm/     Simulator, measurement, filter, control, and plots
+│       ├── tests/             Automated toy-baseline tests
+│       ├── results/           Single-pair evidence
+│       └── warehouse_results/ Multi-follower evidence
+├── PROJECT_MASTER_PROMPT.md   Standing project and evidence rules
+├── CONTRIBUTING.md            Contribution and approval workflow
+├── CHANGELOG.md               Reviewable project milestones
+└── CITATION.cff               Repository citation metadata
+```
+
+The `work/` placement is intentional. Project source, report builders, datasets, and internal quality checks remain separate from review-ready files in `deliverables/`.
+
+## Reproducibility and research integrity
+
+- Random seeds and experiment configurations are recorded.
+- Tests reject non-finite outputs and check deterministic behavior.
+- Measured results, proposed targets, and planned work are labeled separately.
+- Ground truth is restricted to logging and evaluation in the planned simulator.
+- Follower namespaces must remain isolated as the chain grows.
+- Reported values must be traceable to committed JSON or CSV evidence.
+- A failed or incomplete experiment will be reported rather than replaced with an unsupported claim.
+- New implementation gates require approval before code, dependency, or architecture changes begin.
+
+## Target hardware
+
+Development targets an MSI Katana GF66 12UD with:
+
+- Intel Core i5-12450H;
+- 16 GB RAM;
+- NVIDIA RTX 3050 Ti Laptop GPU with 4 GB VRAM;
+- Ubuntu 24.04.
+
+The project will establish an ordinary FP32 inference baseline before considering FP16. INT8 will be considered only if calibration evidence shows acceptable accuracy loss. Gazebo rendering and inference share the same limited GPU memory, so peak VRAM and dropped frames must be measured.
+
+## Scope boundaries
+
+In scope:
+
+- forward RGB perception for formation coordination;
+- local wheel odometry;
+- relative range and bearing estimation;
+- Kalman filtering or EKF-based state estimation;
+- bounded follower control and recovery states;
+- ROS 2 Jazzy and Gazebo Harmonic experiments;
+- incremental predecessor-following chains;
+- timing, accuracy, recovery, and resource measurements.
+
+Out of scope unless the project is explicitly changed:
+
+- LiDAR or stereo fusion in the formation layer;
+- global mapping or route planning on every follower;
+- claims that the exact camera-only convoy is already a standard commercial system;
+- physical-robot or warehouse-deployment validation during the current evidence stage;
+- claims that simulation proves production safety or certification.
+
+## Safety boundary
+
+Vision-based formation coordination is separate from industrial robot safety. A deployment would still require independent safety-rated person and obstacle detection, emergency stops, verified stopping distances, speed and zone supervision, communications supervision, warnings, cybersecurity, site risk assessment, commissioning, and applicable standards compliance.
+
+This repository does not claim that the current toy model satisfies those requirements.
+
+## Faculty review materials
+
+| Deliverable | Purpose |
+|---|---|
+| [Initial technical explanation and preliminary figures PDF](deliverables/Neeraj_Kanchani_EE616_Initial_Technical_Explanation_and_Preliminary_Figures.pdf) | Primary current faculty-review report |
+| [Editable technical explanation DOCX](deliverables/Neeraj_Kanchani_EE616_Initial_Technical_Explanation_and_Preliminary_Figures.docx) | Editable report source |
+| [Industry application and system rationale PDF](deliverables/Neeraj_Kanchani_EE616_Industry_Application_and_System_Rationale.pdf) | Application, roles, and safety boundary |
+| [Initial toy simulation results PDF](deliverables/Neeraj_Kanchani_EE616_Initial_Toy_Simulation_Results.pdf) | Single-pair preliminary evidence |
+| [Warehouse demonstration video](deliverables/Neeraj_Kanchani_EE616_Multi_Follower_Warehouse_2D.mp4) | Preliminary multi-follower visualization |
+
+## Documentation
+
+| Topic | Document |
+|---|---|
+| Current evidence, blockers, and next gate | [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md) |
+| Technical and scope decisions | [docs/DECISION_LOG.md](docs/DECISION_LOG.md) |
+| Approved implementation stages | [docs/APPROVAL_LOG.md](docs/APPROVAL_LOG.md) |
+| Standing project requirements | [PROJECT_MASTER_PROMPT.md](PROJECT_MASTER_PROMPT.md) |
+| Contribution and approval process | [CONTRIBUTING.md](CONTRIBUTING.md) |
+| Project milestones | [CHANGELOG.md](CHANGELOG.md) |
+
+## Contributing
+
+This is an academic research repository with an explicit approval process. Reproducibility fixes, documentation corrections, and well-scoped technical improvements are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) before proposing a change.
+
+## License and citation
+
+No repository-wide reuse license has been declared yet. Original references, external documents, and third-party materials retain their own terms. Do not assume that the contents are licensed for redistribution or derivative use.
+
+Citation metadata is provided in [`CITATION.cff`](CITATION.cff). Until a final report is released, cite the repository and any external technical sources separately.

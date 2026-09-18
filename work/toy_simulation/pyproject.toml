@@ -1,9 +1,12 @@
 [project]
 name = "toy-swarm-baseline"
-version = "0.1.0"
+version = "0.1.1"
 description = "Reproducible kinematic baseline for vision-only leader-follower coordination"
 requires-python = ">=3.11"
 dependencies = ["numpy>=2.0", "Pillow>=11"]
+
+[project.optional-dependencies]
+reports = ["python-docx>=1.1"]
 
 [project.scripts]
 toy-swarm = "toy_swarm.run:main"

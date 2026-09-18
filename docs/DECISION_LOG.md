@@ -63,3 +63,11 @@ Date: September 18, 2026
 Decision: Maintain the project in the private GitHub repository `justneeraj12/ee616-vision-leader-follower` and exclude internal render pages, temporary artifacts, and quality-check screenshots.
 
 Reason: The repository should contain the files needed to understand, reproduce, and review the project without publishing unnecessary build residue or presenting the work as a public release.
+
+## D009 Repository presentation and continuous integration
+
+Date: September 18, 2026
+
+Decision: Structure the repository landing page after Neeraj's recent research and systems repositories, with badges, a candid status boundary, verified evidence, architecture, quickstart instructions, a validation roadmap, scope limitations, contribution guidance, citation metadata, and automated testing on supported Python versions.
+
+Reason: The repository should be understandable to a faculty reviewer or portfolio reviewer without requiring them to open every report. Automated tests and explicit evidence boundaries make the current condition reproducible without presenting the toy baseline as a production-ready robot.
