@@ -1,0 +1,16 @@
+[project]
+name = "toy-swarm-baseline"
+version = "0.1.0"
+description = "Reproducible kinematic baseline for vision-only leader-follower coordination"
+requires-python = ">=3.11"
+dependencies = ["numpy>=2.0", "Pillow>=11"]
+
+[project.scripts]
+toy-swarm = "toy_swarm.run:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,76 @@
+{
+  "collision_samples_total": 0,
+  "config": {
+    "bbox_center_noise_px": 1.4,
+    "bbox_height_noise_px": 1.8,
+    "camera_half_fov_deg": 42.0,
+    "camera_hz": 15.0,
+    "camera_max_range_m": 4.0,
+    "camera_min_range_m": 0.45,
+    "collision_range_m": 0.35,
+    "desired_range_m": 1.5,
+    "dt_s": 0.02,
+    "duration_s": 20.0,
+    "focal_length_px": 600.0,
+    "image_width_px": 640,
+    "k_bearing": 2.2,
+    "k_range": 1.15,
+    "leader_marker_height_m": 0.6,
+    "max_angular_rps": 1.4,
+    "max_linear_mps": 1.0,
+    "occlusion_end_s": 9.17,
+    "occlusion_start_s": 8.0,
+    "prediction_timeout_s": 1.5
+  },
+  "occlusion_median_reacquisition_s": 0.030000000000001137,
+  "overall_median": {
+    "bearing_mae_deg": 0.1037036899856136,
+    "estimated_range_rmse_m": 0.00498508265854424,
+    "formation_rmse_m": 0.009384667898612663,
+    "range_rmse_m": 0.01121248240431718
+  },
+  "scenario_medians": {
+    "occlusion": {
+      "bearing_mae_deg": 0.10433745926653597,
+      "estimated_range_rmse_m": 0.005084503668096622,
+      "formation_rmse_m": 0.009708139543661256,
+      "range_rmse_m": 0.01135460127947232
+    },
+    "s_curve": {
+      "bearing_mae_deg": 0.10399763625422759,
+      "estimated_range_rmse_m": 0.004384323014412141,
+      "formation_rmse_m": 0.008701125726512219,
+      "range_rmse_m": 0.01127191604296332
+    },
+    "straight": {
+      "bearing_mae_deg": 0.10418817788490876,
+      "estimated_range_rmse_m": 0.0033921499182502993,
+      "formation_rmse_m": 0.003020118777211204,
+      "range_rmse_m": 0.011300288204449565
+    },
+    "turn": {
+      "bearing_mae_deg": 0.10304684282746614,
+      "estimated_range_rmse_m": 0.011014052988180475,
+      "formation_rmse_m": 0.01733057917143941,
+      "range_rmse_m": 0.011080987175368495
+    }
+  },
+  "scenarios": [
+    "straight",
+    "s_curve",
+    "turn",
+    "occlusion"
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "status": "toy kinematic baseline; not ROS 2 or Gazebo evidence",
+  "trial_count": 32
+}

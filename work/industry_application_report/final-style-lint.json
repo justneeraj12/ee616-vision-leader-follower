@@ -1,0 +1,170 @@
+{
+  "input": "/home/justneeraj/Documents/Codex/2026-09-14/create-an-image-of/outputs/Neeraj_Kanchani_EE616_Industry_Application_and_System_Rationale.docx",
+  "fonts_by_char_count": {
+    "Helvetica Neue": 18667
+  },
+  "direct_run_formatting_runs": 202,
+  "direct_paragraph_formatting_paragraphs": 197,
+  "heading_like_paragraphs_not_heading_style": [
+    {
+      "para_index": 79,
+      "text": "STATUS",
+      "style": "normal"
+    },
+    {
+      "para_index": 81,
+      "text": "AUTHOR",
+      "style": "normal"
+    },
+    {
+      "para_index": 83,
+      "text": "UPDATED",
+      "style": "normal"
+    },
+    {
+      "para_index": 85,
+      "text": "Field",
+      "style": "normal"
+    },
+    {
+      "para_index": 86,
+      "text": "Details",
+      "style": "normal"
+    },
+    {
+      "para_index": 97,
+      "text": "Industrial pattern",
+      "style": "normal"
+    },
+    {
+      "para_index": 98,
+      "text": "What industry already uses",
+      "style": "normal"
+    },
+    {
+      "para_index": 99,
+      "text": "What this project adds or studies",
+      "style": "normal"
+    },
+    {
+      "para_index": 112,
+      "text": "Leader function",
+      "style": "normal"
+    },
+    {
+      "para_index": 113,
+      "text": "Reason it belongs on the leader",
+      "style": "normal"
+    },
+    {
+      "para_index": 126,
+      "text": "Follower input",
+      "style": "normal"
+    },
+    {
+      "para_index": 127,
+      "text": "Local computation",
+      "style": "normal"
+    },
+    {
+      "para_index": 128,
+      "text": "Required behavior",
+      "style": "normal"
+    },
+    {
+      "para_index": 144,
+      "text": "Benefit",
+      "style": "normal"
+    },
+    {
+      "para_index": 145,
+      "text": "Operational reason",
+      "style": "normal"
+    },
+    {
+      "para_index": 146,
+      "text": "Condition for the benefit to hold",
+      "style": "normal"
+    },
+    {
+      "para_index": 162,
+      "text": "Layer",
+      "style": "normal"
+    },
+    {
+      "para_index": 163,
+      "text": "Primary responsibility",
+      "style": "normal"
+    },
+    {
+      "para_index": 164,
+      "text": "Evidence required before deployment",
+      "style": "normal"
+    },
+    {
+      "para_index": 180,
+      "text": "Question",
+      "style": "normal"
+    }
+  ],
+  "examples": {
+    "direct_paragraph_formatting": [
+      {
+        "para_index": 1,
+        "text": "EE 616 Application Rationale",
+        "style": "normal"
+      },
+      {
+        "para_index": 2,
+        "text": "Industry Application and System Rationale for Vision Only Leader Follower Warehouse Coordination",
+        "style": "Title"
+      },
+      {
+        "para_index": 3,
+        "text": "Proposed flexible material delivery convoy for faculty review",
+        "style": "normal"
+      },
+      {
+        "para_index": 4,
+        "text": "",
+        "style": "normal"
+      },
+      {
+        "para_index": 5,
+        "text": "",
+        "style": "normal"
+      }
+    ],
+    "direct_run_formatting": [
+      {
+        "para_index": 1,
+        "run_text": "EE 616 Application Rationale",
+        "style": "normal"
+      },
+      {
+        "para_index": 2,
+        "run_text": "Industry Application and System Rationale for Vision Only Leader Follower Wareho",
+        "style": "Title"
+      },
+      {
+        "para_index": 3,
+        "run_text": "Proposed flexible material delivery convoy for faculty review",
+        "style": "normal"
+      },
+      {
+        "para_index": 7,
+        "run_text": "1 Proposal and Review Request",
+        "style": "Heading 1"
+      },
+      {
+        "para_index": 8,
+        "run_text": "I propose to develop and evaluate a leader-follower robot convoy for repeated ma",
+        "style": "normal"
+      }
+    ]
+  },
+  "notes": [
+    "Direct formatting is not always wrong, but it often causes inconsistent output when templates change.",
+    "Heading-like paragraphs not using Heading styles can break TOC and accessibility."
+  ]
+}

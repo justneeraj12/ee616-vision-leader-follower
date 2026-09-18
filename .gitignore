@@ -1,0 +1,27 @@
+# Python caches and local test state
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Editor and operating-system files
+.DS_Store
+*.swp
+*.swo
+
+# Internal document and video quality-check renders
+work/tmp/
+work/**/page-*.png
+work/**/render-v*/
+work/**/*-render/
+work/**/*-fidelity-*/
+work/**/*-qa*.png
+work/**/*contact*.png
+work/**/final-report.txt
+work/**/video-qa/
+work/**/warehouse-video-qa/
+work/**/no-odin-*/
+work/**/memo-*/
+work/**/fidelity-*/
+
+# Local office lock files
+~$*.docx

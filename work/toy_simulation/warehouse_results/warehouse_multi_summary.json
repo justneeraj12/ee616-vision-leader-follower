@@ -1,0 +1,18 @@
+{
+  "collision_samples": 0,
+  "completed_waypoints": 7,
+  "duration_s": 86.0,
+  "followers": 3,
+  "limitations": "kinematic model with perfect follower pose; not ROS 2 or Gazebo evidence",
+  "safe_stop_fraction": {
+    "follower_1": 0.0,
+    "follower_2": 0.0,
+    "follower_3": 0.0
+  },
+  "seed": 11,
+  "spacing_rmse_m": {
+    "follower_1": 0.13953540546296078,
+    "follower_2": 0.16449966739492355,
+    "follower_3": 0.1995703130225481
+  }
+}
