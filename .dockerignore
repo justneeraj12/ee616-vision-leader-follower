@@ -1,0 +1,11 @@
+.git
+.venv
+**/__pycache__
+**/*.pyc
+work/ros2_ws/build
+work/ros2_ws/install
+work/ros2_ws/log
+work/ros2_ws/results
+work/tmp
+deliverables
+references

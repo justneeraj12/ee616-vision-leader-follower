@@ -6,6 +6,12 @@ __pycache__/
 .venv/
 build/
 dist/
+work/ros2_ws/build/
+work/ros2_ws/install/
+work/ros2_ws/log/
+work/ros2_ws/results/environment_gate/*.log
+work/ros2_ws/results/environment_gate/ros2_doctor.txt
+work/ros2_ws/results/environment_gate/colcon_test_result.txt
 
 # Editor and operating-system files
 .DS_Store

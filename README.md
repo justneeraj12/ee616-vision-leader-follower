@@ -2,18 +2,18 @@
 
 [![CI](https://github.com/justneeraj12/ee616-vision-leader-follower/actions/workflows/ci.yml/badge.svg)](https://github.com/justneeraj12/ee616-vision-leader-follower/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](work/toy_simulation/pyproject.toml)
-[![ROS 2](https://img.shields.io/badge/ROS%202-Jazzy%20planned-22314E.svg)](docs/PROJECT_STATUS.md)
-[![Gazebo](https://img.shields.io/badge/Gazebo-Harmonic%20planned-F58113.svg)](docs/PROJECT_STATUS.md)
-[![Status](https://img.shields.io/badge/status-toy%20baseline%20complete-yellow.svg)](docs/PROJECT_STATUS.md)
+[![ROS 2](https://img.shields.io/badge/ROS%202-Jazzy%20environment%20verified-22314E.svg)](docs/PROJECT_STATUS.md)
+[![Gazebo](https://img.shields.io/badge/Gazebo-Harmonic%208.15.0-F58113.svg)](docs/PROJECT_STATUS.md)
+[![Status](https://img.shields.io/badge/status-environment%20gate%20complete-yellow.svg)](docs/PROJECT_STATUS.md)
 [![Course](https://img.shields.io/badge/Clarkson-EE%20616-green.svg)](https://www.clarkson.edu/)
 
 A reproducible research project for camera-only predecessor following in a flexible warehouse material-delivery convoy.
 
 The leader owns the route. Each independently driven follower observes the robot immediately ahead through a forward RGB camera, combines the relative visual measurement with local wheel odometry, and uses bounded control to maintain a commanded gap. The planned implementation targets ROS 2 Jazzy and Gazebo Harmonic on constrained laptop hardware.
 
-> **Current status:** deterministic two-dimensional toy baseline complete.
+> **Current status:** deterministic two-dimensional toy baseline and containerized ROS 2/Gazebo environment gate complete.
 >
-> The current results are not ROS 2, Gazebo, physical-robot, or production-safety evidence. The next proposed implementation gate is environment and reproducibility validation for ROS 2 Jazzy and Gazebo Harmonic.
+> ROS 2 namespace and Gazebo camera transport smoke tests now pass. No camera-accuracy, follower-control, physical-robot, or production-safety result has been demonstrated.
 
 ## Research objective
 
@@ -50,6 +50,10 @@ The project combines:
 | Forced-occlusion reacquisition | 0.030 s median | Declared deterministic occlusion window |
 | Warehouse demonstration | 86 simulated seconds | One leader and three followers |
 | Warehouse route | 7 completed route segments | Six-shelf two-dimensional maze |
+| ROS workspace | 2 packages built; 2 tests passed | Environment infrastructure only |
+| Namespace smoke test | `/leader` and `/follower_1` passed | Five local heartbeat samples per namespace |
+| Gazebo camera transport | 15 timestamped 640×480 RGB samples | Transport check; not range/bearing accuracy |
+| NVIDIA container access | RTX 3050 Ti, 4 GB VRAM visible | Passthrough verified; acceleration not benchmarked |
 | Warehouse collision record | 0 toy collision samples | Center/radius model; not a safety result |
 | Follower spacing RMSE | 0.140, 0.164, 0.200 m | Error increases toward the rear |
 
@@ -114,7 +118,7 @@ The video shows one leader and three independently controlled followers moving t
 
 | Gate | Scope | Status |
 |---:|---|---|
-| 1 | ROS 2 Jazzy and Gazebo Harmonic environment and reproducibility validation | Proposed; approval required |
+| 1 | ROS 2 Jazzy and Gazebo Harmonic environment and reproducibility validation | Complete |
 | 2 | Camera-only range and bearing measurements against evaluation ground truth | Not started |
 | 3 | One leader and one follower with estimator, bounded controller, and recovery states | Not started |
 | 4 | Followers added incrementally with error-propagation measurements | Not started |
@@ -123,6 +127,20 @@ The video shows one leader and three independently controlled followers moving t
 | 7 | Frozen experiments, final video, report, and submission package | Not started |
 
 The validated pair is the minimum result. One leader and three followers remain the target demonstration only if the pair and incremental-chain evidence pass.
+
+## Containerized ROS 2 and Gazebo foundation
+
+The approved ROS 2 implementation is organized under `work/ros2_ws/`. An official ROS 2 Jazzy Ubuntu Noble image provides the canonical environment, with Gazebo Harmonic installed through the supported `ros_gz` packages.
+
+```bash
+make container-config
+make container-build
+make environment-check
+```
+
+The foundation passed on the target laptop with ROS 2 Jazzy, Gazebo Sim 8.15.0, two isolated namespaces, and timestamped camera transport. The optional NVIDIA profile sees the RTX 3050 Ti and 4 GB VRAM. These are environment results only, not camera-accuracy or follower-performance evidence.
+
+See [the environment setup](docs/ENVIRONMENT_SETUP.md) and [system architecture](docs/SYSTEM_ARCHITECTURE.md) for host prerequisites, GPU configuration, robot roles, and evidence boundaries.
 
 ## Quickstart
 

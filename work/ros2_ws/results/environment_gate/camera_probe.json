@@ -1,0 +1,13 @@
+{
+  "encoding": "rgb8",
+  "failure": null,
+  "height": 480,
+  "measured_receive_hz": 15.309257532654213,
+  "nonzero_timestamp_samples": 15,
+  "required_samples": 15,
+  "samples": 15,
+  "scope": "camera transport smoke test; not measurement-accuracy evidence",
+  "status": "pass",
+  "topic": "/smoke/camera/image",
+  "width": 640
+}

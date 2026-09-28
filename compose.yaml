@@ -1,0 +1,45 @@
+name: ee616-vision-leader-follower
+
+x-ee616-common: &ee616-common
+  build:
+    context: .
+    dockerfile: infrastructure/docker/Dockerfile
+  image: ee616-vision-leader-follower:jazzy-harmonic
+  user: ${LOCAL_UID:-1000}:${LOCAL_GID:-1000}
+  network_mode: host
+  ipc: host
+  shm_size: 1gb
+  environment:
+    HOME: /tmp
+    ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-57}
+    RMW_IMPLEMENTATION: rmw_fastrtps_cpp
+    GZ_PARTITION: ${GZ_PARTITION:-ee616}
+    LIBGL_ALWAYS_SOFTWARE: ${LIBGL_ALWAYS_SOFTWARE:-1}
+  volumes:
+    - .:/workspace
+  working_dir: /workspace/work/ros2_ws
+  stdin_open: true
+  tty: true
+
+services:
+  dev:
+    <<: *ee616-common
+    command: bash
+
+  check:
+    <<: *ee616-common
+    command: /workspace/infrastructure/docker/run_environment_check.sh
+
+  gpu:
+    <<: *ee616-common
+    profiles: [gpu]
+    gpus: all
+    environment:
+      HOME: /tmp
+      ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-57}
+      RMW_IMPLEMENTATION: rmw_fastrtps_cpp
+      GZ_PARTITION: ${GZ_PARTITION:-ee616}
+      LIBGL_ALWAYS_SOFTWARE: "0"
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,graphics,utility
+    command: bash

@@ -1,0 +1,3 @@
+Gazebo Sim, version 8.15.0
+Copyright (C) 2018 Open Source Robotics Foundation.
+Released under the Apache 2.0 License.

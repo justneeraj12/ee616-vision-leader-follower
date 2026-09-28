@@ -1,0 +1,43 @@
+{
+  "camera": {
+    "encoding": "rgb8",
+    "failure": null,
+    "height": 480,
+    "measured_receive_hz": 15.309257532654213,
+    "nonzero_timestamp_samples": 15,
+    "required_samples": 15,
+    "samples": 15,
+    "scope": "camera transport smoke test; not measurement-accuracy evidence",
+    "status": "pass",
+    "topic": "/smoke/camera/image",
+    "width": 640
+  },
+  "gz_partition": "ee616",
+  "platform": "Linux-6.17.0-1032-oem-x86_64-with-glibc2.39",
+  "resources": {
+    "gpu": {
+      "available_in_container": true,
+      "error": null,
+      "query": "NVIDIA GeForce RTX 3050 Ti Laptop GPU, 595.91.07, 4096, 122, 0"
+    },
+    "load_average": [
+      1.22509765625,
+      1.32763671875,
+      1.20068359375
+    ],
+    "logical_cpu_count": 12,
+    "memory": {
+      "memavailable_kb": 9187528,
+      "memtotal_kb": 16069520,
+      "swapfree_kb": 23482636,
+      "swaptotal_kb": 25165816
+    },
+    "platform": "Linux-6.17.0-1032-oem-x86_64-with-glibc2.39",
+    "timestamp_utc": "2026-09-28T13:37:19.588319+00:00"
+  },
+  "ros_distro": "jazzy",
+  "ros_domain_id": "57",
+  "scope": "environment smoke test only; not follower-performance evidence",
+  "status": "pass",
+  "timestamp_utc": "2026-09-28T13:37:19.641767+00:00"
+}

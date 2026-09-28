@@ -71,3 +71,27 @@ Date: September 18, 2026
 Decision: Structure the repository landing page after Neeraj's recent research and systems repositories, with badges, a candid status boundary, verified evidence, architecture, quickstart instructions, a validation roadmap, scope limitations, contribution guidance, citation metadata, and automated testing on supported Python versions.
 
 Reason: The repository should be understandable to a faculty reviewer or portfolio reviewer without requiring them to open every report. Automated tests and explicit evidence boundaries make the current condition reproducible without presenting the toy baseline as a production-ready robot.
+
+## D010 Faculty report format and writing style
+
+Date: September 18, 2026
+
+Decision: Use the IEEEtran LaTeX class in single-column mode for the separate technical report. Use simple formal English, short sentences, direct first-person statements, and explicit evidence limitations. Preserve the previously submitted report without modification.
+
+Reason: The report should be easy for Neeraj to read, explain, revise, and defend during faculty review while retaining a recognized engineering-paper structure.
+
+## D011 Canonical container environment
+
+Date: September 28, 2026
+
+Decision: Use a Docker image based on the official ROS 2 Jazzy Ubuntu Noble image as the canonical ROS 2 Jazzy and Gazebo Harmonic environment. Default experiment execution is headless with software rendering available as a fallback. GPU execution is an optional measured profile.
+
+Reason: The host contains an incomplete ROS 2 installation. A versioned container reduces host coupling, records dependencies, supports repeatable clean builds, and allows the CPU and GPU paths to be compared without creating a second project workspace.
+
+## D012 Leader sensing boundary
+
+Date: September 28, 2026
+
+Decision: Use a deterministic waypoint-driven leader for the initial measurement and pair-control experiments. The leader exposes a rear visual target but does not require a navigation camera or LiDAR at this gate. A later warehouse demonstration may add 2-D LiDAR, wheel odometry, an IMU, and Nav2 if the core evidence and schedule support it.
+
+Reason: Leader autonomous navigation is not the first research variable. Controlled leader motion makes follower measurement, estimation, and control errors easier to isolate. The later sensor extension remains separate from the follower formation inputs.

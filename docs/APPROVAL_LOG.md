@@ -62,6 +62,26 @@ Acceptance criteria: Keep measured and planned work separate; retain the toy, Ga
 
 Delivered evidence: Production-style README, architecture and validation roadmap, video and faculty-deliverable links, GitHub Actions workflow, contribution guide, changelog, citation metadata, explicit package extras, updated project records, local clean-install verification, and a reviewable Git commit.
 
+## A008 Single-column IEEE LaTeX technical report
+
+Status: Approved and completed
+
+Approved scope: Create a separate version of the initial technical explanation using the IEEEtran LaTeX class in single-column mode. Preserve the existing submitted report and reuse only the four verified figures and recorded toy-simulation evidence.
+
+Acceptance criteria: Use simple formal English in Neeraj's first-person voice; keep the application, research question, current evidence, limitations, next technical gate, and faculty questions; distinguish toy evidence from ROS 2, Gazebo, physical-robot, and production-safety evidence; compile without unresolved citations, references, or margin overflow; and visually inspect every page.
+
+Delivered evidence: Editable LaTeX and BibTeX source under `work/ieee_simple_report/` and a five-page, single-column IEEE-style PDF under `deliverables/`. The PDF contains four verified figures, four external references, traceable project evidence paths, complete metadata, and no unsupported safety or production claim.
+
+## A009 Containerized ROS 2 and Gazebo foundation
+
+Status: Approved and completed
+
+Approved scope: Organize the ROS 2 workspace, create a canonical Docker environment for ROS 2 Jazzy and Gazebo Harmonic, add namespace and camera smoke tests, document leader and follower sensor boundaries, configure an optional NVIDIA GPU profile, verify the environment, update the private GitHub repository, and preserve all unrelated uncommitted work.
+
+Acceptance criteria: Build from an official ROS Jazzy Ubuntu Noble image; provide ROS 2, Gazebo Harmonic, and `ros_gz`; build the workspace with `colcon`; pass two-namespace isolation checks; launch a minimal headless Gazebo camera world; bridge timestamped camera images to ROS 2; document CPU and GPU paths; record machine-readable evidence; keep ground truth outside the control path; and do not claim follower-performance evidence from an environment smoke test.
+
+Delivered evidence: Canonical ROS 2 Jazzy and Gazebo Sim 8.15.0 container; two ROS packages built; two package tests passed; isolated `/leader` and `/follower_1` namespace probes passed; 15 timestamped 640×480 RGB camera samples bridged from Gazebo; machine-readable evidence saved under `work/ros2_ws/results/environment_gate/`; and NVIDIA container access verified for the RTX 3050 Ti with 4096 MiB VRAM. GPU rendering acceleration remains unbenchmarked.
+
 ## Next approval required
 
-The ROS 2 Jazzy and Gazebo Harmonic environment-validation gate has not yet been approved for implementation. Its approval packet should define installation boundaries, smoke tests, expected resource measurements, files changed, rollback steps, and the evidence required before the camera-measurement experiment begins.
+After A009 passes, the next approval packet will cover the camera-only range and bearing measurement baseline against evaluation-only Gazebo ground truth.

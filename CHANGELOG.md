@@ -2,6 +2,34 @@
 
 This file records reviewable project milestones. Detailed evidence and current limitations remain in [`docs/PROJECT_STATUS.md`](docs/PROJECT_STATUS.md).
 
+## Unreleased
+
+### Added
+
+- Canonical Docker environment based on ROS 2 Jazzy and Ubuntu Noble
+- ROS 2 workspace with environment and namespace smoke-test nodes
+- Minimal headless Gazebo camera world and ROS-Gazebo bridge configuration
+- CPU/software-rendering and optional NVIDIA GPU container profiles
+- System architecture and reproducible environment documentation
+
+### Verified
+
+- ROS 2 Jazzy workspace builds two packages and passes two package tests
+- Isolated `/leader` and `/follower_1` namespace probes pass
+- Gazebo Sim 8.15.0 bridges 15 timestamped 640×480 RGB camera samples
+- NVIDIA container passthrough exposes the RTX 3050 Ti and 4096 MiB VRAM
+- GPU-accelerated Gazebo rendering remains unbenchmarked
+
+### Decisions
+
+- Initial leader uses a deterministic waypoint route and rear visual target
+- Leader LiDAR, IMU, odometry, and Nav2 remain a later optional extension
+- Followers retain forward RGB camera and local wheel odometry as formation inputs
+
+### Evidence boundary
+
+The environment smoke tests do not constitute camera measurement, follower-control, physical-robot, or safety evidence.
+
 ## 0.1.1 2026-09-18
 
 ### Added
