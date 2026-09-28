@@ -82,6 +82,16 @@ Acceptance criteria: Build from an official ROS Jazzy Ubuntu Noble image; provid
 
 Delivered evidence: Canonical ROS 2 Jazzy and Gazebo Sim 8.15.0 container; two ROS packages built; two package tests passed; isolated `/leader` and `/follower_1` namespace probes passed; 15 timestamped 640×480 RGB camera samples bridged from Gazebo; machine-readable evidence saved under `work/ros2_ws/results/environment_gate/`; and NVIDIA container access verified for the RTX 3050 Ti with 4096 MiB VRAM. GPU rendering acceleration remains unbenchmarked.
 
+## A010 Integrated VS Code and Gazebo learning workspace
+
+Status: Approved and completed
+
+Approved scope: Add a VS Code Dev Container based on the canonical ROS image, integrated terminals and tasks for building, testing, launching, inspecting, and stopping the simulation, a safely forwarded Gazebo GUI, an editable warehouse playground, and learning documentation with architecture maps and metric explanations. Preserve the report and unrelated reference files.
+
+Acceptance criteria: Use the existing authorized workspace and Docker image; avoid unrestricted display permissions; keep generated files owned by the development user; open the Gazebo GUI; expose ROS nodes and topics to an integrated learning shell; retain the headless environment gate; pass ROS and toy tests; document every command and evidence limitation; and leave report files untouched.
+
+Delivered evidence: The Dev Container ran as the non-root `ubuntu` user; two ROS packages built; three ROS package tests and seven toy tests passed; the six-shelf playground opened in Gazebo Sim 8.15.0; 15 timestamped 640×480 RGB samples crossed the Gazebo-to-ROS bridge; the ROS learning shell and stop task were exercised; X11 access used a copied temporary authorization file; and workflow, learning-map, metric, and evidence-limit documentation was added. Mesa/GLX/EGL fallback warnings were observed, so GPU-accelerated rendering remains unverified.
+
 ## Next approval required
 
-After A009 passes, the next approval packet will cover the camera-only range and bearing measurement baseline against evaluation-only Gazebo ground truth.
+After A010, the next approval packet will cover the camera-only range and bearing measurement baseline against evaluation-only Gazebo ground truth.

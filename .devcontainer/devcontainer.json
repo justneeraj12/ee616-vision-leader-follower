@@ -1,0 +1,27 @@
+{
+  "name": "EE 616 ROS 2 Jazzy and Gazebo",
+  "dockerComposeFile": [
+    "../compose.yaml",
+    "compose.yaml"
+  ],
+  "service": "dev",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "overrideCommand": false,
+  "remoteUser": "ubuntu",
+  "updateRemoteUserUID": false,
+  "initializeCommand": "bash infrastructure/dev/prepare_xauthority.sh",
+  "postCreateCommand": "bash /workspace/infrastructure/dev/bootstrap_workspace.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-iot.vscode-ros",
+        "ms-azuretools.vscode-docker",
+        "redhat.vscode-yaml",
+        "bierner.markdown-mermaid"
+      ]
+    }
+  }
+}

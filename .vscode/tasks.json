@@ -1,0 +1,115 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "EE616: Build ROS workspace",
+      "type": "shell",
+      "command": "bash /workspace/infrastructure/dev/bootstrap_workspace.sh",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "build"
+      }
+    },
+    {
+      "label": "EE616: Test ROS workspace",
+      "type": "shell",
+      "command": "bash /workspace/infrastructure/dev/test_workspace.sh",
+      "dependsOn": "EE616: Build ROS workspace",
+      "dependsOrder": "sequence",
+      "problemMatcher": [],
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "test"
+      }
+    },
+    {
+      "label": "EE616: Launch Gazebo playground",
+      "type": "shell",
+      "command": "bash /workspace/infrastructure/dev/launch_playground.sh",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "ee616-playground",
+        "pattern": {
+          "regexp": "^EE616_TASK_MESSAGE: (.*)$",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^EE616_PLAYGROUND_STARTING$",
+          "endsPattern": "^EE616_PLAYGROUND_READY$"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "simulation",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "EE616: Open ROS learning shell",
+      "type": "shell",
+      "command": "bash /workspace/infrastructure/dev/open_ros_shell.sh",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "group": "inspection",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "EE616: Start simulation workspace",
+      "dependsOn": [
+        "EE616: Build ROS workspace",
+        "EE616: Launch Gazebo playground",
+        "EE616: Open ROS learning shell"
+      ],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "EE616: Measure camera topic rate",
+      "type": "shell",
+      "command": "bash -lc 'source /opt/ros/jazzy/setup.bash; source /workspace/work/ros2_ws/install/setup.bash; ros2 topic hz /smoke/camera/image'",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "inspection"
+      }
+    },
+    {
+      "label": "EE616: Stop simulation",
+      "type": "shell",
+      "command": "bash /workspace/infrastructure/dev/stop_simulation.sh",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "group": "simulation"
+      }
+    },
+    {
+      "label": "EE616: Run seven toy tests",
+      "type": "shell",
+      "command": "bash -lc 'cd /workspace/work/toy_simulation; PYTHONPATH=src python3 -m unittest discover -s tests -v'",
+      "problemMatcher": [],
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "test"
+      }
+    }
+  ]
+}

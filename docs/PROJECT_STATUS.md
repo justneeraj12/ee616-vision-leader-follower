@@ -10,6 +10,8 @@ The canonical Docker environment now contains ROS 2 Jazzy, Gazebo Sim 8.15.0, an
 
 The containerized ROS 2 and Gazebo foundation is complete under `work/ros2_ws/` and `infrastructure/docker/`. The software-rendered and NVIDIA-profile smoke tests passed on the target laptop. The GPU profile verifies container passthrough, but GPU rendering acceleration has not been benchmarked.
 
+The integrated VS Code Dev Container workflow is complete. It adds repeatable build, test, Gazebo GUI, ROS inspection, and shutdown tasks without creating another project workspace.
+
 The host contains a partial ROS 2 Jazzy installation, but the ROS 2 CLI, Gazebo, and `ros_gz` were not available during inspection. The Docker environment is therefore the canonical implementation environment.
 
 ## Verified evidence
@@ -25,10 +27,13 @@ The host contains a partial ROS 2 Jazzy installation, but the ROS 2 CLI, Gazebo,
 - A private GitHub repository has been created at `https://github.com/justneeraj12/ee616-vision-leader-follower`.
 - The repository includes a production-style README, reproducible quickstart, contribution guidance, citation metadata, and GitHub Actions testing for Python 3.11 and 3.12.
 - A separate five-page, single-column IEEEtran technical report has been compiled from LaTeX and visually checked page by page. It uses simple formal English and preserves the existing evidence boundaries.
-- Two ROS 2 packages build with `colcon`, and two package tests pass.
+- Two ROS 2 packages build with `colcon`, and three package tests pass.
 - The `/leader` and `/follower_1` namespace probes each received five local heartbeat samples.
 - Gazebo produced 15 timestamped 640×480 RGB images through the ROS bridge.
 - The NVIDIA container profile sees the RTX 3050 Ti, driver 595.91.07, and 4096 MiB VRAM.
+- The Dev Container starts as the non-root `ubuntu` user with `/home/ubuntu` as its home directory.
+- The warehouse playground opens in the Gazebo GUI and its bridged camera produced 15 timestamped 640×480 RGB samples in the persistent Dev Container.
+- The integrated stop task removed the Gazebo and bridge processes cleanly.
 
 ## Evidence limitations
 
@@ -38,6 +43,7 @@ The host contains a partial ROS 2 Jazzy installation, but the ROS 2 CLI, Gazebo,
 - No ROS 2 control timing, multi-robot load, or full namespace audit beyond the two-node smoke test
 - No wheel slip, actuator dynamics, person traffic, or safety-rated obstacle system
 - No physical robot validation or certification claim
+- The Gazebo GUI used Mesa/GLX/EGL fallback paths during verification; GPU-accelerated rendering performance remains unverified.
 
 ## Current deliverables
 
@@ -49,6 +55,7 @@ The host contains a partial ROS 2 Jazzy installation, but the ROS 2 CLI, Gazebo,
 - Single-follower toy demonstration video
 - Reproducible baseline ZIP packages
 - Verified container and ROS 2 workspace foundation with machine-readable environment evidence
+- VS Code Dev Container workflow, six-shelf Gazebo learning playground, architecture maps, and metric study guide
 
 ## Repository state
 

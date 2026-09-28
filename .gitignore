@@ -12,6 +12,7 @@ work/ros2_ws/log/
 work/ros2_ws/results/environment_gate/*.log
 work/ros2_ws/results/environment_gate/ros2_doctor.txt
 work/ros2_ws/results/environment_gate/colcon_test_result.txt
+.devcontainer/.Xauthority
 
 # Editor and operating-system files
 .DS_Store

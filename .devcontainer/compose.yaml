@@ -1,0 +1,16 @@
+services:
+  dev:
+    command: sleep infinity
+    gpus: all
+    environment:
+      HOME: /home/ubuntu
+      DISPLAY: ${DISPLAY}
+      XAUTHORITY: /tmp/.Xauthority
+      QT_QPA_PLATFORM: xcb
+      QT_X11_NO_MITSHM: "1"
+      LIBGL_ALWAYS_SOFTWARE: "0"
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,graphics,utility
+    volumes:
+      - ./.devcontainer/.Xauthority:/tmp/.Xauthority:ro
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw

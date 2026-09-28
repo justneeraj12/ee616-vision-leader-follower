@@ -95,3 +95,11 @@ Date: September 28, 2026
 Decision: Use a deterministic waypoint-driven leader for the initial measurement and pair-control experiments. The leader exposes a rear visual target but does not require a navigation camera or LiDAR at this gate. A later warehouse demonstration may add 2-D LiDAR, wheel odometry, an IMU, and Nav2 if the core evidence and schedule support it.
 
 Reason: Leader autonomous navigation is not the first research variable. Controlled leader motion makes follower measurement, estimation, and control errors easier to isolate. The later sensor extension remains separate from the follower formation inputs.
+
+## D013 Integrated development workflow
+
+Date: September 28, 2026
+
+Decision: Use the existing Docker image through a VS Code Dev Container as the standard interactive development workflow. Copy only the current X11 authorization record into a temporary ignored file for Gazebo GUI access. Keep the warehouse playground separate from frozen experiment evidence.
+
+Reason: One integrated environment reduces host-version errors and keeps terminals, builds, tests, ROS inspection, and Gazebo controls together. The restricted display credential avoids unrestricted `xhost` permissions. A development playground supports learning without turning an editable scene into scientific evidence.

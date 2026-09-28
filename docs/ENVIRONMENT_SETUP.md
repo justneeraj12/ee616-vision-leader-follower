@@ -71,6 +71,25 @@ The check performs a `colcon` build, runs two namespace probes, launches a headl
 
 Open a development shell with `make container-shell`. Use `make gpu-shell` for an interactive GPU-profile shell.
 
+## VS Code and graphical Gazebo
+
+Start VS Code from a terminal in the logged-in Ubuntu desktop session so that `DISPLAY` and `XAUTHORITY` are available:
+
+```bash
+cd /home/justneeraj/Documents/MS_sem3/GRAD_PROJECT
+code .
+```
+
+Select **Dev Containers: Reopen in Container**. The initialization script copies the current X11 authorization into an ignored temporary file and mounts only that file and the X11 socket into the container. It does not use unrestricted `xhost` access.
+
+Inside VS Code, run the `EE616: Start simulation workspace` task. To test the GUI without VS Code, run:
+
+```bash
+make gazebo-gui
+```
+
+The GUI playground is a development and learning tool. It is not camera-accuracy or follower-control evidence. Detailed usage is in [`docs/DEVELOPER_WORKFLOW.md`](DEVELOPER_WORKFLOW.md).
+
 ## Generated files
 
 The ROS `build/`, `install/`, and `log/` directories are local products and are excluded from Git. Machine-readable JSON summaries are retained as evidence. Large transient logs are excluded.

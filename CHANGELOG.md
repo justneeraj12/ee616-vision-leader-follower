@@ -6,6 +6,10 @@ This file records reviewable project milestones. Detailed evidence and current l
 
 ### Added
 
+- VS Code Dev Container configuration for the canonical ROS 2 image
+- Integrated build, test, Gazebo GUI, ROS inspection, and stop tasks
+- Interactive six-shelf warehouse playground for development
+- Developer workflow, project learning maps, and metrics guide
 - Canonical Docker environment based on ROS 2 Jazzy and Ubuntu Noble
 - ROS 2 workspace with environment and namespace smoke-test nodes
 - Minimal headless Gazebo camera world and ROS-Gazebo bridge configuration
