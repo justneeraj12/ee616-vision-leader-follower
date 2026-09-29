@@ -1,0 +1,20 @@
+{
+  "all_sample_count": 1260,
+  "bearing_mae_deg": 0.11102336684644223,
+  "condition_count": 42,
+  "failure": null,
+  "frames_per_condition": 30,
+  "full_visibility_sample_count": 900,
+  "ground_truth_source": "Gazebo /world/camera_calibration/pose/info; evaluation process only",
+  "range_rmse_m": 0.03104633896720075,
+  "scene": "camera_calibration",
+  "scope": "camera-only fixed-red-target baseline in Gazebo; not YOLO, closed-loop control, physical-robot, or safety evidence",
+  "status": "pass",
+  "thresholds": {
+    "bearing_mae_deg_max": 1.5,
+    "range_rmse_m_max": 0.15,
+    "valid_full_visibility_rate_min": 0.95
+  },
+  "valid_full_visibility_rate": 1.0,
+  "valid_full_visibility_sample_count": 900
+}

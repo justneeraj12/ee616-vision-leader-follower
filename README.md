@@ -11,9 +11,9 @@ A reproducible research project for camera-only predecessor following in a flexi
 
 The leader owns the route. Each independently driven follower observes the robot immediately ahead through a forward RGB camera, combines the relative visual measurement with local wheel odometry, and uses bounded control to maintain a commanded gap. The planned implementation targets ROS 2 Jazzy and Gazebo Harmonic on constrained laptop hardware.
 
-> **Current status:** deterministic two-dimensional toy baseline, containerized ROS 2/Gazebo environment gate, and configurable scenario foundation complete.
+> **Current status:** deterministic toy baseline, containerized ROS 2/Gazebo foundation, configurable scenarios, and fixed-red-target camera measurement baseline complete.
 >
-> ROS 2 namespace and Gazebo camera transport smoke tests now pass. No camera-accuracy, follower-control, physical-robot, or production-safety result has been demonstrated.
+> The fixed-target Gazebo baseline passed its range and bearing thresholds. No learned-detector, follower-control, physical-robot, or production-safety result has been demonstrated.
 
 ## Research objective
 
@@ -50,16 +50,17 @@ The project combines:
 | Forced-occlusion reacquisition | 0.030 s median | Declared deterministic occlusion window |
 | Warehouse demonstration | 86 simulated seconds | One leader and three followers |
 | Warehouse route | 7 completed route segments | Six-shelf two-dimensional maze |
-| ROS workspace | 2 packages built; 6 tests passed | Environment and scenario infrastructure only |
+| ROS workspace | 4 packages built; 19 tests passed | Includes perception/evaluation unit tests, not control |
 | Namespace smoke test | `/leader` and `/follower_1` passed | Five local heartbeat samples per namespace |
 | Gazebo camera transport | 15 timestamped 640×480 RGB samples | Transport check; not range/bearing accuracy |
 | NVIDIA container access | RTX 3050 Ti, 4 GB VRAM visible | Passthrough verified; acceleration not benchmarked |
 | Warehouse collision record | 0 toy collision samples | Center/radius model; not a safety result |
 | Controlled Gazebo scenarios | 5 templates; 30 RGB frames each | Transport only; no measurement accuracy |
 | AWS no-roof benchmark | 0.9999 median real-time factor; 364.7 MiB peak memory | Optional visual/resource stress test |
+| Fixed-target Gazebo measurement | 0.0355 m range RMSE; 0.120° bearing MAE | Camera-only red target; 1,620 full-visible samples |
 | Follower spacing RMSE | 0.140, 0.164, 0.200 m | Error increases toward the rear |
 
-The machine-readable sources for these values are committed under [`work/toy_simulation/results`](work/toy_simulation/results) and [`work/toy_simulation/warehouse_results`](work/toy_simulation/warehouse_results).
+The machine-readable sources for these values are under [`work/toy_simulation/results`](work/toy_simulation/results), [`work/toy_simulation/warehouse_results`](work/toy_simulation/warehouse_results), and [`work/ros2_ws/results/camera_measurement_gate`](work/ros2_ws/results/camera_measurement_gate).
 
 ## System architecture
 
@@ -94,9 +95,9 @@ Gazebo ground truth may be logged for evaluation, but it must never enter detect
 The toy baseline uses a pinhole-camera relationship with a known target height:
 
 - range estimate: `r = f × H / h`
-- bearing estimate: `θ = atan((u - cx) / f)`
+- bearing estimate: `θ = atan((cx - u) / f)` for positive-left bearing
 
-Here `f` is focal length in pixels, `H` is known target height, `h` is detected bounding-box height, `u` is the horizontal box center, and `cx` is the camera principal point. The Gazebo measurement gate must test how this estimate changes with distance, off-axis placement, target heading, lighting, partial visibility, image resolution, and motion.
+Here `f` is focal length in pixels, `H` is known target height, `h` is detected bounding-box height, `u` is the horizontal box center, and `cx` is the camera principal point. The first Gazebo baseline tested static range and bearing in open and structured-aisle scenes. Target heading, lighting changes, motion, and a learned detector remain unverified.
 
 ## Supervisory behavior
 
@@ -121,7 +122,7 @@ The video shows one leader and three independently controlled followers moving t
 | Gate | Scope | Status |
 |---:|---|---|
 | 1 | ROS 2 Jazzy and Gazebo Harmonic environment and reproducibility validation | Complete |
-| 2 | Camera-only range and bearing measurements against evaluation ground truth | Scenario support complete; measurements not started |
+| 2 | Camera-only range and bearing measurements against evaluation ground truth | Fixed red-target baseline passed; learned detector not evaluated |
 | 3 | One leader and one follower with estimator, bounded controller, and recovery states | Not started |
 | 4 | Followers added incrementally with error-propagation measurements | Not started |
 | 5 | Turns, occlusions, stopped leaders, and controlled disturbances | Not started |
@@ -140,7 +141,7 @@ make container-build
 make environment-check
 ```
 
-The foundation passed on the target laptop with ROS 2 Jazzy, Gazebo Sim 8.15.0, two isolated namespaces, and timestamped camera transport. The optional NVIDIA profile sees the RTX 3050 Ti and 4 GB VRAM. These are environment results only, not camera-accuracy or follower-performance evidence.
+The foundation passed on the target laptop with ROS 2 Jazzy, Gazebo Sim 8.15.0, two isolated namespaces, and timestamped camera transport. The optional NVIDIA profile sees the RTX 3050 Ti and 4 GB VRAM. The later fixed-red-target experiment adds camera-geometry evidence only; it is not follower-performance evidence.
 
 See [the environment setup](docs/ENVIRONMENT_SETUP.md) and [system architecture](docs/SYSTEM_ARCHITECTURE.md) for host prerequisites, GPU configuration, robot roles, and evidence boundaries.
 

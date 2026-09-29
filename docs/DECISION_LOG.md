@@ -111,3 +111,11 @@ Date: September 28, 2026
 Decision: Use small deterministic YAML scenarios as the primary Gate 2 measurement environments. Keep the pinned AWS no-roof warehouse as an optional visual and resource stress test, not as the primary scientific environment.
 
 Reason: Controlled scenes isolate range, bearing, background, aisle, corner, and visibility conditions. The larger imported warehouse demonstrates compatibility with the target laptop but would make early measurement errors harder to diagnose. Its archived upstream status and Gazebo migration history also require explicit provenance and a fixed local subset.
+
+## D015 Camera geometry baseline before learned detection
+
+Date: September 29, 2026
+
+Decision: Validate the range and bearing geometry first with a deterministic fixed-size red target and a pixel-based detector. Keep Gazebo pose access inside a separate evaluation package. Evaluate YOLOv8n later against the same frozen matrix before using it in the follower pipeline.
+
+Reason: This separates camera calibration and geometry error from learned-detector error. The ground-truth boundary can be tested directly, and a later detector comparison uses the same ranges, bearings, scenes, metrics, and acceptance thresholds.

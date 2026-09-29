@@ -1,0 +1,10 @@
+/**:
+  ros__parameters:
+    image_topic: /smoke/camera/image
+    measurement_topic: measurement/relative
+    horizontal_fov_rad: 1.2217304764
+    target_height_m: 0.9
+    min_saturation: 80
+    min_value: 50
+    min_area_px: 80.0
+    min_height_px: 5

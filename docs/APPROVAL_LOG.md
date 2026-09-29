@@ -102,6 +102,16 @@ Acceptance criteria: Generate reproducible SDF and manifests from bounded YAML; 
 
 Delivered evidence: Five deterministic scenarios each delivered 30 timestamped 640×480 RGB frames; six ROS package tests and seven toy tests passed; the AWS no-roof scene delivered 150 of 150 camera frames at 15.19 Hz; median real-time factor was 0.9999; peak container memory was 364.7 MiB; CPU use was 47.9% of one core equivalent; visible NVIDIA memory was 253 MiB; peak reported GPU utilization was 19%; no fatal asset or plugin errors were detected; and the graphical world opened in Gazebo Sim 8.15.0. Mesa/GLX/EGL warnings mean GPU rendering acceleration remains unverified.
 
+## A012 Camera-only range and bearing baseline
+
+Status: Approved and completed
+
+Approved scope: Add a camera-only fixed-red-target detector, compute range and positive-left bearing from image geometry, add a separate evaluation-only Gazebo ground-truth package, run open-scene and structured-aisle sweeps, retain failed and occluded conditions, create raw and summarized evidence, and preserve unrelated report and reference files.
+
+Acceptance criteria: Use 1.0, 1.5, 2.0, 3.0, 4.0, and 5.0 m ranges; use -30, -20, -10, 0, 10, 20, and 30 degree bearings; record at least 30 frames per condition at 640×480 and 15 Hz; achieve at least 95% valid full-visible measurements, range RMSE no more than 0.15 m, and bearing MAE no more than 1.5 degrees; keep Gazebo ground truth out of perception, estimation, supervision, and control; and retain limitations and excluded visibility cases.
+
+Delivered evidence: Two new ROS 2 packages; 19 passing ROS package tests across the workspace; 2,520 retained Gazebo samples across two scenes; 1,620 full-visible samples; 100% valid full-visible measurements; 0.0355 m combined range RMSE; 0.120 degree combined bearing MAE; raw CSV files, scene and combined JSON summaries, and an error figure under `work/ros2_ws/results/camera_measurement_gate/`. The result is a fixed-red-target camera-geometry baseline, not YOLO, closed-loop control, physical-robot, or safety evidence.
+
 ## Next approval required
 
-After A011, the next approval packet will cover the camera-only range and bearing measurement baseline against evaluation-only Gazebo ground truth.
+After A012, the next approval packet will cover YOLOv8n dependency, license, dataset, target-appearance, accuracy, and target-laptop inference evaluation against the same frozen measurement matrix.
