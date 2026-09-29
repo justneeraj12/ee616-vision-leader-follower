@@ -5,16 +5,18 @@ type: software
 authors:
   - family-names: Kanchani
     given-names: Neeraj Kumar
-version: 0.1.1
-date-released: 2026-09-18
+version: 0.2.0
+date-released: 2026-09-29
 repository-code: "https://github.com/justneeraj12/ee616-vision-leader-follower"
 url: "https://github.com/justneeraj12/ee616-vision-leader-follower"
+license: AGPL-3.0-only
 abstract: >-
   Reproducible research code, evidence, and faculty-review material for a
   camera-only predecessor-following warehouse material-delivery convoy. The
-  current implementation is a deterministic two-dimensional kinematic toy
-  baseline and is not ROS 2, Gazebo, physical-robot, or production-safety
-  evidence.
+  repository includes a deterministic two-dimensional kinematic toy baseline
+  and a ROS 2 Jazzy and Gazebo Harmonic camera-geometry measurement baseline.
+  It does not provide learned-detector, closed-loop follower, physical-robot,
+  or production-safety evidence.
 keywords:
   - leader follower robotics
   - computer vision

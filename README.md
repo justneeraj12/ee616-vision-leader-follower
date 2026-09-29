@@ -160,7 +160,7 @@ See [the scenario matrix](docs/SCENARIO_MATRIX.md) for the controlled variables,
 
 ## Quickstart
 
-Clone the private repository and create a Python environment:
+Clone the repository and create a Python environment:
 
 ```bash
 git clone https://github.com/justneeraj12/ee616-vision-leader-follower.git
@@ -293,6 +293,12 @@ This is an academic research repository with an explicit approval process. Repro
 
 ## License and citation
 
-No repository-wide reuse license has been declared yet. Original references, external documents, and third-party materials retain their own terms. Do not assume that the contents are licensed for redistribution or derivative use.
+Original project software and documentation are released under the
+[GNU Affero General Public License v3.0 only](LICENSE). Third-party material
+retains its original license or terms and is identified in
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md). The repository license does
+not grant rights to third-party reference documents.
 
-Citation metadata is provided in [`CITATION.cff`](CITATION.cff). Until a final report is released, cite the repository and any external technical sources separately.
+Citation metadata is provided in [`CITATION.cff`](CITATION.cff). Until a final
+report is released, cite the repository and any external technical sources
+separately.

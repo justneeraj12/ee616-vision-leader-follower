@@ -4,7 +4,7 @@
   <version>0.1.0</version>
   <description>Evaluation-only Gazebo ground-truth and metric tools.</description>
   <maintainer email="justneeraj12@users.noreply.github.com">Neeraj Kumar Kanchani</maintainer>
-  <license>Proprietary</license>
+  <license>AGPL-3.0-only</license>
 
   <buildtool_depend>ament_python</buildtool_depend>
 
