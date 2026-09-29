@@ -1,0 +1,41 @@
+{
+  "canonical_project_environment": {
+    "gazebo_sim": "8.15.0",
+    "host_ros_used": false,
+    "ros_distro": "jazzy",
+    "ubuntu_base": "noble"
+  },
+  "container_vision_dependencies": {
+    "setuptools": "68.1.2",
+    "torch": "2.9.1+cu128",
+    "torchvision": "0.24.1+cu128",
+    "ultralytics": "8.4.165"
+  },
+  "gpu": {
+    "cuda_tensor_check": "pass",
+    "driver": "595.91.07",
+    "memory_mib": 4096,
+    "name": "NVIDIA GeForce RTX 3050 Ti Laptop GPU"
+  },
+  "host": {
+    "docker_compose": "5.1.2",
+    "docker_engine": "29.8.1",
+    "docker_repository_suite": "resolute",
+    "gazebo_cli_available": false,
+    "kernel": "7.0.0-34-generic",
+    "os": "Ubuntu 26.04.1 LTS",
+    "partial_ros_lyrical_setup_present": true,
+    "ros2_cli_available": false
+  },
+  "scope": "Host compatibility and environment evidence only; not detector, control, physical-robot, or safety evidence.",
+  "status": "pass",
+  "timestamp_utc": "2026-09-29T21:04:35.365236+00:00",
+  "validation": {
+    "camera_frames": 15,
+    "camera_resolution": "640x480",
+    "namespace_probe": "pass",
+    "ros_package_tests": 19,
+    "ros_packages_built": 4,
+    "toy_tests": 7
+  }
+}

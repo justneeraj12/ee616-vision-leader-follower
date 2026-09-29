@@ -127,3 +127,11 @@ Date: September 29, 2026
 Decision: Publish the existing GitHub repository and its full history under AGPL-3.0-only for original project software and documentation. Preserve the MIT terms of the pinned AWS warehouse assets and identify external reference documents as third-party material outside the repository-wide license.
 
 Reason: The project owner approved public release after reviewing that the history contains faculty-facing deliverables, internal project records, personal academic context, and external reference files. Ultralytics' official guidance identifies its YOLO software and models as AGPL-3.0 unless a separate enterprise license applies. A public AGPL project therefore supports the approved YOLOv8n evaluation without presenting third-party material as project-owned content.
+
+## D017 Host upgrade compatibility
+
+Date: September 29, 2026
+
+Decision: Keep the canonical Ubuntu Noble container with ROS 2 Jazzy and Gazebo Harmonic after the laptop host upgrade to Ubuntu 26.04.1 LTS. Do not migrate the project to the host's partial ROS 2 Lyrical installation or to Gazebo Jetty during the current validation sequence.
+
+Reason: The approved experiments and evidence already target Jazzy and Harmonic. The versioned container passed the full ROS, namespace, camera, toy-test, and CUDA checks after the host upgrade. Changing distributions now would add migration risk without improving the next scientific gate.

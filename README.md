@@ -234,7 +234,7 @@ Development targets an MSI Katana GF66 12UD with:
 - Intel Core i5-12450H;
 - 16 GB RAM;
 - NVIDIA RTX 3050 Ti Laptop GPU with 4 GB VRAM;
-- Ubuntu 24.04.
+- Ubuntu 26.04.1 LTS host with Docker; the canonical container remains Ubuntu Noble with ROS 2 Jazzy and Gazebo Harmonic.
 
 The project will establish an ordinary FP32 inference baseline before considering FP16. INT8 will be considered only if calibration evidence shows acceptable accuracy loss. Gazebo rendering and inference share the same limited GPU memory, so peak VRAM and dropped frames must be measured.
 

@@ -132,6 +132,16 @@ Acceptance criteria: Scan the current tree and Git history for high-confidence c
 
 Delivered evidence: No high-confidence credential pattern was found in the current tree or Git history. The repository contains an AGPL-3.0-only license, updated ROS package declarations and citation metadata, and explicit third-party notices. The complete existing history was retained without rewriting. Seven toy tests and 19 ROS package tests passed before publication.
 
+## A015 Ubuntu 26.04 host compatibility and revalidation
+
+Status: Approved and completed
+
+Approved scope: Correct the Docker APT source after the laptop upgrade to Ubuntu 26.04.1 LTS, retain the canonical ROS 2 Jazzy and Gazebo Harmonic container, remove stale host-shell ROS startup lines, rebuild the approved vision dependencies, rerun the full environment and GPU checks, and update the governing documentation. Preserve unrelated report and reference files.
+
+Acceptance criteria: Use Docker packages for Ubuntu Resolute; do not treat the host's partial ROS 2 Lyrical installation as project evidence; keep the Ubuntu Noble/Jazzy/Harmonic container reproducible; build all four ROS packages; pass all ROS and toy tests; pass namespace and Gazebo camera smoke tests; verify CUDA access on the RTX 3050 Ti; record exact dependency versions and evidence limits; and do not commit or push without separate approval.
+
+Delivered evidence: Docker Engine 29.8.1 runs from the Resolute source; the previous source file is retained under `/var/backups/`; four ROS packages built; 19 ROS tests and seven toy tests passed; `/leader` and `/follower_1` namespace probes passed; Gazebo delivered 15 timestamped 640×480 RGB frames; and PyTorch 2.9.1 completed a CUDA tensor operation on the RTX 3050 Ti. The container also records torchvision 0.24.1 and Ultralytics 8.4.165. These checks establish environment compatibility only, not YOLO detector performance or follower-control performance.
+
 ## Next approval required
 
 A013 is approved. Before training or measurement begins, record the exact Ultralytics package and model versions, dataset provenance and split, target appearance, dependency lock, model checksum, and executable test commands.

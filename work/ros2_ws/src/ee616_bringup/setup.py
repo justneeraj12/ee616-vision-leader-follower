@@ -19,7 +19,7 @@ setup(
     maintainer="Neeraj Kumar Kanchani",
     maintainer_email="justneeraj12@users.noreply.github.com",
     description="Bringup and environment validation tools for the EE 616 project.",
-    license="Proprietary",
+    license="AGPL-3.0-only",
     entry_points={
         "console_scripts": [
             "camera_probe = ee616_bringup.camera_probe:main",

@@ -1,0 +1,8 @@
+# Pinned direct dependencies for the A013 YOLOv8n measurement gate.
+# Wheel hashes and the complete resolved environment are recorded with results.
+numpy==1.26.4
+opencv-python==4.10.0.84
+setuptools==68.1.2
+torch==2.9.1
+torchvision==0.24.1
+ultralytics==8.4.165

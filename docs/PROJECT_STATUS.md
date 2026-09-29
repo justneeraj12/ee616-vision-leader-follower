@@ -16,7 +16,7 @@ Five deterministic YAML scenario templates and an optional pinned AWS no-roof wa
 
 The camera baseline separates camera geometry from later learned-detection error. The perception node subscribes only to RGB images. A separate evaluation package reads Gazebo poses, moves the target, labels visibility, and records metrics.
 
-The host contains a partial ROS 2 Jazzy installation, but the ROS 2 CLI, Gazebo, and `ros_gz` were not available during inspection. The Docker environment is therefore the canonical implementation environment.
+The host now runs Ubuntu 26.04.1 LTS and contains a partial ROS 2 Lyrical installation, but the host ROS 2 CLI and Gazebo command were not available during inspection. The project did not migrate to Lyrical and Gazebo Jetty. The versioned Ubuntu Noble container remains the canonical ROS 2 Jazzy and Gazebo Harmonic implementation environment.
 
 ## Verified evidence
 
@@ -45,6 +45,8 @@ The host contains a partial ROS 2 Jazzy installation, but the ROS 2 CLI, Gazebo,
 - Across 1,620 full-visible samples, the valid measurement rate was 100%.
 - Combined range RMSE was 0.0355 m, and combined bearing MAE was 0.120 degrees.
 - Gazebo ground truth was read only by `ee616_evaluation`; it was not published to the perception node.
+- After the Ubuntu 26.04.1 host upgrade, the full environment gate passed again: four ROS packages built, 19 ROS tests passed, both namespace probes passed, and Gazebo delivered 15 timestamped 640×480 RGB frames.
+- PyTorch 2.9.1 performed a CUDA tensor operation inside the GPU profile on the RTX 3050 Ti; seven toy-simulation tests also passed.
 
 ## Evidence limitations
 

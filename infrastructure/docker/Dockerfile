@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         mesa-utils \
         procps \
         python3-colcon-common-extensions \
+        python3-pip \
         python3-flake8 \
         python3-pytest \
         python3-rosdep \
@@ -19,6 +20,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         ros-jazzy-image-transport \
         ros-jazzy-ros-gz \
     && rm -rf /var/lib/apt/lists/*
+
+COPY infrastructure/docker/requirements-vision.txt /tmp/requirements-vision.txt
+RUN python3 -m pip install --no-cache-dir --break-system-packages \
+        -r /tmp/requirements-vision.txt
 
 COPY infrastructure/docker/entrypoint.sh /usr/local/bin/ee616-entrypoint
 COPY infrastructure/docker/healthcheck.sh /usr/local/bin/ee616-healthcheck

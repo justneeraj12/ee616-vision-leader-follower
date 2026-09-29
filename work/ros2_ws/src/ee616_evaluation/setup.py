@@ -20,7 +20,7 @@ setup(
     maintainer="Neeraj Kumar Kanchani",
     maintainer_email="justneeraj12@users.noreply.github.com",
     description="Evaluation-only Gazebo ground-truth and metric tools.",
-    license="Proprietary",
+    license="AGPL-3.0-only",
     entry_points={
         "console_scripts": [
             "camera_gate_evaluator = "

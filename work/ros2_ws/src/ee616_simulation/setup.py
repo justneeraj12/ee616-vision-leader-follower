@@ -36,7 +36,7 @@ setup(
     maintainer="Neeraj Kumar Kanchani",
     maintainer_email="justneeraj12@users.noreply.github.com",
     description="Gazebo Harmonic simulation assets for the EE 616 project.",
-    license="Proprietary",
+    license="AGPL-3.0-only",
     entry_points={
         "console_scripts": [
             "scenario_builder = ee616_simulation.scenario_builder:main",

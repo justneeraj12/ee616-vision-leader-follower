@@ -16,6 +16,7 @@ x-ee616-common: &ee616-common
     RMW_IMPLEMENTATION: rmw_fastrtps_cpp
     GZ_PARTITION: ${GZ_PARTITION:-ee616}
     LIBGL_ALWAYS_SOFTWARE: ${LIBGL_ALWAYS_SOFTWARE:-1}
+    YOLO_CONFIG_DIR: /tmp
   volumes:
     - .:/workspace
   working_dir: /workspace/work/ros2_ws
@@ -44,4 +45,5 @@ services:
       LIBGL_ALWAYS_SOFTWARE: "0"
       NVIDIA_VISIBLE_DEVICES: all
       NVIDIA_DRIVER_CAPABILITIES: compute,graphics,utility
+      YOLO_CONFIG_DIR: /tmp
     command: bash

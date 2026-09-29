@@ -2,15 +2,17 @@
 
 ## Purpose
 
-The Docker image is the canonical ROS 2 Jazzy and Gazebo Harmonic environment. The host's partial ROS installation is not used as project evidence. Docker improves reproducibility but does not replace recorded version, timing, and hardware checks.
+The Docker image is the canonical ROS 2 Jazzy and Gazebo Harmonic environment. The host's partial ROS installation is not used as project evidence. Docker improves reproducibility but does not replace recorded version, timing, and hardware checks. The image deliberately remains based on Ubuntu Noble even though the host now runs Ubuntu Resolute.
 
 ## Current host condition
 
-The target host has Docker Engine 29.8.1, Docker Compose 5.1.2, NVIDIA driver 595.91.07, and NVIDIA Container Toolkit 1.20.1. The development user is a member of the `docker` group. A new login may be required before an existing terminal inherits that group.
+The target host runs Ubuntu 26.04.1 LTS (Resolute) with kernel 7.0.0-34-generic. It has Docker Engine 29.8.1, Docker Compose 5.1.2, NVIDIA driver 595.91.07, and an RTX 3050 Ti with 4096 MiB VRAM. Docker's APT source uses the Resolute suite, and the pre-migration source file is retained under `/var/backups/`.
+
+The host contains part of ROS 2 Lyrical, including `/opt/ros/lyrical/setup.zsh`, but the host `ros2` and `gz` commands are not available. Lyrical and Gazebo Jetty are therefore neither the implementation environment nor verified project evidence. The stale Jazzy startup lines were removed from the user's shell configuration, with a dated backup retained, so ordinary host terminals no longer try to source a missing distribution.
 
 ## Verified outcome
 
-On September 28, 2026, the software and GPU-profile checks passed. The container provided ROS 2 Jazzy, Gazebo Sim 8.15.0, and `ros_gz`. Two packages built, two package tests passed, both namespace probes passed, and the camera bridge delivered 15 timestamped 640×480 RGB images. The GPU profile saw the RTX 3050 Ti and 4096 MiB VRAM.
+On September 29, 2026, after the host upgrade, the complete environment gate passed again. The container provided ROS 2 Jazzy, Gazebo Sim 8.15.0, and `ros_gz`. Four packages built, all 19 ROS package tests passed, both namespace probes passed, and the camera bridge delivered 15 timestamped 640×480 RGB images. All seven toy-simulation tests also passed. The GPU profile ran a CUDA tensor operation with PyTorch 2.9.1 on the RTX 3050 Ti. Ultralytics 8.4.165 is installed for the separately approved detector gate, but no YOLO accuracy or timing result is claimed yet.
 
 The GPU-profile log contained EGL fallback warnings. Therefore, GPU passthrough is verified, but hardware-accelerated Gazebo rendering is not yet a measured claim.
 
@@ -67,7 +69,7 @@ make DOCKER='sudo docker' container-build
 make DOCKER='sudo docker' environment-check
 ```
 
-The check performs a `colcon` build, runs two namespace probes, launches a headless Gazebo camera world, bridges the image into ROS 2, and writes machine-readable evidence under `work/ros2_ws/results/environment_gate/`.
+The check performs a `colcon` build and test, runs two namespace probes, launches a headless Gazebo camera world, bridges the image into ROS 2, and writes machine-readable evidence under `work/ros2_ws/results/environment_gate/`.
 
 Open a development shell with `make container-shell`. Use `make gpu-shell` for an interactive GPU-profile shell.
 

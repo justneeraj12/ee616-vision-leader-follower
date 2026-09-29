@@ -50,7 +50,7 @@ Each robot must remain isolated in its own ROS 2 namespace. Gazebo ground truth 
 
 ## Hardware boundary
 
-The development computer is an MSI Katana GF66 12UD with an Intel Core i5-12450H, 16 GB RAM, an NVIDIA RTX 3050 Ti Laptop GPU with 4 GB VRAM, and Ubuntu 24.04.
+The development computer is an MSI Katana GF66 12UD with an Intel Core i5-12450H, 16 GB RAM, an NVIDIA RTX 3050 Ti Laptop GPU with 4 GB VRAM, and Ubuntu 26.04.1 LTS. The canonical project environment remains the versioned Ubuntu Noble container with ROS 2 Jazzy and Gazebo Harmonic; the host operating-system upgrade does not change the approved robotics stack.
 
 Design for this hardware instead of assuming unlimited compute. Prefer small models, bounded image sizes, headless experiment runs, measured CPU and GPU usage, and an explicit reference path that does not depend on TensorRT. Establish an FP32 or ordinary inference baseline before FP16 optimization. Use INT8 only if calibration evidence shows that the accuracy loss is acceptable. Monitor peak VRAM because Gazebo rendering and inference share the same 4 GB GPU.
 
