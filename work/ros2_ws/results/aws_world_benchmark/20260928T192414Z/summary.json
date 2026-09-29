@@ -1,0 +1,53 @@
+{
+  "status": "pass",
+  "timestamp_utc": "2026-09-28T19:24:48.802583+00:00",
+  "scope": "AWS no-roof visual and resource stress test; not control evidence",
+  "duration_requested_seconds": 20.0,
+  "duration_observed_seconds": 20.60530560099869,
+  "stats_topic": "/world/aws_no_roof_warehouse/stats",
+  "stats_samples": 194,
+  "real_time_factor": {
+    "median": 0.9998647183089013,
+    "p05": 0.9988026354006817,
+    "minimum": 0.9840716199452423,
+    "maximum": 1.0092088287203071
+  },
+  "camera": {
+    "encoding": "rgb8",
+    "failure": null,
+    "height": 480,
+    "measured_receive_hz": 15.194702318127751,
+    "nonzero_timestamp_samples": 150,
+    "required_samples": 150,
+    "samples": 150,
+    "scope": "camera transport smoke test; not measurement-accuracy evidence",
+    "status": "pass",
+    "topic": "/smoke/camera/image",
+    "width": 640
+  },
+  "estimated_camera_drop_fraction": 0.0,
+  "resources": {
+    "container_memory_peak_mib": 364.71875,
+    "cpu_core_equivalent_percent": 47.8771642169765,
+    "gpu_available_to_nvidia_smi": true,
+    "gpu_memory_peak_mib": 253.0,
+    "gpu_utilization_peak_percent": 19.0,
+    "gpu_rendering_acceleration_verified": false
+  },
+  "fatal_log_matches": [],
+  "acceptance": {
+    "camera_probe_passed": true,
+    "camera_rate_at_least_14_25_hz": true,
+    "rtf_median_at_least_0_95": true,
+    "rtf_p05_at_least_0_85": true,
+    "container_memory_peak_below_12_gib": true,
+    "gpu_memory_peak_below_3584_mib_if_available": true,
+    "no_fatal_asset_or_plugin_errors": true
+  },
+  "limitations": [
+    "Camera drop fraction is estimated from receive rate, not sequence numbers.",
+    "Container CPU and memory include benchmark and ROS support processes.",
+    "NVIDIA visibility does not prove Gazebo used hardware rendering.",
+    "No detector or follower controller runs in this benchmark."
+  ]
+}

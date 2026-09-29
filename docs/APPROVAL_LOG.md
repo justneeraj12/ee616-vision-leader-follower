@@ -92,6 +92,16 @@ Acceptance criteria: Use the existing authorized workspace and Docker image; avo
 
 Delivered evidence: The Dev Container ran as the non-root `ubuntu` user; two ROS packages built; three ROS package tests and seven toy tests passed; the six-shelf playground opened in Gazebo Sim 8.15.0; 15 timestamped 640×480 RGB samples crossed the Gazebo-to-ROS bridge; the ROS learning shell and stop task were exercised; X11 access used a copied temporary authorization file; and workflow, learning-map, metric, and evidence-limit documentation was added. Mesa/GLX/EGL fallback warnings were observed, so GPU-accelerated rendering remains unverified.
 
+## A011 Deterministic scenario templates and AWS compatibility benchmark
+
+Status: Approved and completed
+
+Approved scope: Add changeable deterministic Gazebo scenario templates, preserve controlled scenes as the primary measurement environments, import a pinned no-roof subset of the AWS small warehouse for optional Harmonic compatibility testing, measure laptop resource use, update the integrated workflow and documentation, and preserve unrelated report and reference files.
+
+Acceptance criteria: Generate reproducible SDF and manifests from bounded YAML; validate camera transport in each controlled scene; keep imported-source provenance and license; leave the vendor source world unchanged; run the AWS scene headlessly and graphically; record camera delivery, real-time factor, CPU, memory, and visible GPU measurements; keep ground truth outside the control path; and make no detector, control, collision-safety, or production claim.
+
+Delivered evidence: Five deterministic scenarios each delivered 30 timestamped 640×480 RGB frames; six ROS package tests and seven toy tests passed; the AWS no-roof scene delivered 150 of 150 camera frames at 15.19 Hz; median real-time factor was 0.9999; peak container memory was 364.7 MiB; CPU use was 47.9% of one core equivalent; visible NVIDIA memory was 253 MiB; peak reported GPU utilization was 19%; no fatal asset or plugin errors were detected; and the graphical world opened in Gazebo Sim 8.15.0. Mesa/GLX/EGL warnings mean GPU rendering acceleration remains unverified.
+
 ## Next approval required
 
-After A010, the next approval packet will cover the camera-only range and bearing measurement baseline against evaluation-only Gazebo ground truth.
+After A011, the next approval packet will cover the camera-only range and bearing measurement baseline against evaluation-only Gazebo ground truth.

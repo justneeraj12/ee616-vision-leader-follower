@@ -11,7 +11,7 @@ A reproducible research project for camera-only predecessor following in a flexi
 
 The leader owns the route. Each independently driven follower observes the robot immediately ahead through a forward RGB camera, combines the relative visual measurement with local wheel odometry, and uses bounded control to maintain a commanded gap. The planned implementation targets ROS 2 Jazzy and Gazebo Harmonic on constrained laptop hardware.
 
-> **Current status:** deterministic two-dimensional toy baseline and containerized ROS 2/Gazebo environment gate complete.
+> **Current status:** deterministic two-dimensional toy baseline, containerized ROS 2/Gazebo environment gate, and configurable scenario foundation complete.
 >
 > ROS 2 namespace and Gazebo camera transport smoke tests now pass. No camera-accuracy, follower-control, physical-robot, or production-safety result has been demonstrated.
 
@@ -50,11 +50,13 @@ The project combines:
 | Forced-occlusion reacquisition | 0.030 s median | Declared deterministic occlusion window |
 | Warehouse demonstration | 86 simulated seconds | One leader and three followers |
 | Warehouse route | 7 completed route segments | Six-shelf two-dimensional maze |
-| ROS workspace | 2 packages built; 2 tests passed | Environment infrastructure only |
+| ROS workspace | 2 packages built; 6 tests passed | Environment and scenario infrastructure only |
 | Namespace smoke test | `/leader` and `/follower_1` passed | Five local heartbeat samples per namespace |
 | Gazebo camera transport | 15 timestamped 640×480 RGB samples | Transport check; not range/bearing accuracy |
 | NVIDIA container access | RTX 3050 Ti, 4 GB VRAM visible | Passthrough verified; acceleration not benchmarked |
 | Warehouse collision record | 0 toy collision samples | Center/radius model; not a safety result |
+| Controlled Gazebo scenarios | 5 templates; 30 RGB frames each | Transport only; no measurement accuracy |
+| AWS no-roof benchmark | 0.9999 median real-time factor; 364.7 MiB peak memory | Optional visual/resource stress test |
 | Follower spacing RMSE | 0.140, 0.164, 0.200 m | Error increases toward the rear |
 
 The machine-readable sources for these values are committed under [`work/toy_simulation/results`](work/toy_simulation/results) and [`work/toy_simulation/warehouse_results`](work/toy_simulation/warehouse_results).
@@ -119,7 +121,7 @@ The video shows one leader and three independently controlled followers moving t
 | Gate | Scope | Status |
 |---:|---|---|
 | 1 | ROS 2 Jazzy and Gazebo Harmonic environment and reproducibility validation | Complete |
-| 2 | Camera-only range and bearing measurements against evaluation ground truth | Not started |
+| 2 | Camera-only range and bearing measurements against evaluation ground truth | Scenario support complete; measurements not started |
 | 3 | One leader and one follower with estimator, bounded controller, and recovery states | Not started |
 | 4 | Followers added incrementally with error-propagation measurements | Not started |
 | 5 | Turns, occlusions, stopped leaders, and controlled disturbances | Not started |
@@ -143,6 +145,17 @@ The foundation passed on the target laptop with ROS 2 Jazzy, Gazebo Sim 8.15.0, 
 See [the environment setup](docs/ENVIRONMENT_SETUP.md) and [system architecture](docs/SYSTEM_ARCHITECTURE.md) for host prerequisites, GPU configuration, robot roles, and evidence boundaries.
 
 For interactive development, open the repository in VS Code and select **Dev Containers: Reopen in Container**. Then run the `EE616: Start simulation workspace` task to build the ROS workspace, open the Gazebo warehouse playground, and start a separate ROS learning shell. See the [developer workflow](docs/DEVELOPER_WORKFLOW.md), [project learning maps](docs/LEARNING_MAPS.md), and [metrics guide](docs/METRICS_GUIDE.md).
+
+Choose a controlled Gazebo scene or run the optional imported-world benchmark:
+
+```bash
+make scenario-gui SCENARIO=straight_aisle
+make scenario-validate
+make aws-warehouse-gui
+make aws-benchmark
+```
+
+See [the scenario matrix](docs/SCENARIO_MATRIX.md) for the controlled variables, AWS provenance, measured laptop load, and evidence boundaries.
 
 ## Quickstart
 
@@ -269,6 +282,7 @@ This repository does not claim that the current toy model satisfies those requir
 | Technical and scope decisions | [docs/DECISION_LOG.md](docs/DECISION_LOG.md) |
 | Approved implementation stages | [docs/APPROVAL_LOG.md](docs/APPROVAL_LOG.md) |
 | Standing project requirements | [PROJECT_MASTER_PROMPT.md](PROJECT_MASTER_PROMPT.md) |
+| Controlled scenarios and AWS benchmark | [docs/SCENARIO_MATRIX.md](docs/SCENARIO_MATRIX.md) |
 | Contribution and approval process | [CONTRIBUTING.md](CONTRIBUTING.md) |
 | Project milestones | [CHANGELOG.md](CHANGELOG.md) |
 

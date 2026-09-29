@@ -1,0 +1,23 @@
+extends: base.yaml
+name: straight_aisle
+description: Symmetric shelves create a clear straight warehouse aisle.
+variable_under_test: structured aisle background
+expected_visibility: visible
+
+obstacles:
+  - name: left_shelf_near
+    pose: [-5.5, 2.5, 1.0, 0.0, 0.0, 0.0]
+    size: [3.0, 1.0, 2.0]
+    color: [0.18, 0.32, 0.48, 1.0]
+  - name: left_shelf_far
+    pose: [-1.5, 2.5, 1.0, 0.0, 0.0, 0.0]
+    size: [3.0, 1.0, 2.0]
+    color: [0.18, 0.32, 0.48, 1.0]
+  - name: right_shelf_near
+    pose: [-5.5, -2.5, 1.0, 0.0, 0.0, 0.0]
+    size: [3.0, 1.0, 2.0]
+    color: [0.18, 0.32, 0.48, 1.0]
+  - name: right_shelf_far
+    pose: [-1.5, -2.5, 1.0, 0.0, 0.0, 0.0]
+    size: [3.0, 1.0, 2.0]
+    color: [0.18, 0.32, 0.48, 1.0]

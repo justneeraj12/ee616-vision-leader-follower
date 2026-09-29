@@ -3,7 +3,11 @@ set -euo pipefail
 
 patterns=(
     "ros2 launch ee616_simulation warehouse_playground.launch.py"
+    "ros2 launch ee616_simulation scenario_playground.launch.py"
+    "ros2 launch ee616_simulation aws_warehouse_benchmark.launch.py"
     "gz sim.*warehouse_playground.sdf"
+    "gz sim.*generated_scenarios"
+    "gz sim.*aws-no-roof"
     "parameter_bridge.*camera_bridge"
 )
 

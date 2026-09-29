@@ -1,0 +1,11 @@
+extends: base.yaml
+name: camera_calibration
+description: Open scene for controlled range and bearing sweeps.
+variable_under_test: target range and bearing
+expected_visibility: visible
+
+camera:
+  pose: [-6.0, 0.0, 0.65, 0.0, 0.0, 0.0]
+
+target:
+  pose: [-2.0, 0.0, 0.6, 0.0, 0.0, 0.0]

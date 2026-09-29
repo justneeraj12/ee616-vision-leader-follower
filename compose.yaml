@@ -11,6 +11,7 @@ x-ee616-common: &ee616-common
   shm_size: 1gb
   environment:
     HOME: /home/ubuntu
+    EE616_PROJECT_ROOT: /workspace
     ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-57}
     RMW_IMPLEMENTATION: rmw_fastrtps_cpp
     GZ_PARTITION: ${GZ_PARTITION:-ee616}
@@ -36,6 +37,7 @@ services:
     gpus: all
     environment:
       HOME: /home/ubuntu
+      EE616_PROJECT_ROOT: /workspace
       ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-57}
       RMW_IMPLEMENTATION: rmw_fastrtps_cpp
       GZ_PARTITION: ${GZ_PARTITION:-ee616}

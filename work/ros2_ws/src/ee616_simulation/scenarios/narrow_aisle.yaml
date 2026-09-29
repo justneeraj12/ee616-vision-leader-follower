@@ -1,0 +1,21 @@
+extends: base.yaml
+name: narrow_aisle
+description: Long shelves create a narrow but collision-free camera corridor.
+variable_under_test: restricted aisle width and close visual structure
+expected_visibility: visible
+
+camera:
+  pose: [-7.0, 0.0, 0.65, 0.0, 0.0, 0.0]
+
+target:
+  pose: [-3.5, 0.0, 0.6, 0.0, 0.0, 0.0]
+
+obstacles:
+  - name: narrow_left
+    pose: [-2.5, 1.8, 1.0, 0.0, 0.0, 0.0]
+    size: [9.0, 0.8, 2.0]
+    color: [0.18, 0.32, 0.48, 1.0]
+  - name: narrow_right
+    pose: [-2.5, -1.8, 1.0, 0.0, 0.0, 0.0]
+    size: [9.0, 0.8, 2.0]
+    color: [0.18, 0.32, 0.48, 1.0]

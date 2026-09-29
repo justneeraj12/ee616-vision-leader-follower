@@ -103,3 +103,11 @@ Date: September 28, 2026
 Decision: Use the existing Docker image through a VS Code Dev Container as the standard interactive development workflow. Copy only the current X11 authorization record into a temporary ignored file for Gazebo GUI access. Keep the warehouse playground separate from frozen experiment evidence.
 
 Reason: One integrated environment reduces host-version errors and keeps terminals, builds, tests, ROS inspection, and Gazebo controls together. The restricted display credential avoids unrestricted `xhost` permissions. A development playground supports learning without turning an editable scene into scientific evidence.
+
+## D014 Controlled scenario matrix and optional AWS stress test
+
+Date: September 28, 2026
+
+Decision: Use small deterministic YAML scenarios as the primary Gate 2 measurement environments. Keep the pinned AWS no-roof warehouse as an optional visual and resource stress test, not as the primary scientific environment.
+
+Reason: Controlled scenes isolate range, bearing, background, aisle, corner, and visibility conditions. The larger imported warehouse demonstrates compatibility with the target laptop but would make early measurement errors harder to diagnose. Its archived upstream status and Gazebo migration history also require explicit provenance and a fixed local subset.

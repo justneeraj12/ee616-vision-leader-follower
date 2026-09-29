@@ -12,6 +12,8 @@ The containerized ROS 2 and Gazebo foundation is complete under `work/ros2_ws/` 
 
 The integrated VS Code Dev Container workflow is complete. It adds repeatable build, test, Gazebo GUI, ROS inspection, and shutdown tasks without creating another project workspace.
 
+Five deterministic YAML scenario templates and an optional pinned AWS no-roof warehouse are now available. The templates support controlled Gate 2 experiments. The AWS scene is a visual and resource stress test, not the primary scientific environment.
+
 The host contains a partial ROS 2 Jazzy installation, but the ROS 2 CLI, Gazebo, and `ros_gz` were not available during inspection. The Docker environment is therefore the canonical implementation environment.
 
 ## Verified evidence
@@ -27,13 +29,16 @@ The host contains a partial ROS 2 Jazzy installation, but the ROS 2 CLI, Gazebo,
 - A private GitHub repository has been created at `https://github.com/justneeraj12/ee616-vision-leader-follower`.
 - The repository includes a production-style README, reproducible quickstart, contribution guidance, citation metadata, and GitHub Actions testing for Python 3.11 and 3.12.
 - A separate five-page, single-column IEEEtran technical report has been compiled from LaTeX and visually checked page by page. It uses simple formal English and preserves the existing evidence boundaries.
-- Two ROS 2 packages build with `colcon`, and three package tests pass.
+- Two ROS 2 packages build with `colcon`, and six package tests pass.
 - The `/leader` and `/follower_1` namespace probes each received five local heartbeat samples.
 - Gazebo produced 15 timestamped 640×480 RGB images through the ROS bridge.
 - The NVIDIA container profile sees the RTX 3050 Ti, driver 595.91.07, and 4096 MiB VRAM.
 - The Dev Container starts as the non-root `ubuntu` user with `/home/ubuntu` as its home directory.
 - The warehouse playground opens in the Gazebo GUI and its bridged camera produced 15 timestamped 640×480 RGB samples in the persistent Dev Container.
 - The integrated stop task removed the Gazebo and bridge processes cleanly.
+- All five deterministic scenarios generated valid SDF and delivered 30 timestamped 640×480 RGB frames through the ROS bridge.
+- The AWS no-roof warehouse delivered 150 of 150 camera frames at 15.19 Hz with a median real-time factor of 0.9999 and no fatal asset or plugin errors.
+- During the 20-second AWS measurement window, peak container memory was 364.7 MiB, CPU use was 47.9% of one core equivalent, visible NVIDIA memory was 253 MiB, and peak reported GPU utilization was 19%.
 
 ## Evidence limitations
 
@@ -44,6 +49,7 @@ The host contains a partial ROS 2 Jazzy installation, but the ROS 2 CLI, Gazebo,
 - No wheel slip, actuator dynamics, person traffic, or safety-rated obstacle system
 - No physical robot validation or certification claim
 - The Gazebo GUI used Mesa/GLX/EGL fallback paths during verification; GPU-accelerated rendering performance remains unverified.
+- The scenario checks and AWS benchmark do not run a detector, range or bearing estimator, follower controller, collision experiment, or safety test.
 
 ## Current deliverables
 
@@ -56,6 +62,7 @@ The host contains a partial ROS 2 Jazzy installation, but the ROS 2 CLI, Gazebo,
 - Reproducible baseline ZIP packages
 - Verified container and ROS 2 workspace foundation with machine-readable environment evidence
 - VS Code Dev Container workflow, six-shelf Gazebo learning playground, architecture maps, and metric study guide
+- Deterministic scenario matrix, repeatable five-scenario transport validator, and optional AWS warehouse resource benchmark
 
 ## Repository state
 

@@ -1,0 +1,21 @@
+extends: base.yaml
+name: right_angle_turn
+description: Camera and target face along a cross aisle beside an L-shaped shelf boundary.
+variable_under_test: target bearing near a warehouse corner
+expected_visibility: visible
+
+camera:
+  pose: [-3.0, -6.0, 0.65, 0.0, 0.0, 1.5707963268]
+
+target:
+  pose: [-3.0, -2.5, 0.6, 0.0, 0.0, 1.5707963268]
+
+obstacles:
+  - name: corner_horizontal
+    pose: [0.0, -1.0, 1.0, 0.0, 0.0, 0.0]
+    size: [6.0, 1.0, 2.0]
+    color: [0.18, 0.32, 0.48, 1.0]
+  - name: corner_vertical
+    pose: [3.5, 2.0, 1.0, 0.0, 0.0, 1.5707963268]
+    size: [6.0, 1.0, 2.0]
+    color: [0.18, 0.32, 0.48, 1.0]

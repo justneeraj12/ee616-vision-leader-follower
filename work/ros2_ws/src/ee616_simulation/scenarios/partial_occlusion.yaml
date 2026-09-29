@@ -1,0 +1,17 @@
+extends: base.yaml
+name: partial_occlusion
+description: A thin foreground object obscures part of the visual target.
+variable_under_test: partial target visibility
+expected_visibility: partial
+
+camera:
+  pose: [-7.0, 0.0, 0.65, 0.0, 0.0, 0.0]
+
+target:
+  pose: [-3.5, 0.0, 0.6, 0.0, 0.0, 0.0]
+
+obstacles:
+  - name: partial_occluder
+    pose: [-5.2, 0.22, 0.62, 0.0, 0.0, 0.0]
+    size: [0.15, 0.32, 0.95]
+    color: [0.55, 0.55, 0.58, 1.0]

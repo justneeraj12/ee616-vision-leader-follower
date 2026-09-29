@@ -5,3 +5,6 @@
 *.png binary
 *.mp4 binary
 *.zip binary
+
+# Preserve pinned third-party source bytes, including upstream whitespace.
+work/ros2_ws/src/ee616_simulation/vendor/** -whitespace

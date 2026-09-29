@@ -29,7 +29,10 @@ Use these VS Code tasks:
 | `EE616: Build ROS workspace` | Run `colcon build --symlink-install` |
 | `EE616: Test ROS workspace` | Run the ROS package tests and show results |
 | `EE616: Start simulation workspace` | Build, launch Gazebo, and open an inspection shell |
-| `EE616: Launch Gazebo playground` | Start only the interactive playground |
+| `EE616: Launch selected scenario` | Choose and start one deterministic scenario |
+| `EE616: Validate all controlled scenarios` | Check camera transport in all five templates |
+| `EE616: Launch AWS warehouse benchmark world` | Open the optional imported warehouse |
+| `EE616: Benchmark AWS warehouse headless` | Record fixed timing and resource evidence |
 | `EE616: Open ROS learning shell` | Open a terminal with ROS 2 sourced |
 | `EE616: Measure camera topic rate` | Measure `/smoke/camera/image` delivery rate |
 | `EE616: Stop simulation` | Send a stop signal to playground processes |
@@ -73,6 +76,25 @@ In the Gazebo GUI:
 - save experimental copies with clear names instead of overwriting frozen evidence worlds.
 
 Source-controlled changes should be made in the SDF file and reviewed in Git. A GUI-only edit is not reproducible until it is saved and committed.
+
+## Selectable scenario templates
+
+The controlled scenario definitions are under:
+
+```text
+work/ros2_ws/src/ee616_simulation/scenarios/
+```
+
+Use the VS Code `EE616: Launch selected scenario` task, or run one from the host:
+
+```bash
+make scenario-gui SCENARIO=narrow_aisle
+make scenario-gui SCENARIO=partial_occlusion
+```
+
+Use `make scenario-validate` to check all five templates headlessly. Use `make aws-warehouse-gui` to open the optional AWS no-roof world and `make aws-benchmark` for its fixed headless resource test.
+
+The scenario YAML files are the reproducible source. Generated SDF and manifest files are placed below `work/ros2_ws/log/generated_scenarios/`. See [the scenario matrix](SCENARIO_MATRIX.md) for each variable, benchmark values, provenance, and evidence boundaries.
 
 ## Display security
 

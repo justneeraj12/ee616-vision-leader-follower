@@ -1,0 +1,35 @@
+schema_version: 1
+name: base
+description: Common camera-measurement scenario defaults.
+variable_under_test: none
+expected_visibility: visible
+evidence_scope: Camera transport and future measurement evaluation only.
+seed: 616
+
+floor:
+  size: [24.0, 16.0, 0.1]
+  color: [0.42, 0.44, 0.46, 1.0]
+
+lighting:
+  ambient: [0.45, 0.45, 0.45, 1.0]
+  background: [0.12, 0.14, 0.18, 1.0]
+  diffuse: [0.85, 0.85, 0.85, 1.0]
+  direction: [-0.4, 0.2, -0.9]
+  shadows: false
+
+camera:
+  pose: [-9.0, 0.0, 0.65, 0.0, 0.0, 0.0]
+  topic: /smoke/camera/image
+  update_rate_hz: 15.0
+  width: 640
+  height: 480
+  horizontal_fov_rad: 1.2217304764
+  near_clip_m: 0.1
+  far_clip_m: 30.0
+
+target:
+  pose: [-6.0, 0.0, 0.6, 0.0, 0.0, 0.0]
+  size: [0.08, 0.7, 0.9]
+  color: [0.9, 0.15, 0.05, 1.0]
+
+obstacles: []

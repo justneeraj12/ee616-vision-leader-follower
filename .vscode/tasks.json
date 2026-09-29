@@ -31,9 +31,9 @@
       }
     },
     {
-      "label": "EE616: Launch Gazebo playground",
+      "label": "EE616: Launch selected scenario",
       "type": "shell",
-      "command": "bash /workspace/infrastructure/dev/launch_playground.sh",
+      "command": "bash /workspace/infrastructure/dev/launch_scenario.sh ${input:scenarioName}",
       "isBackground": true,
       "problemMatcher": {
         "owner": "ee616-playground",
@@ -71,7 +71,7 @@
       "label": "EE616: Start simulation workspace",
       "dependsOn": [
         "EE616: Build ROS workspace",
-        "EE616: Launch Gazebo playground",
+        "EE616: Launch selected scenario",
         "EE616: Open ROS learning shell"
       ],
       "dependsOrder": "sequence",
@@ -86,6 +86,54 @@
         "reveal": "always",
         "panel": "dedicated",
         "group": "inspection"
+      }
+    },
+    {
+      "label": "EE616: Launch AWS warehouse benchmark world",
+      "type": "shell",
+      "command": "bash /workspace/infrastructure/dev/launch_aws_warehouse.sh",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "ee616-aws-warehouse",
+        "pattern": {
+          "regexp": "^EE616_TASK_MESSAGE: (.*)$",
+          "message": 1
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^EE616_AWS_WAREHOUSE_STARTING$",
+          "endsPattern": "^EE616_AWS_WAREHOUSE_READY$"
+        }
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "simulation",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "EE616: Benchmark AWS warehouse headless",
+      "type": "shell",
+      "command": "bash /workspace/infrastructure/benchmarks/run_aws_world_benchmark.sh",
+      "problemMatcher": [],
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "test"
+      }
+    },
+    {
+      "label": "EE616: Validate all controlled scenarios",
+      "type": "shell",
+      "command": "bash /workspace/infrastructure/benchmarks/validate_scenarios.sh",
+      "problemMatcher": [],
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "test"
       }
     },
     {
@@ -110,6 +158,21 @@
         "panel": "dedicated",
         "group": "test"
       }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "scenarioName",
+      "type": "pickString",
+      "description": "Choose a deterministic scenario",
+      "default": "straight_aisle",
+      "options": [
+        "camera_calibration",
+        "straight_aisle",
+        "right_angle_turn",
+        "narrow_aisle",
+        "partial_occlusion"
+      ]
     }
   ]
 }

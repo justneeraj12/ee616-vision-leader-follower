@@ -15,24 +15,30 @@ This file records reviewable project milestones. Detailed evidence and current l
 - Minimal headless Gazebo camera world and ROS-Gazebo bridge configuration
 - CPU/software-rendering and optional NVIDIA GPU container profiles
 - System architecture and reproducible environment documentation
+- Deterministic YAML scenario generator and five controlled warehouse conditions
+- Pinned AWS no-roof warehouse subset with source provenance and license
+- Repeatable scenario transport and AWS laptop-resource benchmarks
 
 ### Verified
 
-- ROS 2 Jazzy workspace builds two packages and passes two package tests
+- ROS 2 Jazzy workspace builds two packages and passes six package tests
 - Isolated `/leader` and `/follower_1` namespace probes pass
 - Gazebo Sim 8.15.0 bridges 15 timestamped 640×480 RGB camera samples
 - NVIDIA container passthrough exposes the RTX 3050 Ti and 4096 MiB VRAM
 - GPU-accelerated Gazebo rendering remains unbenchmarked
+- All five controlled scenarios deliver timestamped 640×480 RGB frames
+- AWS no-roof benchmark passes at 0.9999 median real-time factor with 364.7 MiB peak container memory
 
 ### Decisions
 
 - Initial leader uses a deterministic waypoint route and rear visual target
 - Leader LiDAR, IMU, odometry, and Nav2 remain a later optional extension
 - Followers retain forward RGB camera and local wheel odometry as formation inputs
+- Controlled scenarios are primary Gate 2 environments; the AWS world is an optional visual and resource stress test
 
 ### Evidence boundary
 
-The environment smoke tests do not constitute camera measurement, follower-control, physical-robot, or safety evidence.
+The environment and scenario smoke tests do not constitute camera-accuracy, detector, follower-control, physical-robot, or safety evidence.
 
 ## 0.1.1 2026-09-18
 
