@@ -112,6 +112,26 @@ Acceptance criteria: Use 1.0, 1.5, 2.0, 3.0, 4.0, and 5.0 m ranges; use -30, -20
 
 Delivered evidence: Two new ROS 2 packages; 19 passing ROS package tests across the workspace; 2,520 retained Gazebo samples across two scenes; 1,620 full-visible samples; 100% valid full-visible measurements; 0.0355 m combined range RMSE; 0.120 degree combined bearing MAE; raw CSV files, scene and combined JSON summaries, and an error figure under `work/ros2_ws/results/camera_measurement_gate/`. The result is a fixed-red-target camera-geometry baseline, not YOLO, closed-loop control, physical-robot, or safety evidence.
 
+## A013 YOLOv8n measurement evaluation
+
+Status: Approved, not yet implemented
+
+Approved scope: Add an isolated YOLOv8n detector backend, train or fine-tune it on a documented custom target dataset, and evaluate it against the frozen A012 range and bearing matrix before it enters any follower-control path.
+
+Acceptance criteria: At least 95% valid full-visible measurements; range RMSE no more than 0.15 m; bearing MAE no more than 1.5 degrees; p95 detector latency no more than 66.7 ms for a 15 Hz target; record false detections, CPU, RAM, GPU, and VRAM use; record model provenance, version, license, and checksum; and keep Gazebo ground truth restricted to evaluation.
+
+Current condition: Implementation was paused for the repository and Ultralytics license review. A014 resolves the planned repository license condition, but the dependency, model, dataset, and measured detector performance remain unverified.
+
+## A014 Public AGPL repository
+
+Status: Approved and completed
+
+Approved scope: Release the existing GitHub repository and its full history as public, license original project software and documentation under AGPL-3.0-only, preserve third-party terms, document the decision, commit and push the publication changes, and change repository visibility to public.
+
+Acceptance criteria: Scan the current tree and Git history for high-confidence credential patterns; disclose the personal, faculty, internal-log, deliverable, and third-party-reference exposure before publication; add the canonical GNU AGPL-3.0 text; replace proprietary ROS manifest declarations; preserve the AWS MIT license; add third-party notices; pass the existing automated tests; use no history rewrite or force push; and leave unrelated untracked files untouched.
+
+Delivered evidence: No high-confidence credential pattern was found in the current tree or Git history. The repository contains an AGPL-3.0-only license, updated ROS package declarations and citation metadata, and explicit third-party notices. The complete existing history was retained without rewriting. Seven toy tests and 19 ROS package tests passed before publication.
+
 ## Next approval required
 
-After A012, the next approval packet will cover YOLOv8n dependency, license, dataset, target-appearance, accuracy, and target-laptop inference evaluation against the same frozen measurement matrix.
+A013 is approved. Before training or measurement begins, record the exact Ultralytics package and model versions, dataset provenance and split, target appearance, dependency lock, model checksum, and executable test commands.

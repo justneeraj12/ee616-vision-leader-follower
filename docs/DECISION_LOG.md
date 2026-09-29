@@ -119,3 +119,11 @@ Date: September 29, 2026
 Decision: Validate the range and bearing geometry first with a deterministic fixed-size red target and a pixel-based detector. Keep Gazebo pose access inside a separate evaluation package. Evaluate YOLOv8n later against the same frozen matrix before using it in the follower pipeline.
 
 Reason: This separates camera calibration and geometry error from learned-detector error. The ground-truth boundary can be tested directly, and a later detector comparison uses the same ranges, bearings, scenes, metrics, and acceptance thresholds.
+
+## D016 Public AGPL repository
+
+Date: September 29, 2026
+
+Decision: Publish the existing GitHub repository and its full history under AGPL-3.0-only for original project software and documentation. Preserve the MIT terms of the pinned AWS warehouse assets and identify external reference documents as third-party material outside the repository-wide license.
+
+Reason: The project owner approved public release after reviewing that the history contains faculty-facing deliverables, internal project records, personal academic context, and external reference files. Ultralytics' official guidance identifies its YOLO software and models as AGPL-3.0 unless a separate enterprise license applies. A public AGPL project therefore supports the approved YOLOv8n evaluation without presenting third-party material as project-owned content.

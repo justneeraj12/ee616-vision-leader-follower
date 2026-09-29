@@ -6,7 +6,7 @@ Last updated: September 29, 2026
 
 The deterministic Python toy baseline is complete. It includes a single-pair experiment harness and a warehouse-maze demonstration with one leader and three independently controlled followers.
 
-The canonical Docker environment now contains ROS 2 Jazzy, Gazebo Sim 8.15.0, and `ros_gz`. A deterministic fixed-red-target image detector has passed the first static camera range and bearing gate. No learned-detector, follower-control, physical-robot, or production-safety result has been claimed.
+The canonical Docker environment now contains ROS 2 Jazzy, Gazebo Sim 8.15.0, and `ros_gz`. A deterministic fixed-red-target image detector has passed the first static camera range and bearing gate. The GitHub repository is public under AGPL-3.0-only for original project work, with third-party terms preserved separately. No learned-detector, follower-control, physical-robot, or production-safety result has been claimed.
 
 The containerized ROS 2 and Gazebo foundation is complete under `work/ros2_ws/` and `infrastructure/docker/`. The software-rendered and NVIDIA-profile smoke tests passed on the target laptop. The GPU profile verifies container passthrough, but GPU rendering acceleration has not been benchmarked.
 
@@ -28,7 +28,7 @@ The host contains a partial ROS 2 Jazzy installation, but the ROS 2 CLI, Gazebo,
 - Faculty-facing DOCX and PDF reports have been rendered and visually checked.
 - The eight-page initial technical explanation contains four traceable figures and has been rendered and visually checked page by page.
 - A two-dimensional warehouse demonstration video is available in `deliverables/`.
-- A private GitHub repository has been created at `https://github.com/justneeraj12/ee616-vision-leader-follower`.
+- The GitHub repository is public at `https://github.com/justneeraj12/ee616-vision-leader-follower` under AGPL-3.0-only for original project work.
 - The repository includes a production-style README, reproducible quickstart, contribution guidance, citation metadata, and GitHub Actions testing for Python 3.11 and 3.12.
 - A separate five-page, single-column IEEEtran technical report has been compiled from LaTeX and visually checked page by page. It uses simple formal English and preserves the existing evidence boundaries.
 - Four ROS 2 packages build with `colcon`, and 19 package tests pass.
@@ -74,11 +74,11 @@ The host contains a partial ROS 2 Jazzy installation, but the ROS 2 CLI, Gazebo,
 
 ## Repository state
 
-The project is maintained in the private GitHub repository `justneeraj12/ee616-vision-leader-follower`. The repository includes the governing documentation, source, automated tests, machine-readable evidence, report builders, review deliverables, continuous integration, contribution guidance, and citation metadata. Internal render pages, temporary artifacts, and quality-check screenshots are excluded through `.gitignore`.
+The project is maintained in the public GitHub repository `justneeraj12/ee616-vision-leader-follower`. Original project software and documentation are licensed under AGPL-3.0-only. The pinned AWS warehouse assets retain their MIT terms, and external reference documents retain their respective terms. The repository includes the governing documentation, source, automated tests, machine-readable evidence, report builders, review deliverables, continuous integration, contribution guidance, and citation metadata. Internal render pages, temporary artifacts, and quality-check screenshots are excluded through `.gitignore`.
 
 ## Next proposed approval gate
 
-Request approval to evaluate YOLOv8n against the same frozen range and bearing matrix after dependency, license, model, and dataset review.
+Implement the approved YOLOv8n measurement evaluation against the same frozen range and bearing matrix after recording the exact dependency, model, dataset, and target-appearance configuration.
 
 ## Two gates ahead
 
@@ -89,4 +89,3 @@ Request approval to evaluate YOLOv8n against the same frozen range and bearing m
 
 - The fixed-red-target geometry baseline passed, but the proposed YOLOv8n detector, training data, target appearance, and inference timing remain unverified.
 - Professor Imtiaz has received the initial report and warehouse video. A follow-up meeting is expected, but technical direction for the next gate has not yet been confirmed.
-- The GitHub repository is private and has not been presented as a public release.
