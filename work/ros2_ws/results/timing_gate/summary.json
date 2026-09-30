@@ -1,0 +1,146 @@
+{
+  "checks": {
+    "accepted_behavior_unchanged": true,
+    "all_timing_runs_pass": true,
+    "peak_container_memory_at_most_12_gib": true,
+    "peak_gpu_memory_at_most_4_gib": true,
+    "resource_samples_present": true,
+    "resource_summary_present": true,
+    "three_behavior_runs_complete": true,
+    "three_timing_runs_complete": true
+  },
+  "expected_run_count": 3,
+  "follower_count": 3,
+  "followers": {
+    "1": {
+      "camera_rate_hz_mean": 10.617798833368406,
+      "latency": {
+        "camera_to_measurement": {
+          "max_ms_worst": 1484.975543,
+          "p95_ms_worst": 23.085373999999995,
+          "p99_ms_worst": 252.55793769999278,
+          "sample_count_total": 1302
+        },
+        "control_period": {
+          "max_ms_worst": 55.000000000000604,
+          "p95_ms_worst": 50.00000000000426,
+          "p99_ms_worst": 50.00000000000426,
+          "sample_count_total": 2770
+        },
+        "controller_to_actual_cmd": {
+          "max_ms_worst": 11.119505,
+          "p95_ms_worst": 2.88668225,
+          "p99_ms_worst": 4.94543036,
+          "sample_count_total": 2771
+        },
+        "detector_inference": {
+          "max_ms_worst": 2192.508544921875,
+          "p95_ms_worst": 20.34334602355957,
+          "p99_ms_worst": 24.12735450744629,
+          "sample_count_total": 1473
+        },
+        "measurement_to_controller_cmd": {
+          "max_ms_worst": 52.699202,
+          "p95_ms_worst": 47.80856784999999,
+          "p99_ms_worst": 49.63537959,
+          "sample_count_total": 1459
+        }
+      },
+      "measurement_delivery_ratio_min": 0.96484375,
+      "measurement_rate_hz_mean": 10.458484037607008
+    },
+    "2": {
+      "camera_rate_hz_mean": 9.929445182038101,
+      "latency": {
+        "camera_to_measurement": {
+          "max_ms_worst": 2056.510974,
+          "p95_ms_worst": 22.526183,
+          "p99_ms_worst": 396.43519963999836,
+          "sample_count_total": 1177
+        },
+        "control_period": {
+          "max_ms_worst": 54.999999999999716,
+          "p95_ms_worst": 50.00000000000426,
+          "p99_ms_worst": 50.00000000000426,
+          "sample_count_total": 2800
+        },
+        "controller_to_actual_cmd": {
+          "max_ms_worst": 11.079575,
+          "p95_ms_worst": 2.381434199999997,
+          "p99_ms_worst": 4.620091269999993,
+          "sample_count_total": 2794
+        },
+        "detector_inference": {
+          "max_ms_worst": 2047.53076171875,
+          "p95_ms_worst": 18.39044761657715,
+          "p99_ms_worst": 21.685414314270037,
+          "sample_count_total": 1367
+        },
+        "measurement_to_controller_cmd": {
+          "max_ms_worst": 54.178895,
+          "p95_ms_worst": 48.0486511,
+          "p99_ms_worst": 50.8617064,
+          "sample_count_total": 1294
+        }
+      },
+      "measurement_delivery_ratio_min": 0.954070981210856,
+      "measurement_rate_hz_mean": 9.799751585357491
+    },
+    "3": {
+      "camera_rate_hz_mean": 11.132482481295902,
+      "latency": {
+        "camera_to_measurement": {
+          "max_ms_worst": 2029.599687,
+          "p95_ms_worst": 18.258369,
+          "p99_ms_worst": 105.32571271999879,
+          "sample_count_total": 1348
+        },
+        "control_period": {
+          "max_ms_worst": 54.999999999999716,
+          "p95_ms_worst": 50.00000000000426,
+          "p99_ms_worst": 50.00000000000426,
+          "sample_count_total": 2792
+        },
+        "controller_to_actual_cmd": {
+          "max_ms_worst": 10.259373,
+          "p95_ms_worst": 2.649752799999999,
+          "p99_ms_worst": 4.61553664,
+          "sample_count_total": 2792
+        },
+        "detector_inference": {
+          "max_ms_worst": 2083.904296875,
+          "p95_ms_worst": 14.843104124069207,
+          "p99_ms_worst": 18.787562847137437,
+          "sample_count_total": 1530
+        },
+        "measurement_to_controller_cmd": {
+          "max_ms_worst": 55.049431999999996,
+          "p95_ms_worst": 48.348013099999996,
+          "p99_ms_worst": 50.77628467999999,
+          "sample_count_total": 1516
+        }
+      },
+      "measurement_delivery_ratio_min": 0.9704142011834319,
+      "measurement_rate_hz_mean": 10.968447172616793
+    }
+  },
+  "ground_truth_boundary": "Timing observation used ROS topics only. Gazebo pose truth was consumed only by the separate behavior evaluator.",
+  "measurement_note": "Observer-side wall-clock latency on one laptop; this does not include a network link or physical actuator response.",
+  "real_time_factor_mean": 0.9998871997995278,
+  "real_time_factor_min": 0.9996201314281385,
+  "resources": {
+    "cpu_core_equivalent_percent": 443.1331762631285,
+    "elapsed_s": 158.90365463900162,
+    "logical_cpu_count": 12,
+    "peak_gpu_memory_mib": 642.0,
+    "peak_gpu_utilization_percent": 60.0,
+    "peak_memory_mib": 3583.9921875,
+    "sample_count": 572,
+    "scope": "container-level resource sample",
+    "timestamp_utc": "2026-09-30T03:20:27.433990+00:00"
+  },
+  "run_count": 3,
+  "scenario": "combined",
+  "scope": "Simulation timing and resources on the target laptop only.",
+  "status": "pass"
+}

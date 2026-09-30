@@ -1,0 +1,22 @@
+extends: base.yaml
+name: yolo_train_open
+description: Open training scene with a distinct floor and lighting configuration.
+variable_under_test: detector training range bearing and open background
+expected_visibility: visible and deliberate out-of-frame negatives
+evidence_scope: YOLO dataset generation only.
+seed: 1616
+
+floor:
+  color: [0.30, 0.34, 0.38, 1.0]
+
+lighting:
+  ambient: [0.38, 0.40, 0.44, 1.0]
+  background: [0.08, 0.10, 0.13, 1.0]
+  diffuse: [0.78, 0.82, 0.88, 1.0]
+  direction: [-0.3, -0.2, -0.9]
+
+camera:
+  pose: [-7.5, -1.0, 0.65, 0.0, 0.0, 0.0]
+
+target:
+  pose: [-4.5, -1.0, 0.6, 0.0, 0.0, 0.0]

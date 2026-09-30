@@ -24,6 +24,7 @@ setup(
     entry_points={
         "console_scripts": [
             "camera_measurement = ee616_perception.camera_measurement_node:main",
+            "yolo_measurement = ee616_perception.yolo_measurement_node:main",
         ],
     },
 )

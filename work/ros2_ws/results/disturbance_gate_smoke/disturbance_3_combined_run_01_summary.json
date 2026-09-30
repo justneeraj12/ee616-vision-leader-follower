@@ -1,0 +1,113 @@
+{
+  "event_metrics": {
+    "actuator_bias": {
+      "observed": true,
+      "predict_observed": false,
+      "safe_stop_latency_s": null,
+      "safe_stop_observed": false,
+      "spacing_recovery_s": 4.600073245001113,
+      "track_reacquisition_s": 0.20001897100155475,
+      "zero_command_during_safe_stop": false
+    },
+    "long_occlusion": {
+      "observed": true,
+      "predict_observed": true,
+      "safe_stop_latency_s": 0.8000659909994283,
+      "safe_stop_observed": true,
+      "spacing_recovery_s": 0.7993160900005023,
+      "track_reacquisition_s": 0.19943275400146376,
+      "zero_command_during_safe_stop": true
+    },
+    "short_occlusion": {
+      "observed": true,
+      "predict_observed": true,
+      "safe_stop_latency_s": null,
+      "safe_stop_observed": false,
+      "spacing_recovery_s": 0.20008717399832676,
+      "track_reacquisition_s": 0.20008717399832676,
+      "zero_command_during_safe_stop": false
+    }
+  },
+  "failure": null,
+  "follower_count": 3,
+  "followers": {
+    "1": {
+      "checks": {
+        "bounded_actual_commands": true,
+        "collision_samples": true,
+        "control_period_p95": true,
+        "disturbed_spacing_rmse": true,
+        "track_fraction": false
+      },
+      "collision_samples": 0,
+      "control_period_p95_ms": 50.00000000000071,
+      "inference_latency_p95_ms": 17.277825450897218,
+      "minimum_center_distance_m": 1.944219800055199,
+      "predecessor": "leader",
+      "predict_samples": 10,
+      "safe_stop_samples": 25,
+      "spacing_rmse_m": 0.15560904226258596,
+      "track_fraction": 0.7941176470588235
+    },
+    "2": {
+      "checks": {
+        "bounded_actual_commands": true,
+        "collision_samples": true,
+        "control_period_p95": true,
+        "disturbed_spacing_rmse": true,
+        "track_fraction": true
+      },
+      "collision_samples": 0,
+      "control_period_p95_ms": 50.00000000000071,
+      "inference_latency_p95_ms": 15.63205099105835,
+      "minimum_center_distance_m": 1.4220984135183194,
+      "predecessor": "follower_1",
+      "predict_samples": 7,
+      "safe_stop_samples": 11,
+      "spacing_rmse_m": 0.23140046776118958,
+      "track_fraction": 0.8941176470588236
+    },
+    "3": {
+      "checks": {
+        "bounded_actual_commands": true,
+        "collision_samples": true,
+        "control_period_p95": true,
+        "disturbed_spacing_rmse": true,
+        "track_fraction": true
+      },
+      "collision_samples": 0,
+      "control_period_p95_ms": 50.00000000000071,
+      "inference_latency_p95_ms": 13.191849899291988,
+      "minimum_center_distance_m": 1.9379834287182243,
+      "predecessor": "follower_2",
+      "predict_samples": 5,
+      "safe_stop_samples": 3,
+      "spacing_rmse_m": 0.09306390901464415,
+      "track_fraction": 0.9529411764705882
+    }
+  },
+  "ground_truth_boundary": "Gazebo /world/disturbance_3_combined/pose/info was read only by ee616_evaluation and was not published to perception, estimation, supervision, control, or the disturbance proxy.",
+  "route_complete": true,
+  "run_id": "run_01",
+  "sample_count": 519,
+  "scenario": "combined",
+  "scenario_checks": {
+    "actuator_bias_observed": true,
+    "actuator_spacing_recovery": false,
+    "long_occlusion_observed": true,
+    "long_predict_observed": true,
+    "long_safe_stop_latency": true,
+    "long_safe_stop_observed": true,
+    "long_track_reacquisition": true,
+    "long_zero_command": true,
+    "sharp_turn_recovered": false,
+    "short_no_safe_stop": true,
+    "short_occlusion_observed": true,
+    "short_predict_observed": true,
+    "short_track_reacquisition": true,
+    "stopped_leader_settled": false
+  },
+  "scope": "Controlled simulated disturbances; not physical-robot, person-safety, or production evidence.",
+  "status": "fail",
+  "target_follower": 2
+}

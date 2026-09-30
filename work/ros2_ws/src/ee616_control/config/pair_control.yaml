@@ -1,0 +1,13 @@
+/**:
+  ros__parameters:
+    desired_range_m: 1.50
+    max_linear_mps: 0.60
+    max_angular_rps: 0.80
+    track_timeout_s: 0.20
+    predict_timeout_s: 0.75
+    range_gain: 0.85
+    range_rate_gain: 0.85
+    bearing_gain: 1.80
+    bearing_rate_gain: 0.20
+    predict_speed_scale: 0.55
+    control_rate_hz: 20.0

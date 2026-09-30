@@ -1,0 +1,50 @@
+{
+  "dataset_sha256": "e42368ae861b468206a9f7bec435508a214bc46e333f8c891b87f2cd50a00e15",
+  "image_level_test": {
+    "false_negative": 25,
+    "false_positive": 11,
+    "image_count": 225,
+    "latency_median_ms": 8.086325999101973,
+    "latency_p95_ms": 10.289072000887245,
+    "true_negative": 23,
+    "true_positive": 166
+  },
+  "status": "complete",
+  "test_metrics": {
+    "fitness": 0.40122247573440023,
+    "metrics/mAP50(B)": 0.5228191235804299,
+    "metrics/mAP50-95(B)": 0.40122247573440023,
+    "metrics/precision(B)": 0.5274792577787948,
+    "metrics/recall(B)": 0.584460846018903
+  },
+  "trained_checkpoint_path": "/workspace/work/ros2_ws/models/yolov8n_predecessor_v2.pt",
+  "trained_checkpoint_sha256": "cd949c617eaff472417425db025b03fc5b6c9b7698d884cdc7c8562ee930bf62",
+  "trained_checkpoint_size_bytes": 6235114,
+  "training_metrics": {
+    "fitness": 0.5645912986828635,
+    "metrics/mAP50(B)": 0.7606817251066277,
+    "metrics/mAP50-95(B)": 0.5645912986828635,
+    "metrics/precision(B)": 0.7705867739288256,
+    "metrics/recall(B)": 0.7486910994764397
+  },
+  "training_parameters": {
+    "amp": true,
+    "batch": 4,
+    "deterministic": true,
+    "device": 0,
+    "epochs_max": 50,
+    "image_size": 640,
+    "patience": 12,
+    "seed": 616,
+    "workers": 1
+  },
+  "ultralytics_version": "8.4.165",
+  "validation_range_calibration": {
+    "calibrated_range_rmse_m": 0.05056001362454028,
+    "range_offset_m": 0.00900843326990751,
+    "range_scale": 1.0186491863142044,
+    "raw_range_rmse_m": 0.08266421699577937,
+    "sample_count": 97,
+    "source": "full-visible detections from yolo_val_mixed only"
+  }
+}

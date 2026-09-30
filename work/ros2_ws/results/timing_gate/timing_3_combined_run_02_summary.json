@@ -1,0 +1,193 @@
+{
+  "duration_s": 49.0,
+  "failure": null,
+  "follower_count": 3,
+  "followers": {
+    "1": {
+      "camera_message_count": 512,
+      "camera_rate_hz": 11.09302073157495,
+      "checks": {
+        "camera_to_measurement_p95": true,
+        "control_period_p95": true,
+        "controller_to_actual_cmd_p95": true,
+        "detector_inference_p95": true,
+        "measurement_delivery_ratio": true,
+        "measurement_to_controller_cmd_p95": true
+      },
+      "latency": {
+        "camera_to_measurement": {
+          "count": 437,
+          "max_ms": 371.566898,
+          "mean_ms": 17.713666244851257,
+          "p50_ms": 14.14754,
+          "p95_ms": 23.085373999999995,
+          "p99_ms": 129.34287799999848
+        },
+        "control_period": {
+          "count": 926,
+          "max_ms": 54.999999999999716,
+          "mean_ms": 49.9622030237581,
+          "p50_ms": 50.00000000000071,
+          "p95_ms": 50.00000000000426,
+          "p99_ms": 50.00000000000426
+        },
+        "controller_to_actual_cmd": {
+          "count": 926,
+          "max_ms": 6.330247,
+          "mean_ms": 0.7091277948164146,
+          "p50_ms": 0.500588,
+          "p95_ms": 2.88668225,
+          "p99_ms": 4.8453275
+        },
+        "detector_inference": {
+          "count": 494,
+          "max_ms": 2061.159912109375,
+          "mean_ms": 16.835666246259745,
+          "p50_ms": 11.953684329986572,
+          "p95_ms": 20.34334602355957,
+          "p99_ms": 22.087348461151123
+        },
+        "measurement_to_controller_cmd": {
+          "count": 490,
+          "max_ms": 52.699202,
+          "mean_ms": 25.210082699999997,
+          "p50_ms": 25.039046499999998,
+          "p95_ms": 47.80856784999999,
+          "p99_ms": 49.63537959
+        }
+      },
+      "measurement_delivery_ratio": 0.96484375,
+      "measurement_message_count": 494,
+      "measurement_rate_hz": 10.68603012896933,
+      "valid_measurement_count": 494
+    },
+    "2": {
+      "camera_message_count": 459,
+      "camera_rate_hz": 9.92846303923694,
+      "checks": {
+        "camera_to_measurement_p95": true,
+        "control_period_p95": true,
+        "controller_to_actual_cmd_p95": true,
+        "detector_inference_p95": true,
+        "measurement_delivery_ratio": true,
+        "measurement_to_controller_cmd_p95": true
+      },
+      "latency": {
+        "camera_to_measurement": {
+          "count": 398,
+          "max_ms": 2056.510974,
+          "mean_ms": 23.56483378894472,
+          "p50_ms": 13.311923,
+          "p95_ms": 20.40293285,
+          "p99_ms": 396.43519963999836
+        },
+        "control_period": {
+          "count": 948,
+          "max_ms": 50.00000000000426,
+          "mean_ms": 50.0,
+          "p50_ms": 50.00000000000071,
+          "p95_ms": 50.00000000000426,
+          "p99_ms": 50.00000000000426
+        },
+        "controller_to_actual_cmd": {
+          "count": 949,
+          "max_ms": 6.8819539999999995,
+          "mean_ms": 0.7105461053740779,
+          "p50_ms": 0.509096,
+          "p95_ms": 2.381434199999997,
+          "p99_ms": 4.443879479999996
+        },
+        "detector_inference": {
+          "count": 463,
+          "max_ms": 2047.53076171875,
+          "mean_ms": 15.845309493351188,
+          "p50_ms": 11.240887641906738,
+          "p95_ms": 17.308855819702146,
+          "p99_ms": 20.072411575317382
+        },
+        "measurement_to_controller_cmd": {
+          "count": 439,
+          "max_ms": 52.408795,
+          "mean_ms": 24.60651118451025,
+          "p50_ms": 23.973800999999998,
+          "p95_ms": 48.0486511,
+          "p99_ms": 50.8617064
+        }
+      },
+      "measurement_delivery_ratio": 1.008714596949891,
+      "measurement_message_count": 463,
+      "measurement_rate_hz": 10.01517450682853,
+      "valid_measurement_count": 443
+    },
+    "3": {
+      "camera_message_count": 507,
+      "camera_rate_hz": 11.0,
+      "checks": {
+        "camera_to_measurement_p95": true,
+        "control_period_p95": true,
+        "controller_to_actual_cmd_p95": true,
+        "detector_inference_p95": true,
+        "measurement_delivery_ratio": true,
+        "measurement_to_controller_cmd_p95": true
+      },
+      "latency": {
+        "camera_to_measurement": {
+          "count": 429,
+          "max_ms": 2029.599687,
+          "mean_ms": 18.63496301864802,
+          "p50_ms": 11.137145,
+          "p95_ms": 17.7866084,
+          "p99_ms": 105.32571271999879
+        },
+        "control_period": {
+          "count": 948,
+          "max_ms": 50.00000000000426,
+          "mean_ms": 50.0,
+          "p50_ms": 50.00000000000071,
+          "p95_ms": 50.00000000000426,
+          "p99_ms": 50.00000000000426
+        },
+        "controller_to_actual_cmd": {
+          "count": 947,
+          "max_ms": 6.746480999999999,
+          "mean_ms": 0.6550259239704329,
+          "p50_ms": 0.434005,
+          "p95_ms": 2.407467699999993,
+          "p99_ms": 4.5385240999999965
+        },
+        "detector_inference": {
+          "count": 492,
+          "max_ms": 2025.294189453125,
+          "mean_ms": 13.347534516962563,
+          "p50_ms": 8.967299461364746,
+          "p95_ms": 14.251613903045653,
+          "p99_ms": 17.272641353607174
+        },
+        "measurement_to_controller_cmd": {
+          "count": 487,
+          "max_ms": 55.049431999999996,
+          "mean_ms": 24.17493496714579,
+          "p50_ms": 23.869318,
+          "p95_ms": 48.348013099999996,
+          "p99_ms": 50.77628467999999
+        }
+      },
+      "measurement_delivery_ratio": 0.9704142011834319,
+      "measurement_message_count": 492,
+      "measurement_rate_hz": 10.673913043478262,
+      "valid_measurement_count": 492
+    }
+  },
+  "ground_truth_boundary": "This timing evaluator did not subscribe to Gazebo pose truth or publish into perception, estimation, supervision, or control.",
+  "measurement_note": "Camera-to-measurement and command-stage values are observer-side wall-clock estimates on one host; detector inference is reported directly by the perception node.",
+  "real_time_factor": 1.000000813610418,
+  "run_checks": {
+    "real_time_factor": true,
+    "route_complete": true
+  },
+  "run_id": "run_02",
+  "scenario": "combined",
+  "scope": "Target-laptop simulation timing; not networked or physical-robot timing.",
+  "status": "pass",
+  "warmup_s": 8.0
+}

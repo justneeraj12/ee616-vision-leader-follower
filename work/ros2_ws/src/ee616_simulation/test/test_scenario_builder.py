@@ -20,6 +20,17 @@ def test_every_scenario_renders_valid_deterministic_sdf(tmp_path):
         "partial_occlusion",
         "right_angle_turn",
         "straight_aisle",
+        "yolo_final_aisle_v3",
+        "yolo_final_open_v3",
+        "yolo_test_occlusion",
+        "yolo_test_v3",
+        "yolo_train_aisle",
+        "yolo_train_bright",
+        "yolo_train_low_light",
+        "yolo_train_neutral",
+        "yolo_train_open",
+        "yolo_val_mixed",
+        "yolo_val_v3",
     ]
     for source in scenarios:
         first = render_scenario(source, tmp_path)

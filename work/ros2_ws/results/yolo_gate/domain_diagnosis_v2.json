@@ -1,0 +1,2959 @@
+{
+  "domains": {
+    "failed_camera_calibration": {
+      "image_count": 9,
+      "negative_label_count": 0,
+      "positive_confidence_max": 0.5378975868225098,
+      "positive_confidence_median": 0.44938015937805176,
+      "positive_label_count": 9,
+      "records": [
+        {
+          "confidence": 0.4121426045894623,
+          "expected_positive": true,
+          "image": "camera_calibration_c000_f00.png",
+          "iou_with_label": 0.7682394095074394
+        },
+        {
+          "confidence": 0.4194929003715515,
+          "expected_positive": true,
+          "image": "camera_calibration_c001_f00.png",
+          "iou_with_label": 0.6892933583058927
+        },
+        {
+          "confidence": 0.4520750045776367,
+          "expected_positive": true,
+          "image": "camera_calibration_c002_f00.png",
+          "iou_with_label": 0.7947231701158549
+        },
+        {
+          "confidence": 0.5378975868225098,
+          "expected_positive": true,
+          "image": "camera_calibration_c003_f00.png",
+          "iou_with_label": 0.302704755745819
+        },
+        {
+          "confidence": 0.5314635038375854,
+          "expected_positive": true,
+          "image": "camera_calibration_c004_f00.png",
+          "iou_with_label": 0.30104579252860136
+        },
+        {
+          "confidence": 0.5296373963356018,
+          "expected_positive": true,
+          "image": "camera_calibration_c005_f00.png",
+          "iou_with_label": 0.270266957257986
+        },
+        {
+          "confidence": 0.4171272814273834,
+          "expected_positive": true,
+          "image": "camera_calibration_c006_f00.png",
+          "iou_with_label": 0.09574954481862322
+        },
+        {
+          "confidence": 0.44938015937805176,
+          "expected_positive": true,
+          "image": "camera_calibration_c007_f00.png",
+          "iou_with_label": 0.09057856790723935
+        },
+        {
+          "confidence": 0.37736743688583374,
+          "expected_positive": true,
+          "image": "camera_calibration_c008_f00.png",
+          "iou_with_label": 0.06753985764314849
+        }
+      ],
+      "threshold_results": {
+        "0.001": {
+          "false_positive": 0,
+          "positive_recall_iou_0_5": 0.3333333333333333,
+          "true_positive_iou_0_5": 3
+        },
+        "0.010": {
+          "false_positive": 0,
+          "positive_recall_iou_0_5": 0.3333333333333333,
+          "true_positive_iou_0_5": 3
+        },
+        "0.050": {
+          "false_positive": 0,
+          "positive_recall_iou_0_5": 0.3333333333333333,
+          "true_positive_iou_0_5": 3
+        },
+        "0.100": {
+          "false_positive": 0,
+          "positive_recall_iou_0_5": 0.3333333333333333,
+          "true_positive_iou_0_5": 3
+        },
+        "0.250": {
+          "false_positive": 0,
+          "positive_recall_iou_0_5": 0.3333333333333333,
+          "true_positive_iou_0_5": 3
+        }
+      }
+    },
+    "failed_straight_aisle": {
+      "image_count": 9,
+      "negative_label_count": 0,
+      "positive_confidence_max": 0.4901683032512665,
+      "positive_confidence_median": 0.45424386858940125,
+      "positive_label_count": 9,
+      "records": [
+        {
+          "confidence": 0.411237895488739,
+          "expected_positive": true,
+          "image": "straight_aisle_c000_f00.png",
+          "iou_with_label": 0.7749675467662065
+        },
+        {
+          "confidence": 0.413057416677475,
+          "expected_positive": true,
+          "image": "straight_aisle_c001_f00.png",
+          "iou_with_label": 0.7118327590987942
+        },
+        {
+          "confidence": 0.4553280174732208,
+          "expected_positive": true,
+          "image": "straight_aisle_c002_f00.png",
+          "iou_with_label": 0.8024512366149494
+        },
+        {
+          "confidence": 0.4846423268318176,
+          "expected_positive": true,
+          "image": "straight_aisle_c003_f00.png",
+          "iou_with_label": 0.3109114504086884
+        },
+        {
+          "confidence": 0.4901524484157562,
+          "expected_positive": true,
+          "image": "straight_aisle_c004_f00.png",
+          "iou_with_label": 0.3039350786459488
+        },
+        {
+          "confidence": 0.4901683032512665,
+          "expected_positive": true,
+          "image": "straight_aisle_c005_f00.png",
+          "iou_with_label": 0.26399365372387296
+        },
+        {
+          "confidence": 0.45424386858940125,
+          "expected_positive": true,
+          "image": "straight_aisle_c006_f00.png",
+          "iou_with_label": 0.08958593306019426
+        },
+        {
+          "confidence": 0.4437843859195709,
+          "expected_positive": true,
+          "image": "straight_aisle_c007_f00.png",
+          "iou_with_label": 0.08772528952616761
+        },
+        {
+          "confidence": 0.3956051468849182,
+          "expected_positive": true,
+          "image": "straight_aisle_c008_f00.png",
+          "iou_with_label": 0.05358045001246999
+        }
+      ],
+      "threshold_results": {
+        "0.001": {
+          "false_positive": 0,
+          "positive_recall_iou_0_5": 0.3333333333333333,
+          "true_positive_iou_0_5": 3
+        },
+        "0.010": {
+          "false_positive": 0,
+          "positive_recall_iou_0_5": 0.3333333333333333,
+          "true_positive_iou_0_5": 3
+        },
+        "0.050": {
+          "false_positive": 0,
+          "positive_recall_iou_0_5": 0.3333333333333333,
+          "true_positive_iou_0_5": 3
+        },
+        "0.100": {
+          "false_positive": 0,
+          "positive_recall_iou_0_5": 0.3333333333333333,
+          "true_positive_iou_0_5": 3
+        },
+        "0.250": {
+          "false_positive": 0,
+          "positive_recall_iou_0_5": 0.3333333333333333,
+          "true_positive_iou_0_5": 3
+        }
+      }
+    },
+    "heldout_yolo_test_occlusion": {
+      "image_count": 225,
+      "negative_label_count": 34,
+      "positive_confidence_max": 0.6189220547676086,
+      "positive_confidence_median": 0.4159894287586212,
+      "positive_label_count": 191,
+      "records": [
+        {
+          "confidence": 0.2917414903640747,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c000_f00.png",
+          "iou_with_label": 0.9720920085568506
+        },
+        {
+          "confidence": 0.2917414903640747,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c001_f00.png",
+          "iou_with_label": 0.38016385210323245
+        },
+        {
+          "confidence": 0.492928147315979,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c002_f00.png",
+          "iou_with_label": 0.698357167910282
+        },
+        {
+          "confidence": 0.4074292778968811,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c003_f00.png",
+          "iou_with_label": 0.6658908006866819
+        },
+        {
+          "confidence": 0.42353183031082153,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c004_f00.png",
+          "iou_with_label": 0.668538706818164
+        },
+        {
+          "confidence": 0.4041566848754883,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c005_f00.png",
+          "iou_with_label": 0.6307553020106986
+        },
+        {
+          "confidence": 0.3784225285053253,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c006_f00.png",
+          "iou_with_label": 0.8747760900720749
+        },
+        {
+          "confidence": 0.39581796526908875,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c007_f00.png",
+          "iou_with_label": 0.9216624792097176
+        },
+        {
+          "confidence": 0.3862069547176361,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c008_f00.png",
+          "iou_with_label": 0.9645330245122191
+        },
+        {
+          "confidence": 0.41359075903892517,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c009_f00.png",
+          "iou_with_label": 0.8330613498772539
+        },
+        {
+          "confidence": 0.41359075903892517,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c010_f00.png",
+          "iou_with_label": 0.9251200680103259
+        },
+        {
+          "confidence": 0.42218542098999023,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c011_f00.png",
+          "iou_with_label": 0.9287754294521091
+        },
+        {
+          "confidence": 0.4279097020626068,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c012_f00.png",
+          "iou_with_label": 0.9046357688510945
+        },
+        {
+          "confidence": 0.4435901939868927,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c013_f00.png",
+          "iou_with_label": 0.6791125426572465
+        },
+        {
+          "confidence": 0.4271068871021271,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c014_f00.png",
+          "iou_with_label": 0.4532056186737437
+        },
+        {
+          "confidence": 0.37602919340133667,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c015_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.3110296428203583,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c016_f00.png",
+          "iou_with_label": 0.9950702878299881
+        },
+        {
+          "confidence": 0.3994351625442505,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c017_f00.png",
+          "iou_with_label": 0.9243311053675726
+        },
+        {
+          "confidence": 0.41313984990119934,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c018_f00.png",
+          "iou_with_label": 0.927080336647257
+        },
+        {
+          "confidence": 0.41679617762565613,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c019_f00.png",
+          "iou_with_label": 0.6359546309778601
+        },
+        {
+          "confidence": 0.43267884850502014,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c020_f00.png",
+          "iou_with_label": 0.8925608816740036
+        },
+        {
+          "confidence": 0.40153345465660095,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c021_f00.png",
+          "iou_with_label": 0.9220189052308635
+        },
+        {
+          "confidence": 0.41147491335868835,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c022_f00.png",
+          "iou_with_label": 0.8992039862575226
+        },
+        {
+          "confidence": 0.4093745946884155,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c023_f00.png",
+          "iou_with_label": 0.9273913009456488
+        },
+        {
+          "confidence": 0.4131544232368469,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c024_f00.png",
+          "iou_with_label": 0.9137104920715775
+        },
+        {
+          "confidence": 0.4325179159641266,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c025_f00.png",
+          "iou_with_label": 0.9081788319443436
+        },
+        {
+          "confidence": 0.4439256489276886,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c026_f00.png",
+          "iou_with_label": 0.931743395204106
+        },
+        {
+          "confidence": 0.42993032932281494,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c027_f00.png",
+          "iou_with_label": 0.8299258300506132
+        },
+        {
+          "confidence": 0.42134952545166016,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c028_f00.png",
+          "iou_with_label": 0.9568086062659122
+        },
+        {
+          "confidence": 0.37633073329925537,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c029_f00.png",
+          "iou_with_label": 0.3083651250714407
+        },
+        {
+          "confidence": 0.3532523214817047,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c030_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.3464173376560211,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c031_f00.png",
+          "iou_with_label": 0.9319764919467318
+        },
+        {
+          "confidence": 0.39374977350234985,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c032_f00.png",
+          "iou_with_label": 0.9600397038222908
+        },
+        {
+          "confidence": 0.42306751012802124,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c033_f00.png",
+          "iou_with_label": 0.5938266064197245
+        },
+        {
+          "confidence": 0.4164809584617615,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c034_f00.png",
+          "iou_with_label": 0.9167519291276741
+        },
+        {
+          "confidence": 0.4452270269393921,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c035_f00.png",
+          "iou_with_label": 0.8321978000791342
+        },
+        {
+          "confidence": 0.4378025233745575,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c036_f00.png",
+          "iou_with_label": 0.8877504171535282
+        },
+        {
+          "confidence": 0.4354351758956909,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c037_f00.png",
+          "iou_with_label": 0.9022829178625351
+        },
+        {
+          "confidence": 0.4470386207103729,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c038_f00.png",
+          "iou_with_label": 0.931098327625453
+        },
+        {
+          "confidence": 0.47801196575164795,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c039_f00.png",
+          "iou_with_label": 0.9502231911445307
+        },
+        {
+          "confidence": 0.43756669759750366,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c040_f00.png",
+          "iou_with_label": 0.9337437118189592
+        },
+        {
+          "confidence": 0.4532339572906494,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c041_f00.png",
+          "iou_with_label": 0.8779288677667503
+        },
+        {
+          "confidence": 0.42180967330932617,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c042_f00.png",
+          "iou_with_label": 0.7397983698870779
+        },
+        {
+          "confidence": 0.43380120396614075,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c043_f00.png",
+          "iou_with_label": 0.8787022362250336
+        },
+        {
+          "confidence": 0.3712991178035736,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c044_f00.png",
+          "iou_with_label": 0.1426128157355149
+        },
+        {
+          "confidence": 0.2867735028266907,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c045_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c046_f00.png",
+          "iou_with_label": 0.13773456660243794
+        },
+        {
+          "confidence": 0.4239308536052704,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c047_f00.png",
+          "iou_with_label": 0.9018204453217875
+        },
+        {
+          "confidence": 0.4877628684043884,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c048_f00.png",
+          "iou_with_label": 0.9132656065207362
+        },
+        {
+          "confidence": 0.4419357180595398,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c049_f00.png",
+          "iou_with_label": 0.9004650425376507
+        },
+        {
+          "confidence": 0.4425053298473358,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c050_f00.png",
+          "iou_with_label": 0.9431512197237298
+        },
+        {
+          "confidence": 0.41868242621421814,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c051_f00.png",
+          "iou_with_label": 0.9691204546593065
+        },
+        {
+          "confidence": 0.4068787693977356,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c052_f00.png",
+          "iou_with_label": 0.8911517355980237
+        },
+        {
+          "confidence": 0.4222353994846344,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c053_f00.png",
+          "iou_with_label": 0.905224490542729
+        },
+        {
+          "confidence": 0.44740262627601624,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c054_f00.png",
+          "iou_with_label": 0.9223646936869665
+        },
+        {
+          "confidence": 0.4409610331058502,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c055_f00.png",
+          "iou_with_label": 0.9019122177795085
+        },
+        {
+          "confidence": 0.46187424659729004,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c056_f00.png",
+          "iou_with_label": 0.8917583978317608
+        },
+        {
+          "confidence": 0.4585987627506256,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c057_f00.png",
+          "iou_with_label": 0.925674117635937
+        },
+        {
+          "confidence": 0.4506905674934387,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c058_f00.png",
+          "iou_with_label": 0.7366355882901562
+        },
+        {
+          "confidence": 0.3562054932117462,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c059_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c060_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c061_f00.png",
+          "iou_with_label": 0.08875038691030972
+        },
+        {
+          "confidence": 0.531447172164917,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c062_f00.png",
+          "iou_with_label": 0.9233930001929743
+        },
+        {
+          "confidence": 0.5596699714660645,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c063_f00.png",
+          "iou_with_label": 0.9727540219592029
+        },
+        {
+          "confidence": 0.5059542655944824,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c064_f00.png",
+          "iou_with_label": 0.9833276030373751
+        },
+        {
+          "confidence": 0.542669415473938,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c065_f00.png",
+          "iou_with_label": 0.9286658751192046
+        },
+        {
+          "confidence": 0.4441205859184265,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c066_f00.png",
+          "iou_with_label": 0.9119036168441468
+        },
+        {
+          "confidence": 0.36605191230773926,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c067_f00.png",
+          "iou_with_label": 0.3151197177105114
+        },
+        {
+          "confidence": 0.47339746356010437,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c068_f00.png",
+          "iou_with_label": 0.30479050360019866
+        },
+        {
+          "confidence": 0.5290851593017578,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c069_f00.png",
+          "iou_with_label": 0.9242158139336292
+        },
+        {
+          "confidence": 0.5616424083709717,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c070_f00.png",
+          "iou_with_label": 0.8939638442076699
+        },
+        {
+          "confidence": 0.519150972366333,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c071_f00.png",
+          "iou_with_label": 0.9482163024771022
+        },
+        {
+          "confidence": 0.4992762506008148,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c072_f00.png",
+          "iou_with_label": 0.9386989537624512
+        },
+        {
+          "confidence": 0.42451050877571106,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c073_f00.png",
+          "iou_with_label": 0.3268606155610251
+        },
+        {
+          "confidence": 0.4520748257637024,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c074_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c075_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c076_f00.png",
+          "iou_with_label": 0.055043803919612166
+        },
+        {
+          "confidence": 0.5820833444595337,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c077_f00.png",
+          "iou_with_label": 0.926895021904828
+        },
+        {
+          "confidence": 0.5688701272010803,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c078_f00.png",
+          "iou_with_label": 0.9744523252477585
+        },
+        {
+          "confidence": 0.5374832153320312,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c079_f00.png",
+          "iou_with_label": 0.92169169546051
+        },
+        {
+          "confidence": 0.5617915391921997,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c080_f00.png",
+          "iou_with_label": 0.9418535874284933
+        },
+        {
+          "confidence": 0.49318474531173706,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c081_f00.png",
+          "iou_with_label": 0.2564541917747926
+        },
+        {
+          "confidence": 0.4495738744735718,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c082_f00.png",
+          "iou_with_label": 0.2529301195758663
+        },
+        {
+          "confidence": 0.5052688717842102,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c083_f00.png",
+          "iou_with_label": 0.23275036165039217
+        },
+        {
+          "confidence": 0.5605175495147705,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c084_f00.png",
+          "iou_with_label": 0.9385816324542879
+        },
+        {
+          "confidence": 0.4840865433216095,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c085_f00.png",
+          "iou_with_label": 0.8945585119024544
+        },
+        {
+          "confidence": 0.5555865168571472,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c086_f00.png",
+          "iou_with_label": 0.9089484745504586
+        },
+        {
+          "confidence": 0.5316392183303833,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c087_f00.png",
+          "iou_with_label": 0.9042887885109735
+        },
+        {
+          "confidence": 0.46351370215415955,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c088_f00.png",
+          "iou_with_label": 0.2667136025924182
+        },
+        {
+          "confidence": 0.4863407611846924,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c089_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c090_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c091_f00.png",
+          "iou_with_label": 0.02258155441379651
+        },
+        {
+          "confidence": 0.5986536741256714,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c092_f00.png",
+          "iou_with_label": 0.9015643189174758
+        },
+        {
+          "confidence": 0.5826979875564575,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c093_f00.png",
+          "iou_with_label": 0.9108237780129386
+        },
+        {
+          "confidence": 0.5234491229057312,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c094_f00.png",
+          "iou_with_label": 0.8787739343907175
+        },
+        {
+          "confidence": 0.5659112334251404,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c095_f00.png",
+          "iou_with_label": 0.9638343203650147
+        },
+        {
+          "confidence": 0.4688718616962433,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c096_f00.png",
+          "iou_with_label": 0.19216102423801862
+        },
+        {
+          "confidence": 0.38201647996902466,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c097_f00.png",
+          "iou_with_label": 0.1731551455892355
+        },
+        {
+          "confidence": 0.3816896080970764,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c098_f00.png",
+          "iou_with_label": 0.7993187198682579
+        },
+        {
+          "confidence": 0.22963650524616241,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c099_f00.png",
+          "iou_with_label": 0.6383479358555904
+        },
+        {
+          "confidence": 0.4718622863292694,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c100_f00.png",
+          "iou_with_label": 0.7967851358807044
+        },
+        {
+          "confidence": 0.5196886658668518,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c101_f00.png",
+          "iou_with_label": 0.8827288235249758
+        },
+        {
+          "confidence": 0.5097996592521667,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c102_f00.png",
+          "iou_with_label": 0.948571465021752
+        },
+        {
+          "confidence": 0.5401102900505066,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c103_f00.png",
+          "iou_with_label": 0.3574848235934015
+        },
+        {
+          "confidence": 0.5401102900505066,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c104_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c105_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c106_f00.png",
+          "iou_with_label": 0.003260631036745149
+        },
+        {
+          "confidence": 0.5837104320526123,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c107_f00.png",
+          "iou_with_label": 0.9360942068921951
+        },
+        {
+          "confidence": 0.6189220547676086,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c108_f00.png",
+          "iou_with_label": 0.8899605534136519
+        },
+        {
+          "confidence": 0.564774215221405,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c109_f00.png",
+          "iou_with_label": 0.9726374193324703
+        },
+        {
+          "confidence": 0.5156186819076538,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c110_f00.png",
+          "iou_with_label": 0.9149049120317231
+        },
+        {
+          "confidence": 0.4540175497531891,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c111_f00.png",
+          "iou_with_label": 0.9060245402285487
+        },
+        {
+          "confidence": 0.4574735462665558,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c112_f00.png",
+          "iou_with_label": 0.12062385823004286
+        },
+        {
+          "confidence": 0.42161935567855835,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c113_f00.png",
+          "iou_with_label": 0.0368584859014684
+        },
+        {
+          "confidence": 0.2351537048816681,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c114_f00.png",
+          "iou_with_label": 0.04184255431154485
+        },
+        {
+          "confidence": 0.2037404328584671,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c115_f00.png",
+          "iou_with_label": 0.7102961758057706
+        },
+        {
+          "confidence": 0.4283638298511505,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c116_f00.png",
+          "iou_with_label": 0.8348034831794346
+        },
+        {
+          "confidence": 0.5481274127960205,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c117_f00.png",
+          "iou_with_label": 0.8932210355149104
+        },
+        {
+          "confidence": 0.49313661456108093,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c118_f00.png",
+          "iou_with_label": 0.11001723883755937
+        },
+        {
+          "confidence": 0.49761703610420227,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c119_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c120_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c121_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.5089130401611328,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c122_f00.png",
+          "iou_with_label": 0.9089351199286778
+        },
+        {
+          "confidence": 0.5445316433906555,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c123_f00.png",
+          "iou_with_label": 0.8940355486257188
+        },
+        {
+          "confidence": 0.4617573916912079,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c124_f00.png",
+          "iou_with_label": 0.8749247250583693
+        },
+        {
+          "confidence": 0.44860103726387024,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c125_f00.png",
+          "iou_with_label": 0.08610133233694703
+        },
+        {
+          "confidence": 0.35046979784965515,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c126_f00.png",
+          "iou_with_label": 0.052542941498653975
+        },
+        {
+          "confidence": 0.33647260069847107,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c127_f00.png",
+          "iou_with_label": 0.06827040934307131
+        },
+        {
+          "confidence": 0.33963704109191895,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c128_f00.png",
+          "iou_with_label": 0.02099088468611988
+        },
+        {
+          "confidence": 0.23539257049560547,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c129_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.18068218231201172,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c130_f00.png",
+          "iou_with_label": 0.7403721913234002
+        },
+        {
+          "confidence": 0.22636918723583221,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c131_f00.png",
+          "iou_with_label": 0.8870614138515772
+        },
+        {
+          "confidence": 0.47481822967529297,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c132_f00.png",
+          "iou_with_label": 0.03424401934489147
+        },
+        {
+          "confidence": 0.4323938190937042,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c133_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.48341313004493713,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c134_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c135_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c136_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.39904123544692993,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c137_f00.png",
+          "iou_with_label": 0.8033650190947346
+        },
+        {
+          "confidence": 0.4731965959072113,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c138_f00.png",
+          "iou_with_label": 0.9198568678942535
+        },
+        {
+          "confidence": 0.47312599420547485,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c139_f00.png",
+          "iou_with_label": 0.9125125495462996
+        },
+        {
+          "confidence": 0.41102728247642517,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c140_f00.png",
+          "iou_with_label": 0.04124943351713683
+        },
+        {
+          "confidence": 0.42996910214424133,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c141_f00.png",
+          "iou_with_label": 0.01794928477099192
+        },
+        {
+          "confidence": 0.36609283089637756,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c142_f00.png",
+          "iou_with_label": 0.025769147748136968
+        },
+        {
+          "confidence": 0.48539409041404724,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c143_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.36981871724128723,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c144_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.14164063334465027,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c145_f00.png",
+          "iou_with_label": 0.7693505694930197
+        },
+        {
+          "confidence": 0.3365256190299988,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c146_f00.png",
+          "iou_with_label": 0.9162162908012506
+        },
+        {
+          "confidence": 0.4346984326839447,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c147_f00.png",
+          "iou_with_label": 0.9122358786488393
+        },
+        {
+          "confidence": 0.4159894287586212,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c148_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.4481097459793091,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c149_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c150_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c151_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.14878559112548828,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c152_f00.png",
+          "iou_with_label": 0.036412739645950334
+        },
+        {
+          "confidence": 0.5066669583320618,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c153_f00.png",
+          "iou_with_label": 0.8668763198840616
+        },
+        {
+          "confidence": 0.428526908159256,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c154_f00.png",
+          "iou_with_label": 0.880347996097531
+        },
+        {
+          "confidence": 0.3745049238204956,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c155_f00.png",
+          "iou_with_label": 0.9341463866645064
+        },
+        {
+          "confidence": 0.36850878596305847,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c156_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.2903352379798889,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c157_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.3568141460418701,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c158_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.28040483593940735,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c159_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.2843429744243622,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c160_f00.png",
+          "iou_with_label": 0.730456459518544
+        },
+        {
+          "confidence": 0.3213950991630554,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c161_f00.png",
+          "iou_with_label": 0.9103463657130529
+        },
+        {
+          "confidence": 0.444671094417572,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c162_f00.png",
+          "iou_with_label": 0.8755304866016975
+        },
+        {
+          "confidence": 0.429788202047348,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c163_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.14619916677474976,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c164_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c165_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c166_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c167_f00.png",
+          "iou_with_label": 0.027357298632511195
+        },
+        {
+          "confidence": 0.5139754414558411,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c168_f00.png",
+          "iou_with_label": 0.9040197306063942
+        },
+        {
+          "confidence": 0.4889756441116333,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c169_f00.png",
+          "iou_with_label": 0.8493083711050081
+        },
+        {
+          "confidence": 0.3129172921180725,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c170_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.3491156995296478,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c171_f00.png",
+          "iou_with_label": 0.901437599879153
+        },
+        {
+          "confidence": 0.29823580384254456,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c172_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.31166762113571167,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c173_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.27858346700668335,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c174_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.19405776262283325,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c175_f00.png",
+          "iou_with_label": 0.7329459070325414
+        },
+        {
+          "confidence": 0.26864853501319885,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c176_f00.png",
+          "iou_with_label": 0.8509299199374016
+        },
+        {
+          "confidence": 0.45333677530288696,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c177_f00.png",
+          "iou_with_label": 0.8486294814439341
+        },
+        {
+          "confidence": 0.340482622385025,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c178_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c179_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c180_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c181_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c182_f00.png",
+          "iou_with_label": 0.02108444400629301
+        },
+        {
+          "confidence": 0.3869192898273468,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c183_f00.png",
+          "iou_with_label": 0.9117920646981071
+        },
+        {
+          "confidence": 0.37362605333328247,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c184_f00.png",
+          "iou_with_label": 0.9249727107188126
+        },
+        {
+          "confidence": 0.31260520219802856,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c185_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.3795899450778961,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c186_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.30212971568107605,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c187_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.3154366612434387,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c188_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.3330005705356598,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c189_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.15978704392910004,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c190_f00.png",
+          "iou_with_label": 0.00506156275817131
+        },
+        {
+          "confidence": 0.28443700075149536,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c191_f00.png",
+          "iou_with_label": 0.8503837233938721
+        },
+        {
+          "confidence": 0.4557783603668213,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c192_f00.png",
+          "iou_with_label": 0.47121308659077277
+        },
+        {
+          "confidence": 0.33750927448272705,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c193_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c194_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c195_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c196_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c197_f00.png",
+          "iou_with_label": 0.01657997459531357
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c198_f00.png",
+          "iou_with_label": 0.0260199454635182
+        },
+        {
+          "confidence": 0.3366085886955261,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c199_f00.png",
+          "iou_with_label": 0.9511172395331884
+        },
+        {
+          "confidence": 0.30518242716789246,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c200_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.3819272220134735,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c201_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.3162904679775238,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c202_f00.png",
+          "iou_with_label": 0.8793918588501518
+        },
+        {
+          "confidence": 0.293475866317749,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c203_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.34321317076683044,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c204_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.18072520196437836,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c205_f00.png",
+          "iou_with_label": 0.003044052417356667
+        },
+        {
+          "confidence": 0.3856734335422516,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c206_f00.png",
+          "iou_with_label": 0.82709557947666
+        },
+        {
+          "confidence": 0.3594425320625305,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c207_f00.png",
+          "iou_with_label": 0.2412173487920316
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c208_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c209_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c210_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c211_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c212_f00.png",
+          "iou_with_label": 0.013247939380825332
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c213_f00.png",
+          "iou_with_label": 0.02050674357310589
+        },
+        {
+          "confidence": 0.29527485370635986,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c214_f00.png",
+          "iou_with_label": 0.02757120829068449
+        },
+        {
+          "confidence": 0.32848018407821655,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c215_f00.png",
+          "iou_with_label": 0.018377916630223
+        },
+        {
+          "confidence": 0.3980323374271393,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c216_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.3130623698234558,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c217_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.34467971324920654,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c218_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.10784090310335159,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c219_f00.png",
+          "iou_with_label": 0.010087801966296417
+        },
+        {
+          "confidence": 0.3401648998260498,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c220_f00.png",
+          "iou_with_label": 0.8968561508960975
+        },
+        {
+          "confidence": 0.4345826506614685,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c221_f00.png",
+          "iou_with_label": 0.771306079541798
+        },
+        {
+          "confidence": 0.36126333475112915,
+          "expected_positive": true,
+          "image": "yolo_test_occlusion_c222_f00.png",
+          "iou_with_label": 0.021677744079455812
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c223_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.146303191781044,
+          "expected_positive": false,
+          "image": "yolo_test_occlusion_c224_f00.png",
+          "iou_with_label": null
+        }
+      ],
+      "threshold_results": {
+        "0.001": {
+          "false_positive": 34,
+          "positive_recall_iou_0_5": 0.6073298429319371,
+          "true_positive_iou_0_5": 116
+        },
+        "0.010": {
+          "false_positive": 34,
+          "positive_recall_iou_0_5": 0.6073298429319371,
+          "true_positive_iou_0_5": 116
+        },
+        "0.050": {
+          "false_positive": 34,
+          "positive_recall_iou_0_5": 0.6073298429319371,
+          "true_positive_iou_0_5": 116
+        },
+        "0.100": {
+          "false_positive": 34,
+          "positive_recall_iou_0_5": 0.6073298429319371,
+          "true_positive_iou_0_5": 116
+        },
+        "0.250": {
+          "false_positive": 11,
+          "positive_recall_iou_0_5": 0.5759162303664922,
+          "true_positive_iou_0_5": 110
+        }
+      }
+    },
+    "validation_yolo_val_mixed": {
+      "image_count": 225,
+      "negative_label_count": 34,
+      "positive_confidence_max": 0.7091880440711975,
+      "positive_confidence_median": 0.43693429231643677,
+      "positive_label_count": 191,
+      "records": [
+        {
+          "confidence": 0.6039894819259644,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c000_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.36141565442085266,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c001_f00.png",
+          "iou_with_label": 0.8469904335091726
+        },
+        {
+          "confidence": 0.42618465423583984,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c002_f00.png",
+          "iou_with_label": 0.7092881879467045
+        },
+        {
+          "confidence": 0.4286234378814697,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c003_f00.png",
+          "iou_with_label": 0.7842433965719938
+        },
+        {
+          "confidence": 0.4253145456314087,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c004_f00.png",
+          "iou_with_label": 0.7043739101963561
+        },
+        {
+          "confidence": 0.40801623463630676,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c005_f00.png",
+          "iou_with_label": 0.8983677269528323
+        },
+        {
+          "confidence": 0.3821873962879181,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c006_f00.png",
+          "iou_with_label": 0.6012129579216415
+        },
+        {
+          "confidence": 0.4017544984817505,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c007_f00.png",
+          "iou_with_label": 0.9285797494655232
+        },
+        {
+          "confidence": 0.37609004974365234,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c008_f00.png",
+          "iou_with_label": 0.9404001673012579
+        },
+        {
+          "confidence": 0.38774940371513367,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c009_f00.png",
+          "iou_with_label": 0.934475437993151
+        },
+        {
+          "confidence": 0.37613266706466675,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c010_f00.png",
+          "iou_with_label": 0.8897089096238274
+        },
+        {
+          "confidence": 0.42800480127334595,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c011_f00.png",
+          "iou_with_label": 0.9366569171470208
+        },
+        {
+          "confidence": 0.4524392783641815,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c012_f00.png",
+          "iou_with_label": 0.9915504945315542
+        },
+        {
+          "confidence": 0.41417786478996277,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c013_f00.png",
+          "iou_with_label": 0.5831849794533475
+        },
+        {
+          "confidence": 0.402179092168808,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c014_f00.png",
+          "iou_with_label": 0.2719581329888601
+        },
+        {
+          "confidence": 0.2587016522884369,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c015_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.39115360379219055,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c016_f00.png",
+          "iou_with_label": 0.9376255599043932
+        },
+        {
+          "confidence": 0.35057923197746277,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c017_f00.png",
+          "iou_with_label": 0.8556690171797834
+        },
+        {
+          "confidence": 0.44944360852241516,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c018_f00.png",
+          "iou_with_label": 0.7934190486531246
+        },
+        {
+          "confidence": 0.41485127806663513,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c019_f00.png",
+          "iou_with_label": 0.7143360732389211
+        },
+        {
+          "confidence": 0.4233263432979584,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c020_f00.png",
+          "iou_with_label": 0.9124024369768682
+        },
+        {
+          "confidence": 0.4141005873680115,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c021_f00.png",
+          "iou_with_label": 0.9423195252397254
+        },
+        {
+          "confidence": 0.40806305408477783,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c022_f00.png",
+          "iou_with_label": 0.9193618183758422
+        },
+        {
+          "confidence": 0.4172652065753937,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c023_f00.png",
+          "iou_with_label": 0.9552213939879917
+        },
+        {
+          "confidence": 0.40323886275291443,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c024_f00.png",
+          "iou_with_label": 0.954242527970888
+        },
+        {
+          "confidence": 0.3965953588485718,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c025_f00.png",
+          "iou_with_label": 0.9599823443999372
+        },
+        {
+          "confidence": 0.4521591365337372,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c026_f00.png",
+          "iou_with_label": 0.9588763373223855
+        },
+        {
+          "confidence": 0.44576433300971985,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c027_f00.png",
+          "iou_with_label": 0.9553201487922012
+        },
+        {
+          "confidence": 0.4194440245628357,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c028_f00.png",
+          "iou_with_label": 0.9753931295600057
+        },
+        {
+          "confidence": 0.38714420795440674,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c029_f00.png",
+          "iou_with_label": 0.1648169554238524
+        },
+        {
+          "confidence": 0.27252671122550964,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c030_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.37763074040412903,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c031_f00.png",
+          "iou_with_label": 0.9020569214496035
+        },
+        {
+          "confidence": 0.3490394651889801,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c032_f00.png",
+          "iou_with_label": 0.48517527600697546
+        },
+        {
+          "confidence": 0.4328484535217285,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c033_f00.png",
+          "iou_with_label": 0.7528997285704773
+        },
+        {
+          "confidence": 0.42129161953926086,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c034_f00.png",
+          "iou_with_label": 0.5714300047630573
+        },
+        {
+          "confidence": 0.43578261137008667,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c035_f00.png",
+          "iou_with_label": 0.7951126375374442
+        },
+        {
+          "confidence": 0.4481201171875,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c036_f00.png",
+          "iou_with_label": 0.8899060701308068
+        },
+        {
+          "confidence": 0.4399961829185486,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c037_f00.png",
+          "iou_with_label": 0.9062806517952385
+        },
+        {
+          "confidence": 0.43693429231643677,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c038_f00.png",
+          "iou_with_label": 0.9842544450915505
+        },
+        {
+          "confidence": 0.44318124651908875,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c039_f00.png",
+          "iou_with_label": 0.965895978626678
+        },
+        {
+          "confidence": 0.42609235644340515,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c040_f00.png",
+          "iou_with_label": 0.9320353486561939
+        },
+        {
+          "confidence": 0.45840245485305786,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c041_f00.png",
+          "iou_with_label": 0.9253712681112092
+        },
+        {
+          "confidence": 0.4168771207332611,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c042_f00.png",
+          "iou_with_label": 0.9013838163941333
+        },
+        {
+          "confidence": 0.3898283541202545,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c043_f00.png",
+          "iou_with_label": 0.9424292060472333
+        },
+        {
+          "confidence": 0.32606184482574463,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c044_f00.png",
+          "iou_with_label": 0.07633096934197775
+        },
+        {
+          "confidence": 0.13178661465644836,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c045_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c046_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.4280026853084564,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c047_f00.png",
+          "iou_with_label": 0.7425017955678375
+        },
+        {
+          "confidence": 0.48062029480934143,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c048_f00.png",
+          "iou_with_label": 0.8496014481767882
+        },
+        {
+          "confidence": 0.4038124978542328,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c049_f00.png",
+          "iou_with_label": 0.44232857612346643
+        },
+        {
+          "confidence": 0.39353856444358826,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c050_f00.png",
+          "iou_with_label": 0.8993587524728991
+        },
+        {
+          "confidence": 0.4227807819843292,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c051_f00.png",
+          "iou_with_label": 0.8581568766143585
+        },
+        {
+          "confidence": 0.45083773136138916,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c052_f00.png",
+          "iou_with_label": 0.8363805651209217
+        },
+        {
+          "confidence": 0.5403814911842346,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c053_f00.png",
+          "iou_with_label": 0.8828318794571368
+        },
+        {
+          "confidence": 0.4926275610923767,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c054_f00.png",
+          "iou_with_label": 0.5744416867078459
+        },
+        {
+          "confidence": 0.4926275610923767,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c055_f00.png",
+          "iou_with_label": 0.8752155874170924
+        },
+        {
+          "confidence": 0.47607022523880005,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c056_f00.png",
+          "iou_with_label": 0.9619121053591225
+        },
+        {
+          "confidence": 0.43506452441215515,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c057_f00.png",
+          "iou_with_label": 0.9444019133850213
+        },
+        {
+          "confidence": 0.40422844886779785,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c058_f00.png",
+          "iou_with_label": 0.7830063846127225
+        },
+        {
+          "confidence": 0.3356516659259796,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c059_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c060_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c061_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.43529579043388367,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c062_f00.png",
+          "iou_with_label": 0.858502339557218
+        },
+        {
+          "confidence": 0.5163456201553345,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c063_f00.png",
+          "iou_with_label": 0.8178251198354118
+        },
+        {
+          "confidence": 0.47471487522125244,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c064_f00.png",
+          "iou_with_label": 0.810033480556748
+        },
+        {
+          "confidence": 0.5270019769668579,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c065_f00.png",
+          "iou_with_label": 0.8135092561893168
+        },
+        {
+          "confidence": 0.5294027328491211,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c066_f00.png",
+          "iou_with_label": 0.8481195434907354
+        },
+        {
+          "confidence": 0.5605035424232483,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c067_f00.png",
+          "iou_with_label": 0.8350587508179509
+        },
+        {
+          "confidence": 0.5801292657852173,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c068_f00.png",
+          "iou_with_label": 0.8947192998916909
+        },
+        {
+          "confidence": 0.6045072674751282,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c069_f00.png",
+          "iou_with_label": 0.8707617867721595
+        },
+        {
+          "confidence": 0.5694008469581604,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c070_f00.png",
+          "iou_with_label": 0.8739376659325535
+        },
+        {
+          "confidence": 0.56666100025177,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c071_f00.png",
+          "iou_with_label": 0.9114986040473795
+        },
+        {
+          "confidence": 0.5100386738777161,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c072_f00.png",
+          "iou_with_label": 0.9488986321010645
+        },
+        {
+          "confidence": 0.40396296977996826,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c073_f00.png",
+          "iou_with_label": 0.342185161868944
+        },
+        {
+          "confidence": 0.39473408460617065,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c074_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.00568210706114769,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c075_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c076_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.5528014302253723,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c077_f00.png",
+          "iou_with_label": 0.8994971853786944
+        },
+        {
+          "confidence": 0.5382864475250244,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c078_f00.png",
+          "iou_with_label": 0.810498632131061
+        },
+        {
+          "confidence": 0.5879282355308533,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c079_f00.png",
+          "iou_with_label": 0.8826020447437251
+        },
+        {
+          "confidence": 0.62776118516922,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c080_f00.png",
+          "iou_with_label": 0.5167127269022448
+        },
+        {
+          "confidence": 0.62776118516922,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c081_f00.png",
+          "iou_with_label": 0.871099756501513
+        },
+        {
+          "confidence": 0.6108940243721008,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c082_f00.png",
+          "iou_with_label": 0.8653758133313877
+        },
+        {
+          "confidence": 0.6556808352470398,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c083_f00.png",
+          "iou_with_label": 0.9299496085539418
+        },
+        {
+          "confidence": 0.6082643866539001,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c084_f00.png",
+          "iou_with_label": 0.9182325829649659
+        },
+        {
+          "confidence": 0.612274706363678,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c085_f00.png",
+          "iou_with_label": 0.9384377194565418
+        },
+        {
+          "confidence": 0.5783959627151489,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c086_f00.png",
+          "iou_with_label": 0.9040175614080882
+        },
+        {
+          "confidence": 0.513690173625946,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c087_f00.png",
+          "iou_with_label": 0.9369150865997264
+        },
+        {
+          "confidence": 0.33523496985435486,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c088_f00.png",
+          "iou_with_label": 0.2846916609479178
+        },
+        {
+          "confidence": 0.31637731194496155,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c089_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c090_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c091_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.6042260527610779,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c092_f00.png",
+          "iou_with_label": 0.889466179238027
+        },
+        {
+          "confidence": 0.5357093811035156,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c093_f00.png",
+          "iou_with_label": 0.6206343340548905
+        },
+        {
+          "confidence": 0.5643505454063416,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c094_f00.png",
+          "iou_with_label": 0.807969007249836
+        },
+        {
+          "confidence": 0.595414400100708,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c095_f00.png",
+          "iou_with_label": 0.7743332969470503
+        },
+        {
+          "confidence": 0.5761249661445618,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c096_f00.png",
+          "iou_with_label": 0.7287375149014806
+        },
+        {
+          "confidence": 0.6253359913825989,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c097_f00.png",
+          "iou_with_label": 0.8285829554052034
+        },
+        {
+          "confidence": 0.6250833868980408,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c098_f00.png",
+          "iou_with_label": 0.8123315500037956
+        },
+        {
+          "confidence": 0.6158850193023682,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c099_f00.png",
+          "iou_with_label": 0.8430087838719609
+        },
+        {
+          "confidence": 0.5354341268539429,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c100_f00.png",
+          "iou_with_label": 0.8112540403411101
+        },
+        {
+          "confidence": 0.5732190608978271,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c101_f00.png",
+          "iou_with_label": 0.8938595379996537
+        },
+        {
+          "confidence": 0.5659667253494263,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c102_f00.png",
+          "iou_with_label": 0.9360955551559376
+        },
+        {
+          "confidence": 0.36016371846199036,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c103_f00.png",
+          "iou_with_label": 0.2290935136027366
+        },
+        {
+          "confidence": 0.4046919345855713,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c104_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.00552386837080121,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c105_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c106_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.5555155277252197,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c107_f00.png",
+          "iou_with_label": 0.9039118650953029
+        },
+        {
+          "confidence": 0.4696871042251587,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c108_f00.png",
+          "iou_with_label": 0.6199368931023799
+        },
+        {
+          "confidence": 0.5810971260070801,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c109_f00.png",
+          "iou_with_label": 0.8250799041515522
+        },
+        {
+          "confidence": 0.5754237771034241,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c110_f00.png",
+          "iou_with_label": 0.800636503381219
+        },
+        {
+          "confidence": 0.5670660734176636,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c111_f00.png",
+          "iou_with_label": 0.7670803155837163
+        },
+        {
+          "confidence": 0.5915932655334473,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c112_f00.png",
+          "iou_with_label": 0.40144408106892154
+        },
+        {
+          "confidence": 0.5915932655334473,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c113_f00.png",
+          "iou_with_label": 0.864796454519155
+        },
+        {
+          "confidence": 0.5735902190208435,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c114_f00.png",
+          "iou_with_label": 0.9095083277306206
+        },
+        {
+          "confidence": 0.5807421803474426,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c115_f00.png",
+          "iou_with_label": 0.9000525665481084
+        },
+        {
+          "confidence": 0.5813077092170715,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c116_f00.png",
+          "iou_with_label": 0.8947679591776274
+        },
+        {
+          "confidence": 0.5513161420822144,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c117_f00.png",
+          "iou_with_label": 0.90415184165679
+        },
+        {
+          "confidence": 0.3116477131843567,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c118_f00.png",
+          "iou_with_label": 0.14399123312383114
+        },
+        {
+          "confidence": 0.4712142050266266,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c119_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005512103904038668,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c120_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c121_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c122_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.16287659108638763,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c123_f00.png",
+          "iou_with_label": 0.4380678759230595
+        },
+        {
+          "confidence": 0.48084503412246704,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c124_f00.png",
+          "iou_with_label": 0.8025018879917563
+        },
+        {
+          "confidence": 0.5051742196083069,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c125_f00.png",
+          "iou_with_label": 0.7402166912749031
+        },
+        {
+          "confidence": 0.4597291648387909,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c126_f00.png",
+          "iou_with_label": 0.7825125872356647
+        },
+        {
+          "confidence": 0.5276020169258118,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c127_f00.png",
+          "iou_with_label": 0.45730362526600504
+        },
+        {
+          "confidence": 0.5276020169258118,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c128_f00.png",
+          "iou_with_label": 0.888765901813228
+        },
+        {
+          "confidence": 0.48274263739585876,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c129_f00.png",
+          "iou_with_label": 0.9356867868494411
+        },
+        {
+          "confidence": 0.4999196529388428,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c130_f00.png",
+          "iou_with_label": 0.8755424963625265
+        },
+        {
+          "confidence": 0.5252066254615784,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c131_f00.png",
+          "iou_with_label": 0.8808732059264087
+        },
+        {
+          "confidence": 0.526097297668457,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c132_f00.png",
+          "iou_with_label": 0.8913382865722532
+        },
+        {
+          "confidence": 0.3505761921405792,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c133_f00.png",
+          "iou_with_label": 0.08838722925706521
+        },
+        {
+          "confidence": 0.4835927188396454,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c134_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005500158295035362,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c135_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c136_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c137_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c138_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.7091880440711975,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c139_f00.png",
+          "iou_with_label": 0.7772243808416825
+        },
+        {
+          "confidence": 0.5413262844085693,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c140_f00.png",
+          "iou_with_label": 0.7812463826555573
+        },
+        {
+          "confidence": 0.5134360790252686,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c141_f00.png",
+          "iou_with_label": 0.8191883370423311
+        },
+        {
+          "confidence": 0.5932378768920898,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c142_f00.png",
+          "iou_with_label": 0.9289507348201793
+        },
+        {
+          "confidence": 0.6039894819259644,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c143_f00.png",
+          "iou_with_label": 0.9339954255666529
+        },
+        {
+          "confidence": 0.6050416827201843,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c144_f00.png",
+          "iou_with_label": 0.9627290038219686
+        },
+        {
+          "confidence": 0.4456770420074463,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c145_f00.png",
+          "iou_with_label": 0.9503108799305573
+        },
+        {
+          "confidence": 0.41571375727653503,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c146_f00.png",
+          "iou_with_label": 0.8822684134025496
+        },
+        {
+          "confidence": 0.4823998808860779,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c147_f00.png",
+          "iou_with_label": 0.90243332639515
+        },
+        {
+          "confidence": 0.43876519799232483,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c148_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.4354538917541504,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c149_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005495476070791483,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c150_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c151_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c152_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c153_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.5728116631507874,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c154_f00.png",
+          "iou_with_label": 0.8056164533656304
+        },
+        {
+          "confidence": 0.5230947732925415,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c155_f00.png",
+          "iou_with_label": 0.8008705668850347
+        },
+        {
+          "confidence": 0.5422890782356262,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c156_f00.png",
+          "iou_with_label": 0.7655791478258803
+        },
+        {
+          "confidence": 0.5372508764266968,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c157_f00.png",
+          "iou_with_label": 0.8485215274414099
+        },
+        {
+          "confidence": 0.5464004278182983,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c158_f00.png",
+          "iou_with_label": 0.9170357428691954
+        },
+        {
+          "confidence": 0.5568798184394836,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c159_f00.png",
+          "iou_with_label": 0.8787002611789761
+        },
+        {
+          "confidence": 0.41217902302742004,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c160_f00.png",
+          "iou_with_label": 0.893349968100609
+        },
+        {
+          "confidence": 0.35913771390914917,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c161_f00.png",
+          "iou_with_label": 0.7959926788646622
+        },
+        {
+          "confidence": 0.3286720812320709,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c162_f00.png",
+          "iou_with_label": 0.8369266245383278
+        },
+        {
+          "confidence": 0.3963848352432251,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c163_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.0055043622851371765,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c164_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c165_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c166_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c167_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c168_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.518335223197937,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c169_f00.png",
+          "iou_with_label": 0.7943937034542903
+        },
+        {
+          "confidence": 0.513060450553894,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c170_f00.png",
+          "iou_with_label": 0.8671762376853849
+        },
+        {
+          "confidence": 0.4632279574871063,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c171_f00.png",
+          "iou_with_label": 0.8082161403586527
+        },
+        {
+          "confidence": 0.43633657693862915,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c172_f00.png",
+          "iou_with_label": 0.8238903806753298
+        },
+        {
+          "confidence": 0.493804395198822,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c173_f00.png",
+          "iou_with_label": 0.8677876684978454
+        },
+        {
+          "confidence": 0.4098409116268158,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c174_f00.png",
+          "iou_with_label": 0.8324972273618045
+        },
+        {
+          "confidence": 0.42286935448646545,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c175_f00.png",
+          "iou_with_label": 0.8583892101926248
+        },
+        {
+          "confidence": 0.33377841114997864,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c176_f00.png",
+          "iou_with_label": 0.8975322537372216
+        },
+        {
+          "confidence": 0.3201413154602051,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c177_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.42211344838142395,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c178_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c179_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c180_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c181_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c182_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c183_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c184_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.36330708861351013,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c185_f00.png",
+          "iou_with_label": 0.6536733565140018
+        },
+        {
+          "confidence": 0.456790030002594,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c186_f00.png",
+          "iou_with_label": 0.780813716273501
+        },
+        {
+          "confidence": 0.4214440584182739,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c187_f00.png",
+          "iou_with_label": 0.7909513693346031
+        },
+        {
+          "confidence": 0.4636169970035553,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c188_f00.png",
+          "iou_with_label": 0.8528510686568251
+        },
+        {
+          "confidence": 0.4574945867061615,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c189_f00.png",
+          "iou_with_label": 0.7715603733980393
+        },
+        {
+          "confidence": 0.4244879186153412,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c190_f00.png",
+          "iou_with_label": 0.8271162023002666
+        },
+        {
+          "confidence": 0.2259531468153,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c191_f00.png",
+          "iou_with_label": 0.8618146277044157
+        },
+        {
+          "confidence": 0.31949853897094727,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c192_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.3621116280555725,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c193_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c194_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c195_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c196_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c197_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c198_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c199_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.3625909090042114,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c200_f00.png",
+          "iou_with_label": 0.6228042725048134
+        },
+        {
+          "confidence": 0.4491935968399048,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c201_f00.png",
+          "iou_with_label": 0.828025330432448
+        },
+        {
+          "confidence": 0.44738706946372986,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c202_f00.png",
+          "iou_with_label": 0.8576520024116717
+        },
+        {
+          "confidence": 0.49809446930885315,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c203_f00.png",
+          "iou_with_label": 0.8433922542865708
+        },
+        {
+          "confidence": 0.39613234996795654,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c204_f00.png",
+          "iou_with_label": 0.7912279903244691
+        },
+        {
+          "confidence": 0.3921213150024414,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c205_f00.png",
+          "iou_with_label": 0.8088588579926305
+        },
+        {
+          "confidence": 0.1800481677055359,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c206_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.2576628029346466,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c207_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.24684427678585052,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c208_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c209_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c210_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c211_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c212_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c213_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c214_f00.png",
+          "iou_with_label": 0.0
+        },
+        {
+          "confidence": 0.3521623909473419,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c215_f00.png",
+          "iou_with_label": 0.5151898202649279
+        },
+        {
+          "confidence": 0.45119836926460266,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c216_f00.png",
+          "iou_with_label": 0.8033151330300357
+        },
+        {
+          "confidence": 0.46841636300086975,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c217_f00.png",
+          "iou_with_label": 0.833276421010885
+        },
+        {
+          "confidence": 0.5059730410575867,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c218_f00.png",
+          "iou_with_label": 0.828852664018571
+        },
+        {
+          "confidence": 0.38781970739364624,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c219_f00.png",
+          "iou_with_label": 0.8419686629643222
+        },
+        {
+          "confidence": 0.40014684200286865,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c220_f00.png",
+          "iou_with_label": 0.9239385392928166
+        },
+        {
+          "confidence": 0.04324400797486305,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c221_f00.png",
+          "iou_with_label": 0.031275201041901735
+        },
+        {
+          "confidence": 0.3182014226913452,
+          "expected_positive": true,
+          "image": "yolo_val_mixed_c222_f00.png",
+          "iou_with_label": 0.7002465528366606
+        },
+        {
+          "confidence": 0.22815938293933868,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c223_f00.png",
+          "iou_with_label": null
+        },
+        {
+          "confidence": 0.005514318589121103,
+          "expected_positive": false,
+          "image": "yolo_val_mixed_c224_f00.png",
+          "iou_with_label": null
+        }
+      ],
+      "threshold_results": {
+        "0.001": {
+          "false_positive": 34,
+          "positive_recall_iou_0_5": 0.7643979057591623,
+          "true_positive_iou_0_5": 146
+        },
+        "0.010": {
+          "false_positive": 13,
+          "positive_recall_iou_0_5": 0.7643979057591623,
+          "true_positive_iou_0_5": 146
+        },
+        "0.050": {
+          "false_positive": 13,
+          "positive_recall_iou_0_5": 0.7643979057591623,
+          "true_positive_iou_0_5": 146
+        },
+        "0.100": {
+          "false_positive": 13,
+          "positive_recall_iou_0_5": 0.7643979057591623,
+          "true_positive_iou_0_5": 146
+        },
+        "0.250": {
+          "false_positive": 10,
+          "positive_recall_iou_0_5": 0.7591623036649214,
+          "true_positive_iou_0_5": 145
+        }
+      }
+    }
+  },
+  "model_path": "/workspace/work/ros2_ws/models/yolov8n_predecessor_v2.pt",
+  "scope": "Offline diagnosis of a failed gate. Failed final-scene images are excluded from training, calibration, and threshold selection.",
+  "status": "complete"
+}

@@ -1,0 +1,29 @@
+{
+  "checks": {
+    "all_runs_pass": true,
+    "three_runs_per_profile": true
+  },
+  "expected_run_count": 6,
+  "ground_truth_boundary": "Gazebo pose truth was consumed only inside ee616_evaluation.",
+  "profiles": {
+    "straight": {
+      "collision_samples_total": 0,
+      "control_period_p95_ms_worst": 50.00000000000071,
+      "run_count": 3,
+      "spacing_rmse_m_mean": 0.05493342730588785,
+      "spacing_rmse_m_worst": 0.05583958286680791,
+      "track_fraction_min": 1.0
+    },
+    "turn": {
+      "collision_samples_total": 0,
+      "control_period_p95_ms_worst": 50.00000000000071,
+      "run_count": 3,
+      "spacing_rmse_m_mean": 0.09923112687055873,
+      "spacing_rmse_m_worst": 0.10046397106079953,
+      "track_fraction_min": 0.990909090909091
+    }
+  },
+  "run_count": 6,
+  "scope": "Nominal straight and gradual-turn one-pair integration only.",
+  "status": "pass"
+}

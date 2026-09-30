@@ -33,8 +33,15 @@ def read_rows(paths: list[Path]) -> list[dict]:
                     "measured_bearing_deg",
                     "range_error_m",
                     "bearing_error_deg",
+                    "inference_ms",
+                    "detection_confidence",
+                    "bbox_x",
+                    "bbox_y",
+                    "bbox_width",
+                    "bbox_height",
                 ):
-                    row[key] = float(row[key]) if row[key] else None
+                    value = row.get(key)
+                    row[key] = float(value) if value else None
                 rows.append(row)
     return rows
 
@@ -82,12 +89,17 @@ def main(args=None) -> None:
         type=Path,
         default=Path("results/camera_measurement_gate"),
     )
+    parser.add_argument("--require-latency", action="store_true")
+    parser.add_argument(
+        "--scope",
+        default="camera-only fixed-red-target baseline in Gazebo",
+    )
     parsed = parser.parse_args(args)
     paths = sorted(parsed.output_dir.glob("*_samples.csv"))
     if not paths:
         parser.error(f"No scene CSV files found in {parsed.output_dir}")
     rows = read_rows(paths)
-    summary = summarize_rows(rows)
+    summary = summarize_rows(rows, require_latency=parsed.require_latency)
     summary.update(
         {
             "scenes": sorted({row["scene"] for row in rows}),
@@ -96,6 +108,7 @@ def main(args=None) -> None:
                 "Gazebo pose data is read only by ee616_evaluation and is "
                 "not published to perception, estimation, supervision, or control."
             ),
+            "scope": parsed.scope,
         }
     )
     (parsed.output_dir / "summary.json").write_text(

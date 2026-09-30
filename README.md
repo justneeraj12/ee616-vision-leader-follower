@@ -4,16 +4,16 @@
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](work/toy_simulation/pyproject.toml)
 [![ROS 2](https://img.shields.io/badge/ROS%202-Jazzy%20environment%20verified-22314E.svg)](docs/PROJECT_STATUS.md)
 [![Gazebo](https://img.shields.io/badge/Gazebo-Harmonic%208.15.0-F58113.svg)](docs/PROJECT_STATUS.md)
-[![Status](https://img.shields.io/badge/status-environment%20gate%20complete-yellow.svg)](docs/PROJECT_STATUS.md)
+[![Status](https://img.shields.io/badge/status-controlled%20disturbance%20gate%20passed-yellow.svg)](docs/PROJECT_STATUS.md)
 [![Course](https://img.shields.io/badge/Clarkson-EE%20616-green.svg)](https://www.clarkson.edu/)
 
 A reproducible research project for camera-only predecessor following in a flexible warehouse material-delivery convoy.
 
 The leader owns the route. Each independently driven follower observes the robot immediately ahead through a forward RGB camera, combines the relative visual measurement with local wheel odometry, and uses bounded control to maintain a commanded gap. The planned implementation targets ROS 2 Jazzy and Gazebo Harmonic on constrained laptop hardware.
 
-> **Current status:** deterministic toy baseline, containerized ROS 2/Gazebo foundation, configurable scenarios, and fixed-red-target camera measurement baseline complete.
+> **Current status:** deterministic toy baseline, containerized ROS 2/Gazebo foundation, synchronized YOLOv8n v3 measurement gate complete, nominal incremental chains through three followers passed, and the controlled-disturbance gate passed.
 >
-> The fixed-target Gazebo baseline passed its range and bearing thresholds. No learned-detector, follower-control, physical-robot, or production-safety result has been demonstrated.
+> The first two YOLOv8n checkpoints remain recorded failures. After correcting an RGB/BGR runtime mismatch and stale-frame labels, v3 passed on two new sealed scenes, six nominal closed-loop pair runs, 12 staged nominal chain runs, and 18 pair-first controlled-disturbance runs. Physical robots and production safety have not been demonstrated.
 
 ## Research objective
 
@@ -50,7 +50,7 @@ The project combines:
 | Forced-occlusion reacquisition | 0.030 s median | Declared deterministic occlusion window |
 | Warehouse demonstration | 86 simulated seconds | One leader and three followers |
 | Warehouse route | 7 completed route segments | Six-shelf two-dimensional maze |
-| ROS workspace | 4 packages built; 19 tests passed | Includes perception/evaluation unit tests, not control |
+| ROS workspace | 5 packages built; 59 tests passed | Includes simulation, perception, estimation, control, and evaluation tests |
 | Namespace smoke test | `/leader` and `/follower_1` passed | Five local heartbeat samples per namespace |
 | Gazebo camera transport | 15 timestamped 640×480 RGB samples | Transport check; not range/bearing accuracy |
 | NVIDIA container access | RTX 3050 Ti, 4 GB VRAM visible | Passthrough verified; acceleration not benchmarked |
@@ -58,9 +58,16 @@ The project combines:
 | Controlled Gazebo scenarios | 5 templates; 30 RGB frames each | Transport only; no measurement accuracy |
 | AWS no-roof benchmark | 0.9999 median real-time factor; 364.7 MiB peak memory | Optional visual/resource stress test |
 | Fixed-target Gazebo measurement | 0.0355 m range RMSE; 0.120° bearing MAE | Camera-only red target; 1,620 full-visible samples |
+| YOLOv8n Gazebo measurement | 79.6% valid; 0.505 m range RMSE; 0.153° bearing MAE; 9.13 ms p95 | Failed valid-rate and range limits; not used for control |
+| Corrective YOLOv8n measurement | 0% valid; 7.35 ms p95 | Failed independent final-scene detection; range and bearing undefined; not used for control |
+| Synchronized YOLOv8n v3 measurement | 100% valid; 0.0323 m range RMSE; 0.1569° bearing MAE; 9.02 ms p95 | Passed two sealed static Gazebo scenes; not closed-loop control |
+| Nominal one-pair Gazebo gate | 0.0558 m worst straight RMSE; 0.1005 m worst turn RMSE; 0 collision samples | Six runs; not disturbance, multi-follower, physical-robot, or safety evidence |
+| Nominal incremental-chain Gazebo gate | 0.1004, 0.0739, 0.0523 m worst RMSE for F1--F3; 0 collision samples | 12 staged runs; no rearward amplification observed; not disturbance, physical-robot, or safety evidence |
+| Controlled-disturbance Gazebo gate | Pair worst RMSE 0.1247 m; combined F1--F3 worst RMSE 0.1007, 0.1242, 0.1403 m; 0 collision samples | 18 pair-first runs; synthetic camera blackout and bounded yaw-command bias; not physical occlusion, wheel slip, physical-robot, or safety evidence |
+| Target-laptop timing gate | 23.09 ms camera-to-measurement p95; 48.35 ms measurement-to-control p95; 0.9996 minimum real-time factor | Three combined-chain runs; 3,584 MiB peak RAM and 642 MiB peak visible VRAM; one-host simulation only |
 | Follower spacing RMSE | 0.140, 0.164, 0.200 m | Error increases toward the rear |
 
-The machine-readable sources for these values are under [`work/toy_simulation/results`](work/toy_simulation/results), [`work/toy_simulation/warehouse_results`](work/toy_simulation/warehouse_results), and [`work/ros2_ws/results/camera_measurement_gate`](work/ros2_ws/results/camera_measurement_gate).
+The machine-readable sources for these values are under [`work/toy_simulation/results`](work/toy_simulation/results), [`work/toy_simulation/warehouse_results`](work/toy_simulation/warehouse_results), [`work/ros2_ws/results/camera_measurement_gate`](work/ros2_ws/results/camera_measurement_gate), [`work/ros2_ws/results/yolo_measurement_gate_v3`](work/ros2_ws/results/yolo_measurement_gate_v3), [`work/ros2_ws/results/pair_gate`](work/ros2_ws/results/pair_gate), [`work/ros2_ws/results/chain_gate`](work/ros2_ws/results/chain_gate), [`work/ros2_ws/results/disturbance_gate`](work/ros2_ws/results/disturbance_gate), and [`work/ros2_ws/results/timing_gate`](work/ros2_ws/results/timing_gate).
 
 ## System architecture
 
@@ -97,7 +104,7 @@ The toy baseline uses a pinhole-camera relationship with a known target height:
 - range estimate: `r = f × H / h`
 - bearing estimate: `θ = atan((cx - u) / f)` for positive-left bearing
 
-Here `f` is focal length in pixels, `H` is known target height, `h` is detected bounding-box height, `u` is the horizontal box center, and `cx` is the camera principal point. The first Gazebo baseline tested static range and bearing in open and structured-aisle scenes. Target heading, lighting changes, motion, and a learned detector remain unverified.
+Here `f` is focal length in pixels, `H` is known target height, `h` is detected bounding-box height, `u` is the horizontal box center, and `cx` is the camera principal point. The fixed detector and synchronized YOLOv8n v3 detector passed static Gazebo measurement gates. Nominal closed-loop pair and incremental-chain behavior passed their defined matrices. The pipeline also passed the frozen controlled-disturbance matrix described below.
 
 ## Supervisory behavior
 
@@ -122,14 +129,14 @@ The video shows one leader and three independently controlled followers moving t
 | Gate | Scope | Status |
 |---:|---|---|
 | 1 | ROS 2 Jazzy and Gazebo Harmonic environment and reproducibility validation | Complete |
-| 2 | Camera-only range and bearing measurements against evaluation ground truth | Fixed red-target baseline passed; learned detector not evaluated |
-| 3 | One leader and one follower with estimator, bounded controller, and recovery states | Not started |
-| 4 | Followers added incrementally with error-propagation measurements | Not started |
-| 5 | Turns, occlusions, stopped leaders, and controlled disturbances | Not started |
+| 2 | Camera-only range and bearing measurements against evaluation ground truth | Complete; fixed baseline and synchronized YOLOv8n v3 passed |
+| 3 | One leader and one follower with estimator, bounded controller, and recovery states | Complete for nominal straight and gradual-turn runs |
+| 4 | Followers added incrementally with error-propagation measurements | Complete for nominal straight and gradual-turn runs |
+| 5 | Turns, occlusions, stopped leaders, and controlled disturbances | Complete for the frozen simulated pair-first matrix |
 | 6 | Resource and inference benchmarks on the target laptop | Not started |
 | 7 | Frozen experiments, final video, report, and submission package | Not started |
 
-The validated pair is the minimum result. One leader and three followers remain the target demonstration only if the pair and incremental-chain evidence pass.
+The validated pair remains the minimum scientific result. The one-leader/three-follower target also passed three combined controlled-disturbance runs after all 15 pair runs passed.
 
 ## Containerized ROS 2 and Gazebo foundation
 
@@ -157,6 +164,40 @@ make aws-benchmark
 ```
 
 See [the scenario matrix](docs/SCENARIO_MATRIX.md) for the controlled variables, AWS provenance, measured laptop load, and evidence boundaries.
+
+The YOLOv8n stage uses separated dataset-only Gazebo scenes and an isolated camera-only backend. See [the YOLOv8n gate protocol](docs/YOLOV8N_GATE.md). The first two checkpoints remain recorded failures. The synchronized v3 checkpoint passed its sealed static measurement gate and the nominal one-pair integration gate.
+
+Reproduce the six-run pair matrix with:
+
+```bash
+make pair-gate
+```
+
+This command requires the NVIDIA Docker profile and writes raw CSV rows, per-run summaries, the aggregate summary, resource measurements, and a traceable figure under `work/ros2_ws/results/pair_gate/`.
+
+Reproduce the staged incremental-chain matrix with:
+
+```bash
+make chain-gate
+```
+
+The runner requires all six two-follower runs to pass before it launches the six three-follower runs. Evidence is written under `work/ros2_ws/results/chain_gate/`.
+
+Reproduce the pair-first controlled-disturbance matrix with:
+
+```bash
+make disturbance-gate
+```
+
+The runner requires all 15 pair runs to pass before it launches three combined three-follower runs. It retains raw CSV rows, per-run JSON, resource measurements, a summary figure, and SHA-256 checksums under `work/ros2_ws/results/disturbance_gate/`.
+
+Reproduce the target-laptop timing and resource matrix with:
+
+```bash
+make timing-gate
+```
+
+The runner repeats the accepted combined three-follower scenario three times. It retains observer timing rows, the corresponding behavior summaries, resource time series, an aggregate summary, a traceable figure, and SHA-256 checksums under `work/ros2_ws/results/timing_gate/`.
 
 ## Quickstart
 
@@ -274,6 +315,9 @@ This repository does not claim that the current toy model satisfies those requir
 | [Industry application and system rationale PDF](deliverables/Neeraj_Kanchani_EE616_Industry_Application_and_System_Rationale.pdf) | Application, roles, and safety boundary |
 | [Initial toy simulation results PDF](deliverables/Neeraj_Kanchani_EE616_Initial_Toy_Simulation_Results.pdf) | Single-pair preliminary evidence |
 | [Warehouse demonstration video](deliverables/Neeraj_Kanchani_EE616_Multi_Follower_Warehouse_2D.mp4) | Preliminary multi-follower visualization |
+| [Project handbook and simulation user guide](deliverables/Neeraj_Kanchani_EE616_Project_Handbook_and_Simulation_User_Guide.pdf) | Indexed technical reference for setup, algorithms, configuration, experiments, metrics, and troubleshooting |
+| [Gate 7 evidence walkthrough](deliverables/Neeraj_Kanchani_EE616_Gate7_Evidence_Walkthrough.mp4) | Concise walkthrough of the accepted simulation evidence and its limits |
+| [Gate 7 frozen project package](deliverables/Neeraj_Kanchani_EE616_Gate7_Frozen_Project_Package.zip) | Checksum-verifiable source, protocols, results, documentation, and retained failed evidence |
 
 ## Documentation
 
@@ -286,6 +330,7 @@ This repository does not claim that the current toy model satisfies those requir
 | Controlled scenarios and AWS benchmark | [docs/SCENARIO_MATRIX.md](docs/SCENARIO_MATRIX.md) |
 | Contribution and approval process | [CONTRIBUTING.md](CONTRIBUTING.md) |
 | Project milestones | [CHANGELOG.md](CHANGELOG.md) |
+| Final frozen evidence map | [docs/FINAL_EVIDENCE_INDEX.md](docs/FINAL_EVIDENCE_INDEX.md) |
 
 ## Contributing
 

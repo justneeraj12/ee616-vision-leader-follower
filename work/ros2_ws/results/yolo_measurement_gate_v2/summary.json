@@ -1,0 +1,28 @@
+{
+  "all_sample_count": 2520,
+  "bearing_mae_deg": null,
+  "full_visibility_sample_count": 1620,
+  "ground_truth_boundary": "Gazebo pose data is read only by ee616_evaluation and is not published to perception, estimation, supervision, or control.",
+  "inference_latency_p95_ms": 7.352878093719482,
+  "inference_latency_sample_count": 2520,
+  "latency_required": true,
+  "range_rmse_m": null,
+  "scenes": [
+    "camera_calibration",
+    "straight_aisle"
+  ],
+  "scope": "Corrective YOLOv8n v2 camera-only measurement in Gazebo; not closed-loop control, physical-robot, or safety evidence",
+  "source_csv_files": [
+    "camera_calibration_samples.csv",
+    "straight_aisle_samples.csv"
+  ],
+  "status": "fail",
+  "thresholds": {
+    "bearing_mae_deg_max": 1.5,
+    "inference_latency_p95_ms_max": 66.7,
+    "range_rmse_m_max": 0.15,
+    "valid_full_visibility_rate_min": 0.95
+  },
+  "valid_full_visibility_rate": 0.0,
+  "valid_full_visibility_sample_count": 0
+}

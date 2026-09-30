@@ -1,0 +1,128 @@
+{
+  "annotation_source": "evaluation-only Gazebo pose projection",
+  "class_id": 0,
+  "class_name": "predecessor_target",
+  "failure": null,
+  "images": 9,
+  "negative_labels": 0,
+  "positive_labels": 9,
+  "records": [
+    {
+      "bearing_deg": -20.0,
+      "class_name": "predecessor_target",
+      "condition_id": 0,
+      "frame": 0,
+      "image": "images/test/camera_calibration_c000_f00.png",
+      "label": "labels/test/camera_calibration_c000_f00.txt",
+      "positive_label": true,
+      "range_m": 1.0,
+      "stamp_nanosec": 925000000,
+      "stamp_sec": 0
+    },
+    {
+      "bearing_deg": 0.0,
+      "class_name": "predecessor_target",
+      "condition_id": 1,
+      "frame": 0,
+      "image": "images/test/camera_calibration_c001_f00.png",
+      "label": "labels/test/camera_calibration_c001_f00.txt",
+      "positive_label": true,
+      "range_m": 1.0,
+      "stamp_nanosec": 585000000,
+      "stamp_sec": 1
+    },
+    {
+      "bearing_deg": 20.0,
+      "class_name": "predecessor_target",
+      "condition_id": 2,
+      "frame": 0,
+      "image": "images/test/camera_calibration_c002_f00.png",
+      "label": "labels/test/camera_calibration_c002_f00.txt",
+      "positive_label": true,
+      "range_m": 1.0,
+      "stamp_nanosec": 245000000,
+      "stamp_sec": 2
+    },
+    {
+      "bearing_deg": -20.0,
+      "class_name": "predecessor_target",
+      "condition_id": 3,
+      "frame": 0,
+      "image": "images/test/camera_calibration_c003_f00.png",
+      "label": "labels/test/camera_calibration_c003_f00.txt",
+      "positive_label": true,
+      "range_m": 3.0,
+      "stamp_nanosec": 905000000,
+      "stamp_sec": 2
+    },
+    {
+      "bearing_deg": 0.0,
+      "class_name": "predecessor_target",
+      "condition_id": 4,
+      "frame": 0,
+      "image": "images/test/camera_calibration_c004_f00.png",
+      "label": "labels/test/camera_calibration_c004_f00.txt",
+      "positive_label": true,
+      "range_m": 3.0,
+      "stamp_nanosec": 635000000,
+      "stamp_sec": 3
+    },
+    {
+      "bearing_deg": 20.0,
+      "class_name": "predecessor_target",
+      "condition_id": 5,
+      "frame": 0,
+      "image": "images/test/camera_calibration_c005_f00.png",
+      "label": "labels/test/camera_calibration_c005_f00.txt",
+      "positive_label": true,
+      "range_m": 3.0,
+      "stamp_nanosec": 425000000,
+      "stamp_sec": 4
+    },
+    {
+      "bearing_deg": -20.0,
+      "class_name": "predecessor_target",
+      "condition_id": 6,
+      "frame": 0,
+      "image": "images/test/camera_calibration_c006_f00.png",
+      "label": "labels/test/camera_calibration_c006_f00.txt",
+      "positive_label": true,
+      "range_m": 5.0,
+      "stamp_nanosec": 150000000,
+      "stamp_sec": 5
+    },
+    {
+      "bearing_deg": 0.0,
+      "class_name": "predecessor_target",
+      "condition_id": 7,
+      "frame": 0,
+      "image": "images/test/camera_calibration_c007_f00.png",
+      "label": "labels/test/camera_calibration_c007_f00.txt",
+      "positive_label": true,
+      "range_m": 5.0,
+      "stamp_nanosec": 875000000,
+      "stamp_sec": 5
+    },
+    {
+      "bearing_deg": 20.0,
+      "class_name": "predecessor_target",
+      "condition_id": 8,
+      "frame": 0,
+      "image": "images/test/camera_calibration_c008_f00.png",
+      "label": "labels/test/camera_calibration_c008_f00.txt",
+      "positive_label": true,
+      "range_m": 5.0,
+      "stamp_nanosec": 535000000,
+      "stamp_sec": 6
+    }
+  ],
+  "scene": "camera_calibration",
+  "scope": "offline dataset evidence only; never a perception input",
+  "split": "test",
+  "status": "pass",
+  "target_size_m": [
+    0.08,
+    0.7,
+    0.9
+  ]
+}

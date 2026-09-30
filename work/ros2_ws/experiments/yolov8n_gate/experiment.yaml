@@ -1,0 +1,126 @@
+schema_version: 1
+experiment_id: a013_yolov8n_target_v1
+status: measurement_gate_failed
+scope: >-
+  Detect one known-size predecessor target from RGB images and estimate range
+  and bearing. This is detector evidence only, not follower-control evidence.
+
+target:
+  class_id: 0
+  class_name: predecessor_target
+  description: Solid red rectangular plate mounted vertically on the predecessor rear.
+  size_m:
+    thickness_x: 0.08
+    width_y: 0.70
+    height_z: 0.90
+  range_geometry_dimension: height_z
+
+camera:
+  width_px: 640
+  height_px: 480
+  horizontal_fov_rad: 1.2217304764
+  rate_hz: 15.0
+
+software:
+  ultralytics: 8.4.165
+  torch: 2.9.1+cu128
+  torchvision: 0.24.1+cu128
+  starting_checkpoint: yolov8n.pt
+  starting_checkpoint_source: https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8n.pt
+  starting_checkpoint_sha256: f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36
+  trained_checkpoint: work/ros2_ws/models/yolov8n_predecessor_v1.pt
+  training_attempt_1:
+    epochs_max: 40
+    patience: 10
+    batch: 8
+    image_size: 640
+    seed: 616
+    device: 0
+    workers: 2
+    amp: true
+    deterministic: true
+    run_name: run_20260929_v1
+    status: failed_cuda_out_of_memory_at_epoch_27
+    peak_gpu_memory_mib: 3763.0
+    note: >-
+      Checkpoints and logs were preserved. This attempt is not accepted as a
+      completed training result.
+  training_attempt_2:
+    epochs_max: 40
+    patience: 10
+    batch: 4
+    image_size: 640
+    seed: 616
+    device: 0
+    workers: 1
+    amp: true
+    deterministic: true
+    allocator: expandable_segments
+    run_name: run_20260929_v2
+    status: complete_early_stopping_epoch_39_best_epoch_29
+    trained_checkpoint_sha256: 5bc35221ce82e95b843196551d4a4ee2d2074dce98e42685df3fbef9bb1f541a
+
+measurement_gate_result:
+  status: fail
+  all_samples: 2520
+  full_visible_samples: 1620
+  valid_full_visible_samples: 1290
+  valid_full_visible_rate: 0.7962962963
+  range_rmse_m: 0.5045463053
+  bearing_mae_deg: 0.1525395852
+  inference_latency_p95_ms: 9.1312179565
+  full_visible_invalid_samples: 330
+  note: >-
+    Bearing and latency passed. Valid rate and range RMSE failed. Do not use
+    this checkpoint in follower control.
+
+dataset:
+  id: ee616_predecessor_target_v1
+  root: work/ros2_ws/datasets/ee616_predecessor_target_v1
+  annotation_format: Ultralytics YOLO normalized xywh
+  annotation_policy: >-
+    Project the complete known target box and clip it to the image. Use an
+    empty label when the target is fully outside the image. In the held-out
+    occlusion scene, the label retains the full target extent behind the
+    foreground occluder.
+  split_rule: Scenario-level split; no scene appears in more than one split.
+  train_scenes: [yolo_train_open, yolo_train_aisle]
+  validation_scenes: [yolo_val_mixed]
+  test_scenes: [yolo_test_occlusion]
+  final_gate_scenes: [camera_calibration, straight_aisle]
+  final_gate_policy: >-
+    The A012 final-gate scenes and exact range-bearing matrix are excluded from
+    training, validation, and dataset test images.
+  capture_ranges_m: [1.2, 1.8, 2.4, 3.2, 4.2, 5.2]
+  capture_bearings_deg: [-48.0, -28.0, -18.0, -8.0, 0.0, 8.0, 18.0, 28.0, 48.0]
+  frames_per_condition: 3
+  expected_images:
+    train: 324
+    val: 162
+    test: 162
+    total: 648
+  capture_result:
+    dataset_sha256: 1049c1491947995b3439d482c6f2bcc86425d52d31d05cc9b43ba92be9e6579a
+    train_images: 324
+    validation_images: 162
+    test_images: 162
+    note: >-
+      Three frames were retained per static condition to expose capture
+      repeatability. Exact duplicate frames are possible and are reported as
+      unique-image counts in the dataset manifest.
+
+ground_truth_boundary:
+  allowed: >-
+    The ee616_evaluation dataset recorder may use Gazebo poses to place the
+    target and generate offline labels.
+  forbidden: >-
+    Gazebo poses and generated labels must not enter ee616_perception,
+    estimation, supervision, or control.
+
+acceptance_criteria:
+  full_visible_valid_rate_min: 0.95
+  range_rmse_m_max: 0.15
+  bearing_mae_deg_max: 1.5
+  detector_latency_p95_ms_max: 66.7
+  required_resource_logs: [cpu, ram, gpu, vram]
+  required_error_logs: [false_positive, false_negative]

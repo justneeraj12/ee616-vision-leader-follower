@@ -1,0 +1,17 @@
+/**:
+  ros__parameters:
+    image_topic: /smoke/camera/image
+    output_dir: /workspace/work/ros2_ws/datasets/ee616_predecessor_target_v2
+    frames_per_condition: 1
+    settle_frames: 2
+    timeout_s: 360.0
+    ranges_m: [0.9, 1.0, 1.1, 1.3, 1.5, 1.7, 2.0, 2.3, 2.7, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5]
+    bearings_deg: [-50.0, -40.0, -32.0, -25.0, -18.0, -12.0, -6.0, 0.0, 6.0, 12.0, 18.0, 25.0, 32.0, 40.0, 50.0]
+    horizontal_fov_rad: 1.2217304764
+    image_width: 640
+    image_height: 480
+    target_size: [0.08, 0.70, 0.90]
+    target_z: 0.60
+    target_yaw: 0.0
+    class_id: 0
+    class_name: predecessor_target

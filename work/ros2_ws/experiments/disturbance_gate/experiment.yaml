@@ -1,0 +1,94 @@
+schema_version: 1
+experiment_id: a020_controlled_disturbance_gate
+status: passed
+scope: >-
+  Controlled simulated sharp turns, full-frame camera blackouts, stopped-leader
+  behavior, and a bounded post-controller yaw-command bias. This is not physical
+  occlusion, wheel-slip, physical-robot, person-safety, or production evidence.
+architecture:
+  leader: deterministic bounded velocity route
+  topology: predecessor_following
+  follower_inputs: [forward_rgb_camera, local_wheel_odometry]
+  detector: yolov8n_predecessor_v3
+  estimator: relative_range_bearing_ekf
+  supervisor_states: [TRACK, PREDICT, SAFE_STOP]
+  robot_namespaces: [/leader, /follower_1, /follower_2, /follower_3]
+  ground_truth: evaluation_only
+startup:
+  stationary_initialization_s: 8.0
+  reason: >-
+    A first repeated matrix exposed a detector-startup race before leader motion.
+    The stationary window was increased from 4 to 8 seconds and every disturbance
+    was shifted by the same amount. Acceptance limits were not changed.
+staging:
+  - stage: pair
+    follower_count: 1
+    run_count: 15
+    required_before_next_stage: true
+    status: passed
+  - stage: combined_chain
+    follower_count: 3
+    run_count: 3
+    required_before_next_stage: true
+    status: passed
+matrix:
+  pair_scenarios: [sharp_turn, short_occlusion, long_occlusion, leader_stop, actuator_bias]
+  pair_repetitions_per_scenario: 3
+  chain_scenario: combined
+  chain_repetitions: 3
+  total_runs: 18
+  desired_range_m: 1.5
+disturbances:
+  sharp_turn_angular_rps: 0.18
+  short_camera_blackout_s: 0.5
+  long_camera_blackout_s: 1.3
+  stopped_leader_s: 4.0
+  actuator_yaw_bias_rps: 0.15
+  actuator_bias_duration_s: 0.5
+  targeted_chain_follower: 2
+acceptance:
+  follower_1_spacing_rmse_m_max: 0.30
+  later_follower_spacing_rmse_m_max: 0.35
+  collision_samples_max: 0
+  track_fraction_min: 0.85
+  control_period_p95_ms_max: 66.7
+  bounded_linear_mps: [0.0, 0.6]
+  bounded_angular_rps: [-0.8, 0.8]
+  short_occlusion_reacquisition_s_max: 0.70
+  long_safe_stop_latency_s_max: 1.10
+  long_occlusion_reacquisition_s_max: 0.70
+  actuator_spacing_recovery_s_max: 3.0
+  peak_gpu_memory_mib_max: 4096
+results:
+  run_count: 18
+  pair_worst_spacing_rmse_m:
+    sharp_turn: 0.12469729280709176
+    short_occlusion: 0.05793582244353049
+    long_occlusion: 0.09055149531252644
+    leader_stop: 0.08817974958134386
+    actuator_bias: 0.053603108325354566
+  combined_chain_spacing_rmse_m_mean: [0.09904786783081865, 0.10676544757259838, 0.12465231819585752]
+  combined_chain_spacing_rmse_m_worst: [0.10072442605307949, 0.12420340021272686, 0.14032820454241754]
+  combined_chain_track_fraction_min: [0.9666666666666667, 0.9285714285714286, 0.9904761904761905]
+  collision_samples_total: 0
+  control_period_p95_ms_worst: 50.00000000000426
+  combined_inference_latency_p95_ms_worst: 17.083958053588866
+  rearward_error_growth_observed_in_combined_mean: true
+  stopped_leader_final_spacing_error_m_range: [-0.12056444739710415, -0.11784766793879276]
+  interpretation: >-
+    All frozen checks passed. Mean combined-scenario spacing RMSE increased toward
+    the rear. The stopped-leader pair settled to nearly zero command but retained
+    about 0.12 m of short-gap undershoot because the controller does not reverse.
+resources:
+  elapsed_s: 619.9542021609996
+  cpu_core_equivalent_percent: 217.11875172521852
+  logical_cpu_count: 12
+  peak_memory_mib: 3511.859375
+  peak_gpu_memory_mib: 642.0
+  peak_gpu_utilization_percent: 51.0
+evidence:
+  aggregate: work/ros2_ws/results/disturbance_gate/summary.json
+  pair_stage: work/ros2_ws/results/disturbance_gate/pair_stage_summary.json
+  resources: work/ros2_ws/results/disturbance_gate/resources.json
+  figure: work/ros2_ws/results/disturbance_gate/disturbance_gate_metrics.png
+  checksums: work/ros2_ws/results/disturbance_gate/SHA256SUMS

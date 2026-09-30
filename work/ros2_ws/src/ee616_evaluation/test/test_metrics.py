@@ -1,12 +1,19 @@
 from ee616_evaluation.metrics import summarize_rows
 
 
-def _row(range_error, bearing_error, valid=True, full=True):
+def _row(
+    range_error,
+    bearing_error,
+    valid=True,
+    full=True,
+    inference_ms=None,
+):
     return {
         "valid": valid,
         "full_visibility": full,
         "range_error_m": range_error,
         "bearing_error_deg": bearing_error,
+        "inference_ms": inference_ms,
     }
 
 
@@ -33,3 +40,26 @@ def test_cropped_rows_are_retained_but_not_scored():
     assert summary["all_sample_count"] == 2
     assert summary["full_visibility_sample_count"] == 1
     assert summary["status"] == "pass"
+
+
+def test_required_latency_is_scored_at_p95():
+    rows = [_row(0.05, 0.5, inference_ms=10.0) for _ in range(19)]
+    rows.append(_row(0.05, 0.5, inference_ms=70.0))
+    summary = summarize_rows(rows, require_latency=True)
+    assert summary["inference_latency_p95_ms"] == 10.0
+    assert summary["status"] == "pass"
+
+
+def test_missing_required_latency_fails_gate():
+    rows = [_row(0.05, 0.5, inference_ms=10.0) for _ in range(9)]
+    rows.append(_row(0.05, 0.5))
+    summary = summarize_rows(rows, require_latency=True)
+    assert summary["status"] == "fail"
+
+
+def test_detector_latency_includes_invalid_measurements():
+    rows = [_row(0.05, 0.5, inference_ms=10.0)]
+    rows.append(_row(None, None, valid=False, inference_ms=12.0))
+    summary = summarize_rows(rows, require_latency=True)
+    assert summary["inference_latency_sample_count"] == 2
+    assert summary["inference_latency_p95_ms"] == 12.0

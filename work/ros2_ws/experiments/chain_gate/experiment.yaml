@@ -1,0 +1,64 @@
+schema_version: 1
+experiment_id: a019_incremental_chain_nominal_gate
+status: passed
+scope: >-
+  Incremental simulated chains with two followers and then three followers under
+  nominal straight and gradual-turn routes. This is not disturbance,
+  physical-robot, person-safety, or production evidence.
+architecture:
+  leader: deterministic bounded velocity route
+  topology: predecessor_following
+  follower_inputs: [forward_rgb_camera, local_wheel_odometry]
+  detector: yolov8n_predecessor_v3
+  estimator: relative_range_bearing_ekf
+  supervisor_states: [TRACK, PREDICT, SAFE_STOP]
+  robot_namespaces: [/leader, /follower_1, /follower_2, /follower_3]
+  ground_truth: evaluation_only
+staging:
+  - follower_count: 2
+    required_before_next_stage: true
+    status: passed
+  - follower_count: 3
+    required_before_next_stage: true
+    status: passed
+matrix:
+  follower_counts: [2, 3]
+  profiles: [straight, turn]
+  repetitions_per_profile_and_count: 3
+  total_runs: 12
+  desired_range_m: 1.5
+acceptance:
+  follower_1_spacing_rmse_m_max: 0.20
+  later_follower_spacing_rmse_m_max: 0.25
+  collision_samples_max: 0
+  track_fraction_min: 0.95
+  control_period_p95_ms_max: 66.7
+  bounded_linear_mps: [0.0, 0.6]
+  bounded_angular_rps: [-0.8, 0.8]
+  peak_gpu_memory_mib_max: 4096
+results:
+  run_count: 12
+  two_follower_rmse_m_mean: [0.07588022439441329, 0.06259373653186727]
+  two_follower_rmse_m_worst: [0.0983305434794606, 0.0736931888411785]
+  three_follower_rmse_m_mean: [0.0774984854689813, 0.06283858276821, 0.05123161959209083]
+  three_follower_rmse_m_worst: [0.10036108521330431, 0.07392145368496518, 0.05226826547068908]
+  minimum_track_fraction: 0.95
+  collision_samples_total: 0
+  control_period_p95_ms_worst: 50.00000000000071
+  inference_latency_p95_ms_worst: 18.31110315322875
+  rearward_amplification_observed: false
+  interpretation: >-
+    Mean nominal spacing RMSE decreased toward the rear in this matrix. The
+    result does not support a claim of rearward error amplification. Controlled
+    disturbances remain untested.
+resources:
+  elapsed_s: 335.3846484140013
+  cpu_core_equivalent_percent: 264.26700452488546
+  peak_memory_mib: 3376.63671875
+  peak_gpu_memory_mib: 736.0
+  peak_gpu_utilization_percent: 60.0
+evidence:
+  aggregate: work/ros2_ws/results/chain_gate/summary.json
+  stage_two: work/ros2_ws/results/chain_gate/stage_2_summary.json
+  resources: work/ros2_ws/results/chain_gate/resources.json
+  figure: work/ros2_ws/results/chain_gate/chain_gate_metrics.png

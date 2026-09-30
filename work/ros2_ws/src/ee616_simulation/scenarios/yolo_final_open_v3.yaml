@@ -1,0 +1,23 @@
+extends: base.yaml
+name: yolo_final_open_v3
+description: Sealed open scene for the independent v3 measurement gate.
+variable_under_test: unseen neutral open-scene rendering
+expected_visibility: visible across the frozen measurement matrix
+evidence_scope: Sealed YOLO v3 final evaluation only.
+seed: 4616
+
+floor:
+  color: [0.37, 0.39, 0.42, 1.0]
+
+lighting:
+  ambient: [0.50, 0.48, 0.46, 1.0]
+  background: [0.14, 0.15, 0.19, 1.0]
+  diffuse: [0.86, 0.84, 0.82, 1.0]
+  direction: [0.15, 0.25, -0.95]
+  shadows: false
+
+camera:
+  pose: [-6.8, 0.35, 0.67, 0.0, 0.0, 0.0]
+
+target:
+  pose: [-3.8, 0.35, 0.60, 0.0, 0.0, 0.05]

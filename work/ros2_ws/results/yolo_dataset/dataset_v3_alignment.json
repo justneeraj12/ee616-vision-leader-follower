@@ -1,0 +1,13 @@
+{
+  "dataset_id": "ee616_predecessor_target_v3",
+  "failed_positive_labels": 0,
+  "failures": [],
+  "images_checked": 1001,
+  "median_iou_observed": 0.9862449630476602,
+  "method": "HSV red-target connected components compared with YOLO labels",
+  "minimum_iou_observed": 0.05439947566770441,
+  "minimum_visible_component_box_pixels_required": 20,
+  "negative_labels_with_visible_red_component": 0,
+  "positive_labels_checked": 786,
+  "status": "pass"
+}

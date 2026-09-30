@@ -114,13 +114,13 @@ Delivered evidence: Two new ROS 2 packages; 19 passing ROS package tests across 
 
 ## A013 YOLOv8n measurement evaluation
 
-Status: Approved, not yet implemented
+Status: Approved and evaluated; acceptance criteria not met
 
 Approved scope: Add an isolated YOLOv8n detector backend, train or fine-tune it on a documented custom target dataset, and evaluate it against the frozen A012 range and bearing matrix before it enters any follower-control path.
 
 Acceptance criteria: At least 95% valid full-visible measurements; range RMSE no more than 0.15 m; bearing MAE no more than 1.5 degrees; p95 detector latency no more than 66.7 ms for a 15 Hz target; record false detections, CPU, RAM, GPU, and VRAM use; record model provenance, version, license, and checksum; and keep Gazebo ground truth restricted to evaluation.
 
-Current condition: Implementation was paused for the repository and Ultralytics license review. A014 resolves the planned repository license condition, but the dependency, model, dataset, and measured detector performance remain unverified.
+Delivered evidence: The 648-image dataset, isolated RGB-only backend, trained checkpoint, checksums, training logs, held-out test, frozen A012 measurement rows, timing, and resource logs are complete. The held-out dataset test recorded 123 true positives, 28 true negatives, nine false negatives, and two false positives. The final gate recorded 2,520 samples and 1,620 full-visible samples. Bearing MAE was 0.153 degrees and p95 inference latency was 9.13 ms, so those limits passed. The valid full-visible rate was 79.6% and range RMSE was 0.505 m, so the overall gate failed. The checkpoint must not enter follower control.
 
 ## A014 Public AGPL repository
 
@@ -142,6 +142,76 @@ Acceptance criteria: Use Docker packages for Ubuntu Resolute; do not treat the h
 
 Delivered evidence: Docker Engine 29.8.1 runs from the Resolute source; the previous source file is retained under `/var/backups/`; four ROS packages built; 19 ROS tests and seven toy tests passed; `/leader` and `/follower_1` namespace probes passed; Gazebo delivered 15 timestamped 640×480 RGB frames; and PyTorch 2.9.1 completed a CUDA tensor operation on the RTX 3050 Ti. The container also records torchvision 0.24.1 and Ultralytics 8.4.165. These checks establish environment compatibility only, not YOLO detector performance or follower-control performance.
 
+## A016 YOLOv8n corrective detector evaluation
+
+Status: Approved and evaluated; acceptance criteria not met
+
+Approved scope: Add detector box and confidence diagnostics, create a separate higher-variation dataset with explicit 1.0 m coverage, train one corrective YOLOv8n checkpoint on the target laptop, derive any linear range calibration from validation data only, and rerun the unchanged A012 final measurement scenes. Do not begin pair integration unless the learned detector passes.
+
+Acceptance criteria: Preserve complete scene separation; use no `camera_calibration` or `straight_aisle` image for training, validation, or dataset testing; retain at least 95% valid full-visible measurements; range RMSE no more than 0.15 m; bearing MAE no more than 1.5 degrees; p95 latency no more than 66.7 ms; record resource use and checksums; keep Gazebo truth evaluation-only; and preserve unrelated uncommitted files.
+
+Delivered evidence: The validated dataset contains 1,125 images: 675 training, 225 validation, and 225 held-out test images, with zero identical images across splits and aggregate SHA-256 `e42368ae861b468206a9f7bec435508a214bc46e333f8c891b87f2cd50a00e15`. Training stopped at epoch 40 and retained best epoch 28 with checkpoint SHA-256 `cd949c617eaff472417425db025b03fc5b6c9b7698d884cdc7c8562ee930bf62`. The held-out dataset test recorded 166 true positives, 23 true negatives, 25 false negatives, and 11 false positives. Validation-only calibration used 97 samples and reduced validation range RMSE from 0.083 m to 0.051 m. The frozen final gate retained 2,520 samples and 1,620 full-visible samples but produced zero valid detections. Latency passed at 7.35 ms p95; range and bearing errors were undefined. The checkpoint remains blocked from control. Twenty-nine ROS package tests pass.
+
+## A017 Synchronized YOLOv8n v3 diagnosis and sealed evaluation
+
+Status: Approved and completed; acceptance criteria met
+
+Approved scope: Diagnose the failed final-scene detector domain, correct confirmed image-contract or dataset-synchronization faults, create a separate domain-varied v3 dataset, select confidence and any range calibration from validation data only, and evaluate one new checkpoint on new scenes sealed before training. Do not begin pair integration unless the learned measurement gate passes.
+
+Acceptance criteria: Preserve prior failed evidence; keep all sealed final images out of training, validation, held-out dataset testing, threshold selection, and calibration; verify image-label synchronization; retain at least 95% valid full-visible measurements; range RMSE no more than 0.15 m; bearing MAE no more than 1.5 degrees; p95 latency no more than 66.7 ms; record checksums and laptop resources; keep Gazebo truth evaluation-only; and preserve unrelated uncommitted files.
+
+Delivered evidence: Diagnosis found an RGB/BGR inference mismatch and stale-frame labels. The v3 dataset contains 1,001 images with zero cross-split duplicate images and SHA-256 `574c362dd6877cfc63079b959029ae4e2e0c184b294154f759b498a7fb158a33`. The visibility filter removed 39 fully occluded or unrendered projections, and the alignment audit passed all images. Training completed 50 epochs, retained best epoch 49, and produced checkpoint SHA-256 `3ceabbabd0bccf721fcd9954b4eaffebef7b05f2572e43393a1df7568707391a`. Validation selected confidence 0.40 and calibration reduced validation range RMSE from 0.0783 m to 0.0251 m on 58 samples. The sealed gate retained 2,520 samples and passed with 1,620 of 1,620 valid full-visible measurements, 0.0323 m range RMSE, 0.1569 degree bearing MAE, and 9.02 ms p95 latency. Thirty ROS package tests pass. This is static learned-measurement evidence only.
+
+## A018 Nominal one-leader/one-follower integration
+
+Status: Approved and completed; acceptance criteria met
+
+Approved scope: Integrate one deterministic leader and one independently driven follower using the v3 RGB measurement, local wheel odometry, a relative-state EKF, bounded formation control, and `TRACK`, `PREDICT`, and `SAFE STOP` supervision. Run repeated nominal straight and gradual-turn experiments. Keep Gazebo pose truth evaluation-only. Do not add followers, route planning, assignments, or disturbance experiments in this stage.
+
+Acceptance criteria: Use isolated `/leader` and `/follower_1` namespaces; restrict follower inputs to RGB measurements and local odometry; keep Gazebo truth out of perception and control; test all three supervisor states; complete three straight and three gradual-turn runs; retain spacing RMSE no more than 0.20 m; record zero collision samples under the defined evaluator; keep p95 control period no more than 66.7 ms; bound commands to 0.0--0.6 m/s and plus or minus 0.8 rad/s; record synchronized raw evidence and laptop resources; and preserve prior work.
+
+Delivered evidence: Five ROS 2 packages build and 39 package tests pass. All six nominal runs passed. Worst straight spacing RMSE was 0.0558 m and worst gradual-turn spacing RMSE was 0.1005 m. The minimum TRACK fraction was 99.1%, p95 control period was 50.0 ms, and the evaluator recorded zero collision samples. The six-run resource window used 1,330.8 MiB peak container memory, 383 MiB peak visible GPU memory, 27% peak GPU utilization, and 152.1% of one CPU-core equivalent. Gazebo pose data was read only by `ee616_evaluation`. This is nominal one-pair simulation evidence, not disturbance, multi-follower, physical-robot, or safety evidence.
+
+## A019 Nominal incremental-chain integration
+
+Status: Approved and completed; acceptance criteria met
+
+Approved scope: Add Follower 2 and then Follower 3 only after the preceding stage passes. Reuse the validated RGB measurement, local wheel odometry, EKF, bounded controller, and supervisor under isolated namespaces. Run repeated nominal straight and gradual-turn profiles, measure every adjacent predecessor-follower pair, retain resource evidence, and preserve the evaluation-only ground-truth boundary.
+
+Acceptance criteria: Complete three straight and three gradual-turn runs at each chain length; require the two-follower stage to pass before launching three followers; retain Follower 1 spacing RMSE no more than 0.20 m and later-follower RMSE no more than 0.25 m; keep TRACK fraction at least 95%; record zero evaluator collision samples; keep p95 control period no more than 66.7 ms; keep commands bounded to 0.0--0.6 m/s and plus or minus 0.8 rad/s; record rearward error whether favorable or unfavorable; and keep visible GPU memory within 4,096 MiB.
+
+Delivered evidence: Five ROS 2 packages build and 44 package tests pass. The six two-follower runs passed before the six three-follower runs were launched, and all 12 runs passed. In the three-follower matrix, worst RMSE was 0.1004 m, 0.0739 m, and 0.0523 m from Follower 1 through Follower 3. The minimum TRACK fraction was 95.0%, the worst p95 control period was 50.0 ms, and the evaluator recorded zero collision samples. Mean RMSE decreased toward the rear, so rearward amplification was not observed. The resource window used 3,376.6 MiB peak container memory and 736 MiB peak visible GPU memory. Gazebo pose truth remained inside `ee616_evaluation`. This is nominal incremental-chain simulation evidence, not controlled-disturbance, physical-robot, person-safety, or production evidence.
+
+## A020 Pair-first controlled-disturbance evaluation
+
+Status: Approved and completed; acceptance criteria met
+
+Approved scope: Test sharp turns, short and long visual loss, stopped-leader behavior, and a bounded actuator disturbance on the validated pair. Run a combined three-follower scenario only after every pair trial passes. Retain synchronized raw evidence, resource measurements, checksums, and the evaluation-only ground-truth boundary.
+
+Acceptance criteria: Complete three repetitions of five pair scenarios before three combined chain runs; retain Follower 1 spacing RMSE no more than 0.30 m and later-follower RMSE no more than 0.35 m; keep TRACK fraction at least 85%; record zero evaluator collision samples; keep p95 control period no more than 66.7 ms; keep commands bounded to 0.0--0.6 m/s and plus or minus 0.8 rad/s; verify required `PREDICT`, `SAFE STOP`, zero-command, and reacquisition behavior; keep visible GPU memory within 4,096 MiB; and preserve unfavorable results and prior work.
+
+Delivered evidence: Five ROS 2 packages build and 54 package tests pass. The 15 pair runs passed before the three combined three-follower runs were launched, and all 18 runs passed. Pair worst spacing RMSE ranged from 0.0536 m for actuator bias to 0.1247 m for the sharp turn. In the combined matrix, worst RMSE was 0.1007 m, 0.1242 m, and 0.1403 m from Follower 1 through Follower 3, so this matrix showed rearward error growth. All runs recorded zero collision samples, worst p95 control period was 50.0 ms, and combined-run p95 inference latency was at most 17.1 ms. The 620.0-second resource window used 3,511.9 MiB peak container memory and 642 MiB peak visible GPU memory. The first repeated attempt exposed and retained a detector-startup diagnosis; the corrected protocol used an eight-second stationary initialization window without changing acceptance limits. Stopped-leader commands settled near zero with about 0.12 m short-gap undershoot. Gazebo truth remained inside `ee616_evaluation`. Camera loss was a synthetic RGB blackout and the actuator disturbance was a bounded yaw-command bias, not physical occlusion, wheel slip, physical-robot, person-safety, or production evidence.
+
+## A021 Target-laptop timing and resource gate
+
+Status: Approved and completed; acceptance criteria met
+
+Approved scope: Add evaluation-only timing observation to the accepted combined three-follower Gate 5 scenario, run three repetitions on the target laptop, record container and NVIDIA resource time series, verify that accepted behavior remains unchanged, and repair evaluator lifecycle faults without changing the detector, controller, route, disturbances, or frozen thresholds.
+
+Acceptance criteria: Complete three timing and three corresponding behavior summaries; keep p95 camera-to-measurement and measurement-to-controller latency no more than 66.7 ms; keep p95 controller-to-post-proxy latency no more than 50.0 ms; keep p95 detector inference and control period no more than 66.7 ms; retain at least 95% measurement delivery; retain simulation real-time factor of at least 0.90; keep peak visible GPU memory within 4,096 MiB and peak container memory within 12,288 MiB; require accepted Gate 5 behavior checks to pass; keep Gazebo truth evaluation-only; and preserve unrelated work.
+
+Delivered evidence: Five ROS 2 packages build and 59 package tests pass. The first full execution was incomplete after a transient `gz topic` segmentation fault shut down run 1; the evaluator-only repair added bounded pose-read recovery and explicit interrupted-observer evidence without changing scientific thresholds. The repeated matrix completed three timing and three behavior runs, and every aggregate check passed. Worst p95 camera-to-measurement latency was 23.09 ms, measurement-to-controller latency was 48.35 ms, controller-to-post-proxy latency was 2.89 ms, detector inference was 20.34 ms, and control period was 50.0 ms. Minimum delivery ratio was 95.4%, and minimum real-time factor was 0.9996. The 158.9-second resource window used 3,584.0 MiB peak container memory, 642 MiB peak visible GPU memory, 60% peak GPU utilization, and 443.1% of one CPU-core equivalent. This is one-host simulation evidence, not network, physical-actuator, physical-robot, person-safety, or production evidence.
+
+## A022 Gate 7 evidence freeze, handbook, video, and review package
+
+Status: Approved and completed; acceptance criteria met
+
+Approved scope: Freeze the accepted Gate 1--6 experiments and their failed detector history; create a final evidence index, an indexed LaTeX technical handbook and simulation user guide, a concise evidence walkthrough video, and a checksum-verifiable repository review archive. Update the governing logs without committing or pushing.
+
+Acceptance criteria: Preserve accepted and failed evidence; include machine-readable expected statuses and SHA-256 checksums; compile and visually verify the indexed handbook; explain setup, daily use, Gazebo interaction, configurations, algorithms, metrics, results, limitations, troubleshooting, and oral-defense preparation; create and inspect a 1920 by 1080 evidence video; pass at least 59 ROS package tests and all seven toy tests; make no physical-robot, person-safety, certification, or production-readiness claim; and preserve unrelated uncommitted changes.
+
+Delivered evidence: The frozen manifest records all expected Gate 1--6 statuses, including the retained v1 and v2 detector failures. Five ROS packages built and 59 tests passed with zero failures; seven toy tests passed. The 68-page handbook compiled with a generated index and was visually checked after rendering every page. The silent evidence walkthrough is 1920 by 1080, 30 frames per second, and 40 seconds long. The final evidence index, verification script, checksum file, package builder, and review ZIP preserve the frozen file set. The package is simulation evidence only. No commit or push was performed.
+
 ## Next approval required
 
-A013 is approved. Before training or measurement begins, record the exact Ultralytics package and model versions, dataset provenance and split, target appearance, dependency lock, model checksum, and executable test commands.
+The planned seven-gate simulation sequence is complete. Any faculty-requested change, physical-robot stage, new experiment matrix, report-authoring stage, commit, or push requires separate explicit approval.

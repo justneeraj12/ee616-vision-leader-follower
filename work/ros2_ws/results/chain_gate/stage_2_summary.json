@@ -1,0 +1,40 @@
+{
+  "chains": {
+    "2": {
+      "followers": {
+        "1": {
+          "collision_samples_total": 0,
+          "control_period_p95_ms_worst": 50.00000000000071,
+          "inference_latency_p95_ms_worst": 11.610577583312988,
+          "spacing_rmse_m_mean": 0.07588022439441329,
+          "spacing_rmse_m_worst": 0.0983305434794606,
+          "track_fraction_min": 0.990909090909091
+        },
+        "2": {
+          "collision_samples_total": 0,
+          "control_period_p95_ms_worst": 50.00000000000071,
+          "inference_latency_p95_ms_worst": 10.643960714340208,
+          "spacing_rmse_m_mean": 0.06259373653186727,
+          "spacing_rmse_m_worst": 0.0736931888411785,
+          "track_fraction_min": 0.9545454545454546
+        }
+      },
+      "mean_rearward_rmse_delta_m": {
+        "follower_1_to_2": -0.01328648786254602
+      },
+      "run_count": 6
+    }
+  },
+  "checks": {
+    "all_runs_pass": true,
+    "peak_gpu_memory_at_most_4_gib": true,
+    "three_runs_per_profile_and_chain_length": true
+  },
+  "expected_run_count": 6,
+  "ground_truth_boundary": "Gazebo pose truth was consumed only inside ee616_evaluation.",
+  "maximum_follower_count": 2,
+  "resources": null,
+  "run_count": 6,
+  "scope": "Nominal straight and gradual-turn incremental chains; no disturbance or safety claim.",
+  "status": "pass"
+}

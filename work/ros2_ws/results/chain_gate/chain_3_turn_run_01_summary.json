@@ -1,0 +1,71 @@
+{
+  "failure": null,
+  "follower_count": 3,
+  "followers": {
+    "1": {
+      "bounded_commands": true,
+      "checks": {
+        "bounded_commands": true,
+        "collision_samples": true,
+        "control_period_p95": true,
+        "spacing_rmse": true,
+        "track_fraction": true
+      },
+      "collision_samples": 0,
+      "control_period_p95_ms": 50.00000000000071,
+      "inference_latency_p95_ms": 15.938227653503418,
+      "minimum_center_distance_m": 1.9999999999998948,
+      "predecessor": "leader",
+      "safe_stop_samples": 4,
+      "spacing_rmse_m": 0.09908003765782859,
+      "track_fraction": 0.9636363636363636
+    },
+    "2": {
+      "bounded_commands": true,
+      "checks": {
+        "bounded_commands": true,
+        "collision_samples": true,
+        "control_period_p95": true,
+        "spacing_rmse": true,
+        "track_fraction": true
+      },
+      "collision_samples": 0,
+      "control_period_p95_ms": 50.00000000000071,
+      "inference_latency_p95_ms": 14.159046649932861,
+      "minimum_center_distance_m": 1.999999999999515,
+      "predecessor": "follower_1",
+      "safe_stop_samples": 4,
+      "spacing_rmse_m": 0.07385311825281245,
+      "track_fraction": 0.9636363636363636
+    },
+    "3": {
+      "bounded_commands": true,
+      "checks": {
+        "bounded_commands": true,
+        "collision_samples": true,
+        "control_period_p95": true,
+        "spacing_rmse": true,
+        "track_fraction": true
+      },
+      "collision_samples": 0,
+      "control_period_p95_ms": 50.00000000000071,
+      "inference_latency_p95_ms": 12.067666578292847,
+      "minimum_center_distance_m": 1.9999999999996425,
+      "predecessor": "follower_2",
+      "safe_stop_samples": 0,
+      "spacing_rmse_m": 0.05226826547068908,
+      "track_fraction": 0.990909090909091
+    }
+  },
+  "ground_truth_boundary": "Gazebo /world/chain_3_turn/pose/info was read only by ee616_evaluation and was not published to perception, estimation, supervision, or control.",
+  "profile": "turn",
+  "rearward_rmse_delta_m": [
+    -0.025226919405016146,
+    -0.021584852782123368
+  ],
+  "route_complete": true,
+  "run_id": "run_01",
+  "sample_count": 345,
+  "scope": "Nominal simulated incremental chain; not disturbance, physical-robot, or safety evidence.",
+  "status": "pass"
+}

@@ -1,0 +1,83 @@
+{
+  "chains": {
+    "2": {
+      "followers": {
+        "1": {
+          "collision_samples_total": 0,
+          "control_period_p95_ms_worst": 50.00000000000071,
+          "inference_latency_p95_ms_worst": 11.610577583312988,
+          "spacing_rmse_m_mean": 0.07588022439441329,
+          "spacing_rmse_m_worst": 0.0983305434794606,
+          "track_fraction_min": 0.990909090909091
+        },
+        "2": {
+          "collision_samples_total": 0,
+          "control_period_p95_ms_worst": 50.00000000000071,
+          "inference_latency_p95_ms_worst": 10.643960714340208,
+          "spacing_rmse_m_mean": 0.06259373653186727,
+          "spacing_rmse_m_worst": 0.0736931888411785,
+          "track_fraction_min": 0.9545454545454546
+        }
+      },
+      "mean_rearward_rmse_delta_m": {
+        "follower_1_to_2": -0.01328648786254602
+      },
+      "run_count": 6
+    },
+    "3": {
+      "followers": {
+        "1": {
+          "collision_samples_total": 0,
+          "control_period_p95_ms_worst": 50.00000000000071,
+          "inference_latency_p95_ms_worst": 18.31110315322875,
+          "spacing_rmse_m_mean": 0.0774984854689813,
+          "spacing_rmse_m_worst": 0.10036108521330431,
+          "track_fraction_min": 0.95
+        },
+        "2": {
+          "collision_samples_total": 0,
+          "control_period_p95_ms_worst": 50.00000000000071,
+          "inference_latency_p95_ms_worst": 14.405555248260498,
+          "spacing_rmse_m_mean": 0.06283858276821,
+          "spacing_rmse_m_worst": 0.07392145368496518,
+          "track_fraction_min": 0.9636363636363636
+        },
+        "3": {
+          "collision_samples_total": 0,
+          "control_period_p95_ms_worst": 50.00000000000071,
+          "inference_latency_p95_ms_worst": 12.652450656890865,
+          "spacing_rmse_m_mean": 0.05123161959209083,
+          "spacing_rmse_m_worst": 0.05226826547068908,
+          "track_fraction_min": 0.95
+        }
+      },
+      "mean_rearward_rmse_delta_m": {
+        "follower_1_to_2": -0.014659902700771305,
+        "follower_2_to_3": -0.011606963176119173
+      },
+      "run_count": 6
+    }
+  },
+  "checks": {
+    "all_runs_pass": true,
+    "peak_gpu_memory_at_most_4_gib": true,
+    "three_runs_per_profile_and_chain_length": true
+  },
+  "expected_run_count": 12,
+  "ground_truth_boundary": "Gazebo pose truth was consumed only inside ee616_evaluation.",
+  "maximum_follower_count": 3,
+  "resources": {
+    "cpu_core_equivalent_percent": 264.26700452488546,
+    "elapsed_s": 335.3846484140013,
+    "logical_cpu_count": 12,
+    "peak_gpu_memory_mib": 736.0,
+    "peak_gpu_utilization_percent": 60.0,
+    "peak_memory_mib": 3376.63671875,
+    "sample_count": 639,
+    "scope": "container-level resource sample",
+    "timestamp_utc": "2026-09-30T01:42:30.073641+00:00"
+  },
+  "run_count": 12,
+  "scope": "Nominal straight and gradual-turn incremental chains; no disturbance or safety claim.",
+  "status": "pass"
+}

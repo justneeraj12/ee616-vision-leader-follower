@@ -1,0 +1,7 @@
+{
+  "archive": "deliverables/Neeraj_Kanchani_EE616_Gate7_Frozen_Project_Package.zip",
+  "archive_sha256": "c6a097fec647ccd081c96f9bef011c51d5cc47f579f97c2ce4b6e389571cd225",
+  "archive_size_bytes": 55351876,
+  "frozen_file_count": 445,
+  "scope": "Frozen simulation project review package; not physical-robot or safety evidence."
+}

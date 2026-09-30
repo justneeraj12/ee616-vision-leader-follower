@@ -1,0 +1,134 @@
+schema_version: 1
+package_id: ee616_gate7_frozen_project_package
+freeze_date: 2026-09-30
+status: completed_pass
+project:
+  owner: Neeraj Kumar Kanchani
+  course: EE 616-57
+  section: 9189
+  credits: 4
+  faculty_reviewer: Professor Masudul Imtiaz
+  repository: https://github.com/justneeraj12/ee616-vision-leader-follower
+  workspace: /home/justneeraj/Documents/MS_sem3/GRAD_PROJECT
+scope: >-
+  Freeze the accepted simulation experiments, their protocols, source code,
+  configurations, machine-readable evidence, learning handbook, and final
+  evidence walkthrough. This package is not physical-robot, person-safety,
+  industrial-certification, or production-readiness evidence.
+evidence_status_expectations:
+  - path: work/ros2_ws/results/environment_gate/summary.json
+    expected: pass
+    gate: 1
+  - path: work/ros2_ws/results/camera_measurement_gate/summary.json
+    expected: pass
+    gate: 2
+  - path: work/ros2_ws/results/yolo_measurement_gate/summary.json
+    expected: fail
+    gate: 2
+    role: retained_failed_attempt
+  - path: work/ros2_ws/results/yolo_measurement_gate_v2/summary.json
+    expected: fail
+    gate: 2
+    role: retained_failed_attempt
+  - path: work/ros2_ws/results/yolo_measurement_gate_v3/summary.json
+    expected: pass
+    gate: 2
+    role: accepted_detector
+  - path: work/ros2_ws/results/pair_gate/summary.json
+    expected: pass
+    gate: 3
+  - path: work/ros2_ws/results/chain_gate/summary.json
+    expected: pass
+    gate: 4
+  - path: work/ros2_ws/results/disturbance_gate/summary.json
+    expected: pass
+    gate: 5
+  - path: work/ros2_ws/results/timing_gate/summary.json
+    expected: pass
+    gate: 6
+frozen_sources:
+  - .gitignore
+  - .github
+  - PROJECT_MASTER_PROMPT.md
+  - README.md
+  - CHANGELOG.md
+  - CITATION.cff
+  - CONTRIBUTING.md
+  - LICENSE
+  - THIRD_PARTY_NOTICES.md
+  - Makefile
+  - compose.yaml
+  - .devcontainer
+  - .vscode
+  - docs
+  - infrastructure
+  - work/toy_simulation/README.md
+  - work/toy_simulation/pyproject.toml
+  - work/toy_simulation/src
+  - work/toy_simulation/tests
+  - work/toy_simulation/results
+  - work/toy_simulation/warehouse_results
+  - work/ros2_ws/README.md
+  - work/ros2_ws/config
+  - work/ros2_ws/experiments
+  - work/ros2_ws/models
+  - work/ros2_ws/scripts
+  - work/ros2_ws/src
+  - work/ros2_ws/results/environment_gate
+  - work/ros2_ws/results/camera_measurement_gate
+  - work/ros2_ws/results/yolo_measurement_gate
+  - work/ros2_ws/results/yolo_measurement_gate_v2
+  - work/ros2_ws/results/yolo_measurement_gate_v3
+  - work/ros2_ws/results/pair_gate
+  - work/ros2_ws/results/chain_gate
+  - work/ros2_ws/results/disturbance_gate
+  - work/ros2_ws/results/timing_gate
+  - work/project_handbook
+  - work/gate7_video
+  - deliverables/Neeraj_Kanchani_EE616_Multi_Follower_Warehouse_2D.mp4
+  - deliverables/Neeraj_Kanchani_EE616_IEEE_Single_Column_Technical_Report.pdf
+  - deliverables/Neeraj_Kanchani_EE616_Project_Handbook_and_Simulation_User_Guide.pdf
+  - deliverables/Neeraj_Kanchani_EE616_Gate7_Evidence_Walkthrough.mp4
+excluded_generated_names:
+  - __pycache__
+  - .pytest_cache
+  - .Xauthority
+  - toy_swarm_baseline.egg-info
+  - build
+  - install
+  - log
+  - slides
+excluded_suffixes:
+  - .pyc
+  - .pyo
+  - .aux
+  - .log
+  - .toc
+  - .lof
+  - .lot
+  - .idx
+  - .ind
+  - .ilg
+  - .fls
+  - .fdb_latexmk
+  - .synctex.gz
+  - .ffconcat
+acceptance:
+  ros_package_test_count_min: 59
+  toy_test_count: 7
+  all_expected_evidence_statuses_match: true
+  frozen_checksums_verify: true
+  handbook_compiles: true
+  handbook_index_present: true
+  evidence_walkthrough_video_present: true
+  no_physical_robot_or_safety_claim: true
+completion:
+  ros_package_tests: 59
+  ros_package_test_failures: 0
+  toy_tests: 7
+  toy_test_failures: 0
+  handbook_pages: 68
+  evidence_walkthrough_resolution: 1920x1080
+  evidence_walkthrough_duration_seconds: 40.0
+  evidence_walkthrough_frames_per_second: 30.0
+  review_archive: deliverables/Neeraj_Kanchani_EE616_Gate7_Frozen_Project_Package.zip

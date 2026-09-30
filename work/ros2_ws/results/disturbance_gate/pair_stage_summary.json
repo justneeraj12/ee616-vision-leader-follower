@@ -1,0 +1,82 @@
+{
+  "checks": {
+    "all_runs_pass": true,
+    "pair_matrix_complete": true,
+    "peak_gpu_memory_at_most_4_gib": true,
+    "three_follower_combined_complete": true
+  },
+  "expected_run_count": 15,
+  "ground_truth_boundary": "Gazebo pose truth was consumed only inside ee616_evaluation.",
+  "groups": {
+    "1_actuator_bias": {
+      "followers": {
+        "1": {
+          "collision_samples_total": 0,
+          "control_period_p95_ms_worst": 50.00000000000071,
+          "inference_latency_p95_ms_worst": 8.342594861984251,
+          "spacing_rmse_m_mean": 0.05347500982418835,
+          "spacing_rmse_m_worst": 0.053603108325354566,
+          "track_fraction_min": 0.99
+        }
+      },
+      "run_count": 3
+    },
+    "1_leader_stop": {
+      "followers": {
+        "1": {
+          "collision_samples_total": 0,
+          "control_period_p95_ms_worst": 50.00000000000071,
+          "inference_latency_p95_ms_worst": 9.717998790740968,
+          "spacing_rmse_m_mean": 0.08791773895303495,
+          "spacing_rmse_m_worst": 0.08817974958134386,
+          "track_fraction_min": 1.0
+        }
+      },
+      "run_count": 3
+    },
+    "1_long_occlusion": {
+      "followers": {
+        "1": {
+          "collision_samples_total": 0,
+          "control_period_p95_ms_worst": 50.00000000000071,
+          "inference_latency_p95_ms_worst": 9.78095817565918,
+          "spacing_rmse_m_mean": 0.08979480416182178,
+          "spacing_rmse_m_worst": 0.09055149531252644,
+          "track_fraction_min": 0.93
+        }
+      },
+      "run_count": 3
+    },
+    "1_sharp_turn": {
+      "followers": {
+        "1": {
+          "collision_samples_total": 0,
+          "control_period_p95_ms_worst": 50.00000000000071,
+          "inference_latency_p95_ms_worst": 7.854606580734252,
+          "spacing_rmse_m_mean": 0.1240874629673574,
+          "spacing_rmse_m_worst": 0.12469729280709176,
+          "track_fraction_min": 1.0
+        }
+      },
+      "run_count": 3
+    },
+    "1_short_occlusion": {
+      "followers": {
+        "1": {
+          "collision_samples_total": 0,
+          "control_period_p95_ms_worst": 50.00000000000071,
+          "inference_latency_p95_ms_worst": 10.27962589263916,
+          "spacing_rmse_m_mean": 0.05698693689748519,
+          "spacing_rmse_m_worst": 0.05793582244353049,
+          "track_fraction_min": 0.96
+        }
+      },
+      "run_count": 3
+    }
+  },
+  "resources": null,
+  "run_count": 15,
+  "scope": "Controlled simulation disturbances only; no physical-robot or safety claim.",
+  "stage": "pair",
+  "status": "pass"
+}

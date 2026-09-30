@@ -1,0 +1,77 @@
+{
+  "event_metrics": {
+    "actuator_bias": {
+      "observed": false,
+      "predict_observed": false,
+      "safe_stop_latency_s": null,
+      "safe_stop_observed": false,
+      "spacing_recovery_s": null,
+      "track_reacquisition_s": null,
+      "zero_command_during_safe_stop": false
+    },
+    "long_occlusion": {
+      "observed": true,
+      "predict_observed": true,
+      "safe_stop_latency_s": 0.8005492320007761,
+      "safe_stop_observed": true,
+      "spacing_recovery_s": 0.799960625001404,
+      "track_reacquisition_s": 0.40012832900174544,
+      "zero_command_during_safe_stop": true
+    },
+    "short_occlusion": {
+      "observed": false,
+      "predict_observed": false,
+      "safe_stop_latency_s": null,
+      "safe_stop_observed": false,
+      "spacing_recovery_s": null,
+      "track_reacquisition_s": null,
+      "zero_command_during_safe_stop": false
+    }
+  },
+  "failure": null,
+  "follower_count": 1,
+  "followers": {
+    "1": {
+      "checks": {
+        "bounded_actual_commands": true,
+        "collision_samples": true,
+        "control_period_p95": true,
+        "disturbed_spacing_rmse": true,
+        "track_fraction": true
+      },
+      "collision_samples": 0,
+      "control_period_p95_ms": 50.00000000000071,
+      "inference_latency_p95_ms": 7.9101735830307005,
+      "minimum_center_distance_m": 1.9348244411657127,
+      "predecessor": "leader",
+      "predict_samples": 3,
+      "safe_stop_samples": 3,
+      "spacing_rmse_m": 0.08951829203663311,
+      "track_fraction": 0.94
+    }
+  },
+  "ground_truth_boundary": "Gazebo /world/disturbance_1_long_occlusion/pose/info was read only by ee616_evaluation and was not published to perception, estimation, supervision, control, or the disturbance proxy.",
+  "route_complete": true,
+  "run_id": "run_02",
+  "sample_count": 130,
+  "scenario": "long_occlusion",
+  "scenario_checks": {
+    "long_occlusion_observed": true,
+    "long_predict_observed": true,
+    "long_safe_stop_latency": true,
+    "long_safe_stop_observed": true,
+    "long_track_reacquisition": true,
+    "long_zero_command": true
+  },
+  "scope": "Controlled simulated disturbances; not physical-robot, person-safety, or production evidence.",
+  "status": "pass",
+  "stopped_leader_metrics": {
+    "1": {
+      "final_angular_cmd_rps": null,
+      "final_linear_cmd_mps": null,
+      "final_spacing_error_m": null,
+      "observed": false
+    }
+  },
+  "target_follower": 1
+}

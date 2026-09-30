@@ -1,0 +1,11 @@
+{
+  "attempt_id": "attempt_1",
+  "batch": 8,
+  "completed_epochs": 26,
+  "dataset_sha256": "1049c1491947995b3439d482c6f2bcc86425d52d31d05cc9b43ba92be9e6579a",
+  "failure": "CUDA out of memory while starting epoch 27",
+  "peak_gpu_memory_mib": 3763.0,
+  "run_name": "run_20260929_v1",
+  "status": "failed",
+  "workers": 2
+}

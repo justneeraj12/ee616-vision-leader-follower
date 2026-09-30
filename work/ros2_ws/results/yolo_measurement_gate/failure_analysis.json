@@ -1,0 +1,20 @@
+{
+  "decision": "do not advance this checkpoint to follower control",
+  "full_visible_false_negative_count": 330,
+  "full_visible_sample_count": 1620,
+  "held_out_dataset_test": {
+    "false_negative": 9,
+    "false_positive": 2,
+    "true_negative": 28,
+    "true_positive": 123
+  },
+  "observations": [
+    "All 60 full-visible 1.0 m samples were invalid.",
+    "The camera_calibration scene had a 0.700 valid rate and 0.573 m range RMSE.",
+    "The straight_aisle scene had a 0.917 valid rate and 0.429 m range RMSE.",
+    "Large range errors were concentrated in specific range-bearing-background conditions.",
+    "Bearing MAE and p95 inference latency passed their thresholds."
+  ],
+  "scope_note": "Non-full-visible samples can include partial targets, cropped targets, occlusion, or out-of-frame targets. Their valid outputs are not labeled as false positives in this gate.",
+  "status": "measurement_gate_failed"
+}

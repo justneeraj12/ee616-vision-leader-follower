@@ -25,6 +25,8 @@ from launch_ros.actions import Node
 def _configure(context: LaunchContext):
     scene = LaunchConfiguration("scene").perform(context)
     output_dir = LaunchConfiguration("output_dir").perform(context)
+    detector = LaunchConfiguration("detector").perform(context)
+    yolo_config = LaunchConfiguration("yolo_config").perform(context)
     simulation_share = Path(get_package_share_directory("ee616_simulation"))
     perception_share = Path(get_package_share_directory("ee616_perception"))
     scenario_path = simulation_share / "scenarios" / f"{scene}.yaml"
@@ -36,13 +38,37 @@ def _configure(context: LaunchContext):
         ),
         launch_arguments={"scenario": scene, "gui": "false"}.items(),
     )
+    if detector == "red_baseline":
+        executable = "camera_measurement"
+        config_name = "red_target_baseline.yaml"
+        evaluator_overrides = {}
+    elif detector == "yolov8n":
+        executable = "yolo_measurement"
+        if yolo_config not in {
+            "yolov8n_target.yaml",
+            "yolov8n_target_v2.yaml",
+            "yolov8n_target_v3.yaml",
+        }:
+            raise ValueError(f"unsupported YOLO config: {yolo_config}")
+        config_name = yolo_config
+        evaluator_overrides = {
+            "latency_topic": "/follower_1/measurement/inference_ms",
+            "diagnostic_topic": "/follower_1/measurement/detection_box",
+            "require_latency": True,
+            "evidence_scope": (
+                "YOLOv8n camera-only target measurement in Gazebo; not "
+                "closed-loop control, physical-robot, or safety evidence"
+            ),
+        }
+    else:
+        raise ValueError(f"unsupported detector: {detector}")
     perception = Node(
         package="ee616_perception",
-        executable="camera_measurement",
+        executable=executable,
         namespace="follower_1",
         name="camera_measurement",
         parameters=[
-            str(perception_share / "config" / "red_target_baseline.yaml"),
+            str(perception_share / "config" / config_name),
             {
                 "horizontal_fov_rad": scenario["camera"]["horizontal_fov_rad"],
                 "target_height_m": scenario["target"]["size"][2],
@@ -76,6 +102,7 @@ def _configure(context: LaunchContext):
                         for obstacle in scenario["obstacles"]
                     ]
                 ),
+                **evaluator_overrides,
             }
         ],
         output="screen",
@@ -98,6 +125,16 @@ def _configure(context: LaunchContext):
 def generate_launch_description() -> LaunchDescription:
     return LaunchDescription(
         [
+            DeclareLaunchArgument(
+                "detector",
+                default_value="red_baseline",
+                description="Perception backend: red_baseline or yolov8n.",
+            ),
+            DeclareLaunchArgument(
+                "yolo_config",
+                default_value="yolov8n_target.yaml",
+                description="Installed YOLO parameter file.",
+            ),
             DeclareLaunchArgument(
                 "scene",
                 default_value="camera_calibration",

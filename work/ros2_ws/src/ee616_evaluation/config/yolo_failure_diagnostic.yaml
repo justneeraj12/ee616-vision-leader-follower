@@ -1,0 +1,16 @@
+/**:
+  ros__parameters:
+    image_topic: /smoke/camera/image
+    frames_per_condition: 1
+    settle_frames: 8
+    timeout_s: 120.0
+    ranges_m: [1.0, 3.0, 5.0]
+    bearings_deg: [-20.0, 0.0, 20.0]
+    horizontal_fov_rad: 1.2217304764
+    image_width: 640
+    image_height: 480
+    target_size: [0.08, 0.70, 0.90]
+    target_z: 0.60
+    target_yaw: 0.0
+    class_id: 0
+    class_name: predecessor_target

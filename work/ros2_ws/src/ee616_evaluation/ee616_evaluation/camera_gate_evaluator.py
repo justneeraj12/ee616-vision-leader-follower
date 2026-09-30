@@ -18,6 +18,7 @@ from ee616_evaluation.visibility import line_blocked
 from geometry_msgs.msg import Vector3Stamped
 import rclpy
 from rclpy.node import Node
+from std_msgs.msg import Float32, Float32MultiArray
 
 
 CSV_FIELDS = [
@@ -33,6 +34,12 @@ CSV_FIELDS = [
     "full_visibility",
     "range_error_m",
     "bearing_error_deg",
+    "inference_ms",
+    "detection_confidence",
+    "bbox_x",
+    "bbox_y",
+    "bbox_width",
+    "bbox_height",
     "stamp_sec",
     "stamp_nanosec",
 ]
@@ -49,6 +56,14 @@ class CameraGateEvaluator(Node):
             "/follower_1/measurement/relative",
         )
         self.declare_parameter("output_dir", "results/camera_measurement_gate")
+        self.declare_parameter("latency_topic", "")
+        self.declare_parameter("diagnostic_topic", "")
+        self.declare_parameter("require_latency", False)
+        self.declare_parameter(
+            "evidence_scope",
+            "camera-only fixed-red-target baseline in Gazebo; not YOLO, "
+            "closed-loop control, physical-robot, or safety evidence",
+        )
         self.declare_parameter("frames_per_condition", 30)
         self.declare_parameter("settle_frames", 5)
         self.declare_parameter("timeout_s", 180.0)
@@ -70,6 +85,12 @@ class CameraGateEvaluator(Node):
             self.get_parameter("measurement_topic").value
         )
         self.output_dir = Path(str(self.get_parameter("output_dir").value))
+        latency_topic = str(self.get_parameter("latency_topic").value)
+        diagnostic_topic = str(self.get_parameter("diagnostic_topic").value)
+        self.require_latency = bool(self.get_parameter("require_latency").value)
+        self.evidence_scope = str(
+            self.get_parameter("evidence_scope").value
+        )
         self.frames_per_condition = int(
             self.get_parameter("frames_per_condition").value
         )
@@ -107,6 +128,22 @@ class CameraGateEvaluator(Node):
             self._receive_measurement,
             10,
         )
+        self.latency_subscription = None
+        if latency_topic:
+            self.latency_subscription = self.create_subscription(
+                Float32,
+                latency_topic,
+                self._receive_latency,
+                10,
+            )
+        self.diagnostic_subscription = None
+        if diagnostic_topic:
+            self.diagnostic_subscription = self.create_subscription(
+                Float32MultiArray,
+                diagnostic_topic,
+                self._receive_diagnostic,
+                10,
+            )
         self.timer = self.create_timer(0.1, self._tick)
         self.started = time.monotonic()
         self.phase = "waiting"
@@ -120,6 +157,22 @@ class CameraGateEvaluator(Node):
         self.failure = ""
         self.done = False
         self.exit_code = 1
+        self.latest_inference_ms: float | None = None
+        self.latest_diagnostic: list[float | None] = [None] * 5
+
+    def _receive_latency(self, message: Float32) -> None:
+        value = float(message.data)
+        self.latest_inference_ms = value if math.isfinite(value) else None
+
+    def _receive_diagnostic(self, message: Float32MultiArray) -> None:
+        values = list(message.data)
+        if len(values) != 5:
+            self.latest_diagnostic = [None] * 5
+            return
+        self.latest_diagnostic = [
+            float(value) if math.isfinite(float(value)) else None
+            for value in values
+        ]
 
     @property
     def pose_topic(self) -> str:
@@ -319,6 +372,7 @@ class CameraGateEvaluator(Node):
         )
         measured_bearing_deg = math.degrees(message.vector.y) if valid else None
         actual_bearing_deg = math.degrees(actual_bearing)
+        diagnostic = self.latest_diagnostic if valid else [None] * 5
         return {
             "scene": self.scene,
             "condition_id": self.condition_index,
@@ -334,6 +388,12 @@ class CameraGateEvaluator(Node):
             "bearing_error_deg": (
                 measured_bearing_deg - actual_bearing_deg if valid else None
             ),
+            "inference_ms": self.latest_inference_ms,
+            "detection_confidence": diagnostic[0],
+            "bbox_x": diagnostic[1],
+            "bbox_y": diagnostic[2],
+            "bbox_width": diagnostic[3],
+            "bbox_height": diagnostic[4],
             "stamp_sec": message.header.stamp.sec,
             "stamp_nanosec": message.header.stamp.nanosec,
         }
@@ -358,7 +418,10 @@ class CameraGateEvaluator(Node):
             writer = csv.DictWriter(handle, fieldnames=CSV_FIELDS)
             writer.writeheader()
             writer.writerows(self.rows)
-        summary = summarize_rows(self.rows)
+        summary = summarize_rows(
+            self.rows,
+            require_latency=self.require_latency,
+        )
         summary.update(
             {
                 "scene": self.scene,
@@ -368,6 +431,7 @@ class CameraGateEvaluator(Node):
                 "ground_truth_source": (
                     f"Gazebo {self.pose_topic}; evaluation process only"
                 ),
+                "scope": self.evidence_scope,
             }
         )
         if self.failure:

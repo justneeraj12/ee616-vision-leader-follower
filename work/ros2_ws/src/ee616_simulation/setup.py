@@ -39,6 +39,7 @@ setup(
     license="AGPL-3.0-only",
     entry_points={
         "console_scripts": [
+            "disturbance_proxy = ee616_simulation.disturbance_proxy:main",
             "scenario_builder = ee616_simulation.scenario_builder:main",
         ],
     },

@@ -1,0 +1,16 @@
+/**:
+  ros__parameters:
+    image_topic: /smoke/camera/image
+    measurement_topic: measurement/relative
+    latency_topic: measurement/inference_ms
+    diagnostic_topic: measurement/detection_box
+    horizontal_fov_rad: 1.2217304764
+    target_height_m: 0.90
+    weights_path: /workspace/work/ros2_ws/models/yolov8n_predecessor_v3.pt
+    class_id: 0
+    confidence: 0.40
+    iou: 0.45
+    image_size: 640
+    device: "0"
+    range_scale: 0.9903207645963737
+    range_offset_m: 0.10421976647105595

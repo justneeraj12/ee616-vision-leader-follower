@@ -1,0 +1,28 @@
+{
+  "all_sample_count": 2520,
+  "bearing_mae_deg": 0.15685459059312787,
+  "full_visibility_sample_count": 1620,
+  "ground_truth_boundary": "Gazebo pose data is read only by ee616_evaluation and is not published to perception, estimation, supervision, or control.",
+  "inference_latency_p95_ms": 9.019062042236328,
+  "inference_latency_sample_count": 2520,
+  "latency_required": true,
+  "range_rmse_m": 0.03233340913964462,
+  "scenes": [
+    "yolo_final_aisle_v3",
+    "yolo_final_open_v3"
+  ],
+  "scope": "Synchronized YOLOv8n v3 on sealed Gazebo scenes; not closed-loop control, physical-robot, or safety evidence",
+  "source_csv_files": [
+    "yolo_final_aisle_v3_samples.csv",
+    "yolo_final_open_v3_samples.csv"
+  ],
+  "status": "pass",
+  "thresholds": {
+    "bearing_mae_deg_max": 1.5,
+    "inference_latency_p95_ms_max": 66.7,
+    "range_rmse_m_max": 0.15,
+    "valid_full_visibility_rate_min": 0.95
+  },
+  "valid_full_visibility_rate": 1.0,
+  "valid_full_visibility_sample_count": 1620
+}

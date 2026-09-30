@@ -19,7 +19,8 @@ ros2 launch ee616_bringup namespace_smoke.launch.py \
     2>&1 | tee "${result_dir}/namespace_smoke.log"
 
 ros2 doctor --report > "${result_dir}/ros2_doctor.txt" 2>&1 || true
-gz sim --version > "${result_dir}/gazebo_version.txt" 2>&1
+gz sim --version 2>&1 \
+    | sed '/^[[:space:]]*$/d' > "${result_dir}/gazebo_version.txt"
 
 ros2 launch ee616_simulation camera_smoke.launch.py \
     > "${result_dir}/camera_simulation.log" 2>&1 &

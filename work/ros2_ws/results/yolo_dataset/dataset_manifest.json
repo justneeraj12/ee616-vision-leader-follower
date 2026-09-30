@@ -1,0 +1,35 @@
+{
+  "cross_split_duplicate_images": {
+    "train_test": 0,
+    "train_val": 0,
+    "val_test": 0
+  },
+  "dataset_id": "ee616_predecessor_target_v1",
+  "dataset_sha256": "1049c1491947995b3439d482c6f2bcc86425d52d31d05cc9b43ba92be9e6579a",
+  "format": "Ultralytics YOLO normalized xywh",
+  "scope": "detector training data; not detector performance evidence",
+  "splits": {
+    "test": {
+      "images": 162,
+      "negative_labels": 30,
+      "positive_labels": 132,
+      "sha256": "251a3fa41d42cca0fe33e1ae86e072a396d0951003656801f79bd19d0bc5f2cd",
+      "unique_images": 43
+    },
+    "train": {
+      "images": 324,
+      "negative_labels": 60,
+      "positive_labels": 264,
+      "sha256": "db242982be92a418d5d8957f24b6dfd4d87f1763a251f308c4b66ced63fa5cb3",
+      "unique_images": 89
+    },
+    "val": {
+      "images": 162,
+      "negative_labels": 30,
+      "positive_labels": 132,
+      "sha256": "8ad71b6b9203181ee4a045fb0f9af50699db0bc077aae4bb21c3641e2c630137",
+      "unique_images": 47
+    }
+  },
+  "status": "pass"
+}

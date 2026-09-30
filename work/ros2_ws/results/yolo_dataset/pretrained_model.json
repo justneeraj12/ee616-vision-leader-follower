@@ -1,0 +1,12 @@
+{
+  "checkpoint": "yolov8n.pt",
+  "license_context": "Ultralytics AGPL-3.0 distribution",
+  "path": "/workspace/work/ros2_ws/models/yolov8n.pt",
+  "provenance": "Acquired by Ultralytics YOLO API using the named yolov8n.pt checkpoint.",
+  "scope": "training initialization only; not project detector evidence",
+  "sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+  "size_bytes": 6549796,
+  "source_url": "https://github.com/ultralytics/assets/releases/download/v8.4.0/yolov8n.pt",
+  "status": "pass",
+  "ultralytics_version": "8.4.165"
+}

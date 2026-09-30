@@ -135,3 +135,75 @@ Date: September 29, 2026
 Decision: Keep the canonical Ubuntu Noble container with ROS 2 Jazzy and Gazebo Harmonic after the laptop host upgrade to Ubuntu 26.04.1 LTS. Do not migrate the project to the host's partial ROS 2 Lyrical installation or to Gazebo Jetty during the current validation sequence.
 
 Reason: The approved experiments and evidence already target Jazzy and Harmonic. The versioned container passed the full ROS, namespace, camera, toy-test, and CUDA checks after the host upgrade. Changing distributions now would add migration risk without improving the next scientific gate.
+
+## D018 YOLO target and dataset separation
+
+Date: September 29, 2026
+
+Decision: Detect the same 0.70 m by 0.90 m solid rear target used by the fixed-pixel baseline, use `predecessor_target` as the only learned class, separate training, validation, and test data by complete Gazebo scene, and keep the A012 camera-calibration and straight-aisle scenes out of all training data.
+
+Reason: A known target height preserves the approved monocular range equation. Reusing its geometry supports a fair detector comparison. Scene-level separation reduces background leakage, and retaining the unchanged A012 scenes provides an independent final measurement gate.
+
+## D019 Failed learned-detector gate blocks control integration
+
+Date: September 29, 2026
+
+Decision: Do not use the current YOLOv8n checkpoint in estimation or follower control. Keep the A012 final scenes unchanged and require a separate approved corrective detector stage before pair integration.
+
+Reason: The checkpoint passed bearing and latency limits but reached only a 79.6% valid full-visible rate and 0.505 m range RMSE. Both results fail the approved 95% and 0.15 m limits. Advancing it would hide a known perception failure inside the controller.
+
+## D020 Corrective detector remains blocked after independent final gate
+
+Date: September 29, 2026
+
+Decision: Do not lower the frozen acceptance thresholds and do not advance the corrective YOLOv8n checkpoint to pair integration. Preserve the independent `camera_calibration` and `straight_aisle` scenes as failed final-gate evidence.
+
+Reason: The corrective dataset and validation-only calibration improved validation range RMSE, but the frozen final gate produced zero valid detections across 1,620 full-visible samples. Inference latency passed at 7.35 ms p95, but range and bearing accuracy were undefined. This is evidence of detector generalization failure, not a reason to hide or relax the gate.
+
+## D021 Synchronized v3 closes the static learned-measurement gate
+
+Date: September 29, 2026
+
+Decision: Preserve the v1 and v2 failures, correct the RGB/BGR inference contract and stale-frame dataset capture, train one synchronized v3 checkpoint, and accept it as the candidate detector for a separately approved one-leader/one-follower integration stage. Do not treat the static gate as follower-control evidence.
+
+Reason: Diagnosis found that the ROS node supplied RGB arrays to an Ultralytics array interface that expects BGR and that two settled frames could leave images at the previous target pose. The v3 dataset used eight settle frames, an offline visibility and alignment audit, separate train/validation/test scenes, validation-only threshold and range calibration, and two scenes sealed before training. Its final gate achieved 100% valid full-visible measurements, 0.0323 m range RMSE, 0.1569 degree bearing MAE, and 9.02 ms p95 inference latency. These results pass the frozen static-measurement limits but do not establish estimator, controller, motion, physical-robot, or safety performance.
+
+## D022 Validate a nominal pair before chain expansion
+
+Date: September 29, 2026
+
+Decision: Use a deterministic bounded velocity route for the leader and validate exactly one independently driven follower before adding another follower or a route planner. The follower uses only its forward RGB stream and local wheel odometry. A relative range-bearing EKF, bounded controller, and `TRACK`, `PREDICT`, and `SAFE STOP` supervisor run in `/follower_1`. Gazebo poses remain inside `ee616_evaluation`.
+
+Reason: The pair is the minimum scientific unit. Repeated straight and gradual-turn runs isolate moving-image detection, estimation, physics, supervision, and closed-loop spacing before rearward error propagation is introduced. All six nominal runs passed, but this decision does not claim disturbance, multi-follower, physical-robot, or safety validation.
+
+## D023 Expand only through a staged incremental chain
+
+Date: September 30, 2026
+
+Decision: Add Follower 2 first and require its six-run nominal matrix to pass before adding Follower 3. Give every follower the same RGB, local-odometry, estimator, supervisor, and controller pipeline under an isolated namespace. Measure each predecessor-follower pair separately and retain the result even if rearward error does not increase.
+
+Reason: The two-follower stage passed before the three-follower stage was launched. All 12 runs passed the approved limits. In the three-follower matrix, mean RMSE decreased from 0.0775 m to 0.0628 m to 0.0512 m toward the rear. Therefore, this nominal result does not demonstrate rearward error amplification. It establishes bounded nominal chain operation only and does not claim controlled-disturbance, physical-robot, or safety validation.
+
+## D024 Freeze a pair-first controlled-disturbance matrix
+
+Date: September 30, 2026
+
+Decision: Test sharp turns, 0.5-second and 1.3-second full-frame RGB blackouts, a four-second stopped leader, and a 0.5-second post-controller yaw-command bias of 0.15 rad/s. Require three repetitions of all five pair scenarios to pass before running three combined three-follower trials. Keep the acceptance limits unchanged after the repeated matrix begins.
+
+Reason: The pair remains the minimum scientific unit, and the chain should not hide a pair-level recovery failure. An initial repeated matrix exposed a startup race: one long-occlusion trial began leader motion before the detector produced a valid measurement. The chain stage correctly remained blocked. The stationary initialization window was increased from four to eight seconds, and the event schedule and evaluation window were shifted by the same four seconds without changing any acceptance threshold. The corrected 15-run pair matrix and three combined chain runs passed. Mean combined-scenario RMSE increased toward the rear. The stopped-leader follower settled to nearly zero command but retained about 0.12 m of short-gap undershoot because the controller does not reverse. The RGB blackout is not physical occlusion, and the yaw bias is not wheel slip or a motor-fault model.
+
+## D025 Close Gate 6 with observer-only timing and bounded evaluator recovery
+
+Date: September 30, 2026
+
+Decision: Measure timing through an observer that subscribes to existing ROS topics without publishing into perception, estimation, supervision, or control. Reuse the accepted combined three-follower disturbance scenario for three repetitions. Keep the frozen latency, delivery, real-time-factor, RAM, and VRAM limits. Permit up to three attempts for a Gazebo pose CLI read and fail the behavior evaluator after three consecutive failed sample reads.
+
+Reason: The first Gate 6 execution was incomplete because a transient `gz topic` segmentation fault terminated the behavior evaluator and shut down the timing observer before it wrote run 1. The available timing values were within limits, so changing the detector or controller was not justified. The evaluator-only repair retained the scientific criteria and added explicit failure evidence for interrupted observers. The repeated three-run matrix then passed every frozen aggregate check. This establishes timing and resource feasibility only for the target-laptop simulation configuration; it does not establish network, physical-actuator, physical-robot, or safety performance.
+
+## D026 Freeze the completed simulation evidence and separate the learning handbook
+
+Date: September 30, 2026
+
+Decision: Close the planned seven-gate simulation sequence by freezing the accepted Gate 1--6 source, protocols, configurations, raw results, summaries, figures, failed detector attempts, and evidence limits under a SHA-256 manifest. Package a separate indexed technical handbook and evidence walkthrough for operation, study, and review. Treat the handbook as learning and project-use documentation, not as Neeraj's faculty-authored report.
+
+Reason: The accepted gates now cover environment verification, static learned measurement, pair integration, incremental chain expansion, controlled disturbances, and target-laptop timing. A machine-verifiable archive makes those results reproducible and preserves failures as part of the technical record. Keeping the handbook separate supports Neeraj's understanding without silently replacing his own faculty-facing writing. Later experiments require a new approved scope and must not overwrite the frozen evidence.

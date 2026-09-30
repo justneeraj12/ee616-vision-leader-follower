@@ -1,0 +1,27 @@
+{
+  "bounded_commands": true,
+  "checks": {
+    "bounded_commands": true,
+    "collision_samples": true,
+    "control_period_p95": true,
+    "route_complete": true,
+    "spacing_rmse": true,
+    "track_fraction": true
+  },
+  "collision_samples": 0,
+  "control_period_p95_ms": 50.00000000000071,
+  "evaluated_sample_count": 100,
+  "failure": null,
+  "ground_truth_boundary": "Gazebo /world/pair_straight/pose/info was read only by ee616_evaluation and was not published to perception, estimation, supervision, or control.",
+  "inference_latency_p95_ms": 8.413780069351194,
+  "minimum_center_distance_m": 1.9295041417721013,
+  "profile": "straight",
+  "route_complete": true,
+  "run_id": "run_01",
+  "safe_stop_samples": 0,
+  "sample_count": 109,
+  "scope": "One simulated leader-follower pair; not multi-follower, physical-robot, or safety evidence.",
+  "spacing_rmse_m": 0.05405722111483358,
+  "status": "pass",
+  "track_fraction": 1.0
+}

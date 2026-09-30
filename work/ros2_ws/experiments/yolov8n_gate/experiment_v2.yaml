@@ -1,0 +1,79 @@
+schema_version: 1
+experiment_id: a013_yolov8n_corrective_v2
+status: evaluated_acceptance_criteria_not_met
+scope: >-
+  Correct the failed learned-detector measurement gate without using final-gate
+  images or ground truth during runtime perception.
+
+dataset:
+  id: ee616_predecessor_target_v2
+  train_scenes: [yolo_train_open, yolo_train_aisle, yolo_train_low_light]
+  validation_scenes: [yolo_val_mixed]
+  test_scenes: [yolo_test_occlusion]
+  excluded_final_gate_scenes: [camera_calibration, straight_aisle]
+  ranges_m: [0.9, 1.0, 1.1, 1.3, 1.5, 1.7, 2.0, 2.3, 2.7, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5]
+  bearings_deg: [-50.0, -40.0, -32.0, -25.0, -18.0, -12.0, -6.0, 0.0, 6.0, 12.0, 18.0, 25.0, 32.0, 40.0, 50.0]
+  frames_per_condition: 1
+  expected_images:
+    train: 675
+    validation: 225
+    test: 225
+    total: 1125
+  observed_images:
+    train: 675
+    validation: 225
+    test: 225
+    total: 1125
+  dataset_sha256: e42368ae861b468206a9f7bec435508a214bc46e333f8c891b87f2cd50a00e15
+  cross_split_duplicate_images: 0
+
+training:
+  starting_checkpoint: yolov8n.pt
+  epochs_max: 50
+  patience: 12
+  batch: 4
+  image_size: 640
+  seed: 616
+  device: 0
+  workers: 1
+  amp: true
+  deterministic: true
+  run_name: run_20260929_corrective_v2
+  completed_epochs: 40
+  best_epoch: 28
+  trained_checkpoint_sha256: cd949c617eaff472417425db025b03fc5b6c9b7698d884cdc7c8562ee930bf62
+  validation_range_calibration:
+    sample_count: 97
+    range_scale: 1.0186491863142044
+    range_offset_m: 0.00900843326990751
+    raw_range_rmse_m: 0.08266421699577937
+    calibrated_range_rmse_m: 0.05056001362454028
+  heldout_image_counts:
+    true_positive: 166
+    true_negative: 23
+    false_negative: 25
+    false_positive: 11
+
+acceptance_criteria:
+  full_visible_valid_rate_min: 0.95
+  range_rmse_m_max: 0.15
+  bearing_mae_deg_max: 1.5
+  detector_latency_p95_ms_max: 66.7
+  cross_split_duplicate_images_max: 0
+
+final_gate_result:
+  status: fail
+  all_samples: 2520
+  full_visible_samples: 1620
+  valid_full_visible_samples: 0
+  valid_full_visible_rate: 0.0
+  range_rmse_m: null
+  bearing_mae_deg: null
+  inference_latency_p95_ms: 7.352878093719482
+  peak_container_memory_mib: 1182.58984375
+  peak_visible_gpu_memory_mib: 2027.0
+  peak_gpu_utilization_percent: 42.0
+  cpu_core_equivalent_percent: 57.32778467184955
+  conclusion: >-
+    The corrective checkpoint did not detect the target in either frozen final
+    scene. Range and bearing errors are undefined. Pair integration is blocked.

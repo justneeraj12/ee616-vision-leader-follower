@@ -1,0 +1,37 @@
+extends: base.yaml
+name: yolo_val_mixed
+description: Held-out validation scene with different light floor and shelf layout.
+variable_under_test: detector validation on unseen scene configuration
+expected_visibility: visible and deliberate out-of-frame negatives
+evidence_scope: YOLO dataset validation only.
+seed: 2616
+
+floor:
+  color: [0.50, 0.46, 0.38, 1.0]
+
+lighting:
+  ambient: [0.30, 0.32, 0.35, 1.0]
+  background: [0.16, 0.12, 0.10, 1.0]
+  diffuse: [0.70, 0.68, 0.62, 1.0]
+  direction: [0.2, -0.5, -0.85]
+  shadows: true
+
+camera:
+  pose: [-7.2, -0.5, 0.65, 0.0, 0.0, 0.0]
+
+target:
+  pose: [-4.2, -0.5, 0.6, 0.0, 0.0, 0.0]
+
+obstacles:
+  - name: val_left
+    pose: [-3.8, 2.6, 1.1, 0.0, 0.0, 0.0]
+    size: [5.5, 0.7, 2.2]
+    color: [0.35, 0.25, 0.48, 1.0]
+  - name: val_right_near
+    pose: [-5.6, -2.1, 0.8, 0.0, 0.0, 0.0]
+    size: [2.1, 0.9, 1.6]
+    color: [0.48, 0.34, 0.16, 1.0]
+  - name: val_right_far
+    pose: [-1.9, -2.5, 1.2, 0.0, 0.0, 0.0]
+    size: [2.8, 1.0, 2.4]
+    color: [0.16, 0.34, 0.48, 1.0]
