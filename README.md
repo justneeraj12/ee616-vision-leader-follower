@@ -4,7 +4,7 @@
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](work/toy_simulation/pyproject.toml)
 [![ROS 2](https://img.shields.io/badge/ROS%202-Jazzy%20environment%20verified-22314E.svg)](docs/PROJECT_STATUS.md)
 [![Gazebo](https://img.shields.io/badge/Gazebo-Harmonic%208.15.0-F58113.svg)](docs/PROJECT_STATUS.md)
-[![Status](https://img.shields.io/badge/status-controlled%20disturbance%20gate%20passed-yellow.svg)](docs/PROJECT_STATUS.md)
+[![Status](https://img.shields.io/badge/status-simulation%20gates%20complete-brightgreen.svg)](docs/PROJECT_STATUS.md)
 [![Course](https://img.shields.io/badge/Clarkson-EE%20616-green.svg)](https://www.clarkson.edu/)
 
 A reproducible research project for camera-only predecessor following in a flexible warehouse material-delivery convoy.
@@ -14,6 +14,43 @@ The leader owns the route. Each independently driven follower observes the robot
 > **Current status:** deterministic toy baseline, containerized ROS 2/Gazebo foundation, synchronized YOLOv8n v3 measurement gate complete, nominal incremental chains through three followers passed, and the controlled-disturbance gate passed.
 >
 > The first two YOLOv8n checkpoints remain recorded failures. After correcting an RGB/BGR runtime mismatch and stale-frame labels, v3 passed on two new sealed scenes, six nominal closed-loop pair runs, 12 staged nominal chain runs, and 18 pair-first controlled-disturbance runs. Physical robots and production safety have not been demonstrated.
+
+## Faculty review: start here
+
+This repository contains the completed simulation-stage implementation and its
+retained evidence. A reviewer does not need to read the repository in file-tree
+order. Use this short path:
+
+1. [Faculty review overview](FACULTY_REVIEW.md) - project question, architecture,
+   accepted results, limitations, and code map.
+2. [Faculty review PDF](deliverables/Neeraj_Kanchani_EE616_Faculty_Review_Packet.pdf) -
+   a concise shareable version of the same material.
+3. [Gazebo demonstration guide](docs/PROFESSOR_DEMO_GUIDE.md) - exact live commands,
+   recorded results, and interpretation limits.
+4. [Final evidence index](docs/FINAL_EVIDENCE_INDEX.md) - gate-by-gate machine-readable
+   evidence and reproduction commands.
+5. [Deliverables index](deliverables/README.md) - current presentation material,
+   technical references, and clearly labeled earlier work.
+
+The fastest visual review is the
+[pair-turn demonstration](deliverables/Neeraj_Kanchani_EE616_Gazebo_Pair_Turn_Demo.mp4),
+the [three-follower chain](deliverables/Neeraj_Kanchani_EE616_Gazebo_Three_Follower_Chain_Demo.mp4),
+and the [visual-loss recovery demonstration](deliverables/Neeraj_Kanchani_EE616_Gazebo_Recovery_Demo.mp4).
+These are presentation runs. The frozen Gate 1--7 directories remain the primary
+scientific evidence.
+
+### Presentation screenshots
+
+| Pair gradual turn | Three-follower chain |
+|---|---|
+| ![Pair gradual turn in TRACK](deliverables/screenshots/pair_turn_track.png) | ![Three-follower chain in TRACK](deliverables/screenshots/three_follower_chain_track.png) |
+
+| Visual loss: PREDICT | Visual loss: SAFE STOP | Target reacquired |
+|---|---|---|
+| ![Synthetic blackout in PREDICT](deliverables/screenshots/recovery_predict.png) | ![Synthetic blackout in SAFE STOP](deliverables/screenshots/recovery_safe_stop.png) | ![Target returned and TRACK reacquired](deliverables/screenshots/recovery_reacquired.png) |
+
+The images are extracted video frames, not additional experiment repetitions.
+See the [screenshot index](deliverables/screenshots/README.md) for provenance.
 
 ## Research objective
 
@@ -50,7 +87,7 @@ The project combines:
 | Forced-occlusion reacquisition | 0.030 s median | Declared deterministic occlusion window |
 | Warehouse demonstration | 86 simulated seconds | One leader and three followers |
 | Warehouse route | 7 completed route segments | Six-shelf two-dimensional maze |
-| ROS workspace | 5 packages built; 59 tests passed | Includes simulation, perception, estimation, control, and evaluation tests |
+| ROS workspace | 5 packages built; 61 tests passed | Includes simulation, perception, estimation, control, and evaluation tests |
 | Namespace smoke test | `/leader` and `/follower_1` passed | Five local heartbeat samples per namespace |
 | Gazebo camera transport | 15 timestamped 640×480 RGB samples | Transport check; not range/bearing accuracy |
 | NVIDIA container access | RTX 3050 Ti, 4 GB VRAM visible | Passthrough verified; acceleration not benchmarked |
@@ -133,8 +170,8 @@ The video shows one leader and three independently controlled followers moving t
 | 3 | One leader and one follower with estimator, bounded controller, and recovery states | Complete for nominal straight and gradual-turn runs |
 | 4 | Followers added incrementally with error-propagation measurements | Complete for nominal straight and gradual-turn runs |
 | 5 | Turns, occlusions, stopped leaders, and controlled disturbances | Complete for the frozen simulated pair-first matrix |
-| 6 | Resource and inference benchmarks on the target laptop | Not started |
-| 7 | Frozen experiments, final video, report, and submission package | Not started |
+| 6 | Resource and inference benchmarks on the target laptop | Complete |
+| 7 | Frozen experiments, final video, report, and submission package | Complete |
 
 The validated pair remains the minimum scientific result. The one-leader/three-follower target also passed three combined controlled-disturbance runs after all 15 pair runs passed.
 
@@ -164,6 +201,22 @@ make aws-benchmark
 ```
 
 See [the scenario matrix](docs/SCENARIO_MATRIX.md) for the controlled variables, AWS provenance, measured laptop load, and evidence boundaries.
+
+### Live Gazebo demonstrations
+
+The post-freeze presentation launchers open Gazebo beside a read-only camera and
+supervisor dashboard on Hyprland/XWayland. They write only to a separate
+`professor_demos` result directory and do not alter the frozen Gate 1--7 evidence.
+
+```bash
+make professor-demo PROFESSOR_DEMO=pair_turn
+make professor-demo PROFESSOR_DEMO=chain_straight
+make professor-demo PROFESSOR_DEMO=recovery
+```
+
+Use `make professor-demo-record PROFESSOR_DEMO=<mode>` to record the selected mode. See the
+[professor demonstration guide](docs/PROFESSOR_DEMO_GUIDE.md) for the exact
+workflow, verified video results, speaking notes, and evidence limits.
 
 The YOLOv8n stage uses separated dataset-only Gazebo scenes and an isolated camera-only backend. See [the YOLOv8n gate protocol](docs/YOLOV8N_GATE.md). The first two checkpoints remain recorded failures. The synchronized v3 checkpoint passed its sealed static measurement gate and the nominal one-pair integration gate.
 
@@ -317,6 +370,9 @@ This repository does not claim that the current toy model satisfies those requir
 | [Warehouse demonstration video](deliverables/Neeraj_Kanchani_EE616_Multi_Follower_Warehouse_2D.mp4) | Preliminary multi-follower visualization |
 | [Project handbook and simulation user guide](deliverables/Neeraj_Kanchani_EE616_Project_Handbook_and_Simulation_User_Guide.pdf) | Indexed technical reference for setup, algorithms, configuration, experiments, metrics, and troubleshooting |
 | [Gate 7 evidence walkthrough](deliverables/Neeraj_Kanchani_EE616_Gate7_Evidence_Walkthrough.mp4) | Concise walkthrough of the accepted simulation evidence and its limits |
+| [Gazebo pair-turn demo](deliverables/Neeraj_Kanchani_EE616_Gazebo_Pair_Turn_Demo.mp4) | Live pair motion, follower RGB view, and `TRACK` state |
+| [Gazebo three-follower chain demo](deliverables/Neeraj_Kanchani_EE616_Gazebo_Three_Follower_Chain_Demo.mp4) | Live predecessor-following chain and three supervisor states |
+| [Gazebo recovery demo](deliverables/Neeraj_Kanchani_EE616_Gazebo_Recovery_Demo.mp4) | Synthetic visual loss, `PREDICT`, `SAFE STOP`, and reacquisition |
 | [Gate 7 frozen project package](deliverables/Neeraj_Kanchani_EE616_Gate7_Frozen_Project_Package.zip) | Checksum-verifiable source, protocols, results, documentation, and retained failed evidence |
 
 ## Documentation
@@ -328,6 +384,7 @@ This repository does not claim that the current toy model satisfies those requir
 | Approved implementation stages | [docs/APPROVAL_LOG.md](docs/APPROVAL_LOG.md) |
 | Standing project requirements | [PROJECT_MASTER_PROMPT.md](PROJECT_MASTER_PROMPT.md) |
 | Controlled scenarios and AWS benchmark | [docs/SCENARIO_MATRIX.md](docs/SCENARIO_MATRIX.md) |
+| Live and recorded Gazebo faculty demonstrations | [docs/PROFESSOR_DEMO_GUIDE.md](docs/PROFESSOR_DEMO_GUIDE.md) |
 | Contribution and approval process | [CONTRIBUTING.md](CONTRIBUTING.md) |
 | Project milestones | [CHANGELOG.md](CHANGELOG.md) |
 | Final frozen evidence map | [docs/FINAL_EVIDENCE_INDEX.md](docs/FINAL_EVIDENCE_INDEX.md) |

@@ -6,7 +6,8 @@ SCENARIO ?= straight_aisle
 .PHONY: aws-benchmark aws-warehouse-gui container-build container-config \
 	container-shell environment-check environment-check-gpu gazebo-gui gpu-shell \
 	prepare-display scenario-gui scenario-validate vscode yolo-dataset-capture \
-	chain-gate disturbance-gate pair-gate timing-gate \
+	chain-gate disturbance-gate pair-gate timing-gate professor-demo \
+	professor-demo-record professor-demo-shell \
 	yolo-dataset-v2 yolo-dataset-v3 yolo-diagnose-v2 yolo-gate yolo-gate-v2 \
 	yolo-gate-v3 yolo-model-acquire yolo-train yolo-train-v2 yolo-train-v3
 
@@ -64,6 +65,19 @@ disturbance-gate:
 timing-gate:
 	LOCAL_UID=$$(id -u) LOCAL_GID=$$(id -g) $(COMPOSE) --profile gpu run --rm gpu \
 		bash /workspace/work/ros2_ws/scripts/run_timing_gate.sh
+
+PROFESSOR_DEMO ?= pair_turn
+
+professor-demo: prepare-display
+	LOCAL_UID=$$(id -u) LOCAL_GID=$$(id -g) $(DEV_COMPOSE) run --rm dev \
+		bash /workspace/infrastructure/dev/run_professor_demo.sh $(PROFESSOR_DEMO)
+
+professor-demo-shell:
+	LOCAL_UID=$$(id -u) LOCAL_GID=$$(id -g) $(DEV_COMPOSE) run --rm dev \
+		bash /workspace/infrastructure/dev/monitor_professor_demo.sh
+
+professor-demo-record:
+	bash infrastructure/dev/record_professor_demo.sh $(PROFESSOR_DEMO)
 
 yolo-model-acquire:
 	LOCAL_UID=$$(id -u) LOCAL_GID=$$(id -g) $(COMPOSE) run --rm dev \

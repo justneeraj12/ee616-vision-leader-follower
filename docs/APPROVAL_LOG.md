@@ -212,6 +212,74 @@ Acceptance criteria: Preserve accepted and failed evidence; include machine-read
 
 Delivered evidence: The frozen manifest records all expected Gate 1--6 statuses, including the retained v1 and v2 detector failures. Five ROS packages built and 59 tests passed with zero failures; seven toy tests passed. The 68-page handbook compiled with a generated index and was visually checked after rendering every page. The silent evidence walkthrough is 1920 by 1080, 30 frames per second, and 40 seconds long. The final evidence index, verification script, checksum file, package builder, and review ZIP preserve the frozen file set. The package is simulation evidence only. No commit or push was performed.
 
+## A023 Hyprland Gazebo professor demonstrations
+
+Status: Approved and completed; acceptance criteria met
+
+Approved scope: Make the accepted Gazebo experiments visible and recordable on
+the upgraded Ubuntu 26.04.1 Hyprland host; add pair, chain, and recovery
+presentation launchers; show camera and supervisor state; keep presentation
+results separate from frozen gates; create three professor-ready videos; add
+operating and interpretation documentation; and test the complete workflow.
+
+Acceptance criteria: Use the existing project workspace and canonical
+Jazzy/Harmonic container; preserve uncommitted report work and frozen Gate 1--7
+evidence; show the actual Gazebo world and a read-only dashboard; keep truth out
+of detection, estimation, supervision, and control; record 1920 by 1080 videos;
+verify their scientific summaries and visual frames; pass the full ROS and toy
+test suites; document evidence limits and troubleshooting; and do not commit or
+push without separate approval.
+
+Delivered evidence: The display overlay selects native NVIDIA PRIME OpenGL 4.6
+on the RTX 3050 Ti, and VA-API hardware encoding avoids CPU timing interference.
+The pair-turn, straight three-follower chain, and one-pair long-occlusion videos
+are each 1920 by 1080 at 30 frames per second and passed visual inspection. All
+three recorded experiment summaries passed. The recovery video visibly records
+the blacked-out RGB stream, `SAFE STOP`, and later `TRACK`. A read-only observer
+shows one representative camera and all follower states without publishing into
+the robot stack. Gazebo CLI pose reads now remove GUI-only PRIME variables and
+retry transient transport failures; the chain failure summary also handles
+missing RMSE values without a secondary exception. The Gate 7 frozen evidence
+was not changed. Five ROS packages built and 61 tests passed with zero failures;
+all seven toy tests passed. No commit or push was performed.
+
+## A024 Faculty review repository package
+
+Status: Approved and completed; acceptance criteria met
+
+Approved scope: Create a professor-facing GitHub entry point, neutral faculty
+review document, indexed deliverables page, and concise faculty review PDF; add
+the already-approved presentation videos and support files; preserve the report
+draft, internal meeting guide, frozen evidence, ROS package locations, and git
+history; validate the material; then commit and push the approved package to the
+existing public repository.
+
+Acceptance criteria: Put the project question, architecture, accepted results,
+limitations, live commands, videos, code map, and evidence index within two
+clicks of the repository root; label presentation, frozen, failed, toy, and
+historical evidence correctly; include no production-safety or physical-robot
+claim; verify internal links, frozen checksums, PDF rendering, and staged files;
+and do not send a message or file directly to Professor Imtiaz.
+
+Approval: The project owner replied "yes" on October 12, 2026 after receiving the
+complete objective, file scope, acceptance criteria, tests, risks, rollback,
+schedule effect, next gates, and commit/push request.
+
+Delivered evidence: The repository root now links directly to a neutral faculty
+overview, an eight-page visually verified faculty PDF, a deliverables index,
+three presentation videos, and five full-resolution screenshots covering pair
+tracking, the chain, `PREDICT`, `SAFE_STOP`, and reacquisition. Seventy local
+Markdown links passed. Both faculty-material checksum files passed. The preserved
+Gate 7 ZIP independently verified 445 frozen files and all expected evidence
+statuses. Five ROS 2 packages completed 61 tests with zero failures, and all seven
+toy tests passed. A secret-pattern scan found no credential pattern in the
+approved material. The report draft, report build output, internal meeting guide,
+temporary PDF renders, and frozen experiment directories were excluded from the
+commit scope. No material was sent directly to Professor Imtiaz.
+
 ## Next approval required
 
-The planned seven-gate simulation sequence is complete. Any faculty-requested change, physical-robot stage, new experiment matrix, report-authoring stage, commit, or push requires separate explicit approval.
+The planned simulation, presentation, and faculty-review package stages are
+complete. Faculty-requested technical changes, physical-robot work, new experiment
+matrices, report authoring, or later commits and pushes require separate explicit
+approval.

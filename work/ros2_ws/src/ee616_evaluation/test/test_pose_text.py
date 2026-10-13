@@ -1,6 +1,9 @@
 from math import isclose, pi
 
-from ee616_evaluation.pose_text import parse_entity_pose
+import os
+import subprocess
+
+from ee616_evaluation.pose_text import parse_entity_pose, read_gz_topic_text
 
 import pytest
 
@@ -45,3 +48,19 @@ def test_parses_position_defaults_and_yaw():
 def test_missing_entity_is_rejected():
     with pytest.raises(ValueError, match="not present"):
         parse_entity_pose(POSE_MESSAGE, "missing")
+
+
+def test_gz_topic_reader_removes_gui_only_prime_environment(monkeypatch):
+    monkeypatch.setenv("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
+    monkeypatch.setenv("__NV_PRIME_RENDER_OFFLOAD", "1")
+    captured = {}
+
+    def run(*args, **kwargs):
+        captured.update(kwargs)
+        return subprocess.CompletedProcess(args[0], 0, stdout="pose {}")
+
+    monkeypatch.setattr(subprocess, "run", run)
+    assert read_gz_topic_text("/world/test/pose/info") == "pose {}"
+    assert "__GLX_VENDOR_LIBRARY_NAME" not in captured["env"]
+    assert "__NV_PRIME_RENDER_OFFLOAD" not in captured["env"]
+    assert os.environ["__GLX_VENDOR_LIBRARY_NAME"] == "nvidia"

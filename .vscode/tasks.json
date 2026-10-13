@@ -125,6 +125,31 @@
       }
     },
     {
+      "label": "EE616: Launch professor demonstration",
+      "type": "shell",
+      "command": "bash /workspace/infrastructure/dev/run_professor_demo.sh ${input:professorDemoMode}",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "simulation",
+        "showReuseMessage": false
+      }
+    },
+    {
+      "label": "EE616: Open professor-demo inspection shell",
+      "type": "shell",
+      "command": "bash /workspace/infrastructure/dev/monitor_professor_demo.sh",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "group": "inspection",
+        "showReuseMessage": false
+      }
+    },
+    {
       "label": "EE616: Validate all controlled scenarios",
       "type": "shell",
       "command": "bash /workspace/infrastructure/benchmarks/validate_scenarios.sh",
@@ -172,6 +197,18 @@
         "right_angle_turn",
         "narrow_aisle",
         "partial_occlusion"
+      ]
+    },
+    {
+      "id": "professorDemoMode",
+      "type": "pickString",
+      "description": "Choose a GUI demonstration",
+      "default": "pair_turn",
+      "options": [
+        "pair_turn",
+          "chain_straight",
+          "chain_turn",
+        "recovery"
       ]
     }
   ]

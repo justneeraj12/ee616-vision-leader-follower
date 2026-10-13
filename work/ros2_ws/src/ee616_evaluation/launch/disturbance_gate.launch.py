@@ -28,11 +28,24 @@ def _generated_dir() -> Path:
     return Path(tempfile.gettempdir()) / "ee616_generated_disturbance_worlds"
 
 
+def _as_bool(value: str) -> bool:
+    normalized = value.strip().lower()
+    if normalized not in {"true", "false"}:
+        raise ValueError("gui must be true or false")
+    return normalized == "true"
+
+
 def _configure(context: LaunchContext):
     scenario = LaunchConfiguration("scenario").perform(context)
     follower_count = int(LaunchConfiguration("follower_count").perform(context))
     run_id = LaunchConfiguration("run_id").perform(context)
     output_dir = LaunchConfiguration("output_dir").perform(context)
+    gui = _as_bool(LaunchConfiguration("gui").perform(context))
+    startup_extension_s = float(
+        LaunchConfiguration("startup_extension_s").perform(context)
+    )
+    if not 0.0 <= startup_extension_s <= 30.0:
+        raise ValueError("startup_extension_s must be between 0 and 30")
     if scenario not in DISTURBANCE_SCENARIOS:
         raise ValueError("unsupported disturbance scenario")
     if follower_count not in {1, 3}:
@@ -42,14 +55,17 @@ def _configure(context: LaunchContext):
     if not RUN_ID.fullmatch(run_id):
         raise ValueError("run_id must match run_NN")
     target_follower = 1 if follower_count == 1 else 2
-    startup_extension_s = 4.0
     duration_s = (46.0 if scenario == "combined" else 24.0) + startup_extension_s
     simulation_share = Path(get_package_share_directory("ee616_simulation"))
     perception_share = Path(get_package_share_directory("ee616_perception"))
     control_share = Path(get_package_share_directory("ee616_control"))
     world_path = render_disturbance_world(scenario, follower_count, _generated_dir())
+    simulation_command = ["gz", "sim", "-r"]
+    if not gui:
+        simulation_command.append("-s")
+    simulation_command.extend(["-v", "3", str(world_path)])
     actions = [
-        ExecuteProcess(cmd=["gz", "sim", "-r", "-s", "-v", "3", str(world_path)], output="screen"),
+        ExecuteProcess(cmd=simulation_command, output="screen"),
         Node(
             package="ros_gz_bridge", executable="parameter_bridge", name="disturbance_bridge",
             parameters=[{"config_file": str(simulation_share / "config" / "chain_bridge.yaml")}], output="screen",
@@ -125,6 +141,8 @@ def generate_launch_description() -> LaunchDescription:
         DeclareLaunchArgument("scenario", default_value="short_occlusion"),
         DeclareLaunchArgument("follower_count", default_value="1"),
         DeclareLaunchArgument("run_id", default_value="run_01"),
+        DeclareLaunchArgument("gui", default_value="false"),
+        DeclareLaunchArgument("startup_extension_s", default_value="4.0"),
         DeclareLaunchArgument("output_dir", default_value="/workspace/work/ros2_ws/results/disturbance_gate"),
         OpaqueFunction(function=_configure),
     ])

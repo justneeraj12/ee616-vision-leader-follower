@@ -12,7 +12,7 @@ import sys
 import time
 
 from ee616_evaluation.pair_gate_evaluator import percentile
-from ee616_evaluation.pose_text import parse_entity_pose
+from ee616_evaluation.pose_text import parse_entity_pose, read_gz_topic_text
 from geometry_msgs.msg import Twist, Vector3Stamped
 import rclpy
 from rclpy.node import Node
@@ -113,12 +113,9 @@ class ChainGateEvaluator(Node):
         self.inference_ms[index] = value if math.isfinite(value) else None
 
     def _read_poses(self) -> dict:
-        result = subprocess.run(
-            ["gz", "topic", "-e", "-t", self.pose_topic, "-n", "1"],
-            check=True, capture_output=True, text=True, timeout=3.0,
-        )
+        message = read_gz_topic_text(self.pose_topic)
         names = ["leader"] + [f"follower_{index}" for index in range(1, self.follower_count + 1)]
-        return {name: parse_entity_pose(result.stdout, name) for name in names}
+        return {name: parse_entity_pose(message, name) for name in names}
 
     def _sample(self) -> None:
         if self.done:
@@ -129,7 +126,7 @@ class ChainGateEvaluator(Node):
             return
         try:
             poses = self._read_poses()
-        except (ValueError, subprocess.SubprocessError) as exc:
+        except (RuntimeError, ValueError, subprocess.SubprocessError) as exc:
             if elapsed_s > 5.0:
                 self._finish(f"unable to read chain ground truth: {exc}")
             return
@@ -238,7 +235,11 @@ class ChainGateEvaluator(Node):
             "sample_count": len(self.rows),
             "followers": followers,
             "rearward_rmse_delta_m": [
-                rmse_sequence[index] - rmse_sequence[index - 1]
+                (
+                    None
+                    if rmse_sequence[index] is None or rmse_sequence[index - 1] is None
+                    else rmse_sequence[index] - rmse_sequence[index - 1]
+                )
                 for index in range(1, len(rmse_sequence))
             ],
             "route_complete": route_complete,

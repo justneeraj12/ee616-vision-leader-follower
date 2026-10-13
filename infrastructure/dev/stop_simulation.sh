@@ -8,7 +8,12 @@ patterns=(
     "gz sim.*warehouse_playground.sdf"
     "gz sim.*generated_scenarios"
     "gz sim.*aws-no-roof"
+    "gz sim.*generated_pair_worlds"
+    "gz sim.*generated_chain_worlds"
+    "gz sim.*generated_disturbance_worlds"
     "parameter_bridge.*camera_bridge"
+    "demo_viewer"
+    "professor_demo.launch.py"
 )
 
 found=0

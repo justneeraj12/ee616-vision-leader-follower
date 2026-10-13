@@ -20,6 +20,13 @@ The host now runs Ubuntu 26.04.1 LTS and contains a partial ROS 2 Lyrical instal
 
 The planned seven-gate simulation sequence is complete. Gate 7 freezes the accepted source, protocols, configurations, results, retained detector failures, and evidence boundaries through a machine-verifiable SHA-256 manifest. A separate indexed handbook, walkthrough video, final evidence index, and review archive support operation and faculty review. They do not replace Neeraj's own faculty-facing report.
 
+Post-freeze Hyprland-compatible presentation launchers now show the actual
+Gazebo world beside a read-only follower-camera and supervisor dashboard. Three
+1080p recordings cover a passing pair turn, a passing straight three-follower
+chain, and a passing one-pair long-occlusion recovery. These presentation runs
+write to a separate ignored result directory and do not modify the Gate 7
+manifest or frozen experiment matrices.
+
 ## Verified evidence
 
 - Seven automated toy-simulation tests pass.
@@ -33,7 +40,7 @@ The planned seven-gate simulation sequence is complete. Gate 7 freezes the accep
 - The GitHub repository is public at `https://github.com/justneeraj12/ee616-vision-leader-follower` under AGPL-3.0-only for original project work.
 - The repository includes a production-style README, reproducible quickstart, contribution guidance, citation metadata, and GitHub Actions testing for Python 3.11 and 3.12.
 - A separate five-page, single-column IEEEtran technical report has been compiled from LaTeX and visually checked page by page. It uses simple formal English and preserves the existing evidence boundaries.
-- Five ROS 2 packages build with `colcon`, and 54 package tests pass.
+- Five ROS 2 packages build with `colcon`, and 61 package tests pass.
 - The `/leader` and `/follower_1` namespace probes each received five local heartbeat samples.
 - Gazebo produced 15 timestamped 640×480 RGB images through the ROS bridge.
 - The NVIDIA container profile sees the RTX 3050 Ti, driver 595.91.07, and 4096 MiB VRAM.
@@ -94,6 +101,11 @@ The planned seven-gate simulation sequence is complete. Gate 7 freezes the accep
 - The Gate 7 technical handbook compiled to 68 pages with a generated index and passed full-page visual inspection.
 - The Gate 7 evidence walkthrough is a verified 1920×1080, 30 fps, 40-second MP4.
 - The Gate 7 manifest verifies expected pass/fail evidence states and SHA-256 checksums for the frozen file set.
+- Native NVIDIA OpenGL 4.6 rendering was verified inside the display-enabled container on the RTX 3050 Ti. Three 1920 by 1080, 30 fps Gazebo presentation videos passed visual inspection.
+- The recorded pair-turn demo passed with 0.104 m spacing RMSE, 97.3% `TRACK`, 50 ms control-period p95, route completion, and zero collision samples.
+- The recorded straight three-follower demo passed with 0.058, 0.051, and 0.050 m spacing RMSE; 95%, 99%, and 97% `TRACK`; route completion; and zero collision samples.
+- The recorded long-occlusion pair demo passed with `PREDICT`, `SAFE STOP`, zero command during `SAFE STOP`, 0.60 s stop latency, 0.40 s reacquisition, 1.00 s spacing recovery, and zero collision samples.
+- The post-freeze regression built all five ROS packages and passed 61 tests with zero failures; all seven toy-simulation tests also passed.
 
 ## Evidence limitations
 
@@ -106,10 +118,18 @@ The planned seven-gate simulation sequence is complete. Gate 7 freezes the accep
 - During stopped-leader runs, final commands settled near zero but the pair retained about 0.12 m of short-gap undershoot because the controller does not reverse.
 - No wheel slip, detailed actuator dynamics, person traffic, or safety-rated obstacle system
 - No physical robot validation or certification claim
-- The Gazebo GUI used Mesa/GLX/EGL fallback paths during verification; GPU-accelerated rendering performance remains unverified.
+- Native NVIDIA rendering is verified for the presentation workflow, but GUI rendering performance is not part of the frozen timing gate and does not replace headless resource evidence.
 - The AWS benchmark does not run a detector, range or bearing estimator, follower controller, collision experiment, or safety test.
 
 ## Current deliverables
+
+- A faculty-facing repository entry point separates the concise project
+  definition, current videos, frozen evidence, and historical artifacts.
+- `FACULTY_REVIEW.md` provides a neutral technical overview for Professor Imtiaz.
+- `deliverables/Neeraj_Kanchani_EE616_Faculty_Review_Packet.pdf` provides the same
+  current facts in a shareable PDF without speaking-practice or internal notes.
+- `deliverables/README.md` identifies current material and labels earlier
+  documents as historical or supporting evidence.
 
 - Initial technical explanation and preliminary figures in DOCX and PDF
 - Single-column IEEE LaTeX technical report in PDF, with editable source under `work/ieee_simple_report/`
@@ -131,6 +151,7 @@ The planned seven-gate simulation sequence is complete. Gate 7 freezes the accep
 - Final evidence index and machine-verifiable Gate 7 freeze manifest
 - 68-page indexed LaTeX project handbook and simulation user guide
 - Gate 7 evidence walkthrough video and frozen repository review ZIP
+- Three live-Gazebo professor demonstration videos and a command, interpretation, and troubleshooting guide
 
 ## Repository state
 

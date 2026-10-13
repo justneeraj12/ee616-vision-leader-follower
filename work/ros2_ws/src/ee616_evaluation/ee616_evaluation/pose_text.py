@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+import os
 import re
+import subprocess
+import time
 from dataclasses import dataclass
 from math import atan2
 
@@ -15,6 +18,36 @@ class EntityPose:
     y: float
     z: float
     yaw: float
+
+
+def read_gz_topic_text(
+    topic: str, attempts: int = 3, timeout_s: float = 3.0
+) -> str:
+    """Read one Gazebo message without inheriting GUI-only PRIME settings."""
+    if attempts < 1:
+        raise ValueError("attempts must be at least one")
+    environment = os.environ.copy()
+    environment.pop("__GLX_VENDOR_LIBRARY_NAME", None)
+    environment.pop("__NV_PRIME_RENDER_OFFLOAD", None)
+    last_error: subprocess.SubprocessError | None = None
+    for attempt in range(attempts):
+        try:
+            result = subprocess.run(
+                ["gz", "topic", "-e", "-t", topic, "-n", "1"],
+                check=True,
+                capture_output=True,
+                text=True,
+                timeout=timeout_s,
+                env=environment,
+            )
+            return result.stdout
+        except subprocess.SubprocessError as error:
+            last_error = error
+            if attempt + 1 < attempts:
+                time.sleep(0.05)
+    raise RuntimeError(
+        f"Gazebo topic read failed after {attempts} attempts: {last_error}"
+    ) from last_error
 
 
 def _scalar(block: str, key: str, default: float) -> float:

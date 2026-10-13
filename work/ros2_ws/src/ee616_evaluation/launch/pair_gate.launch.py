@@ -27,10 +27,23 @@ def _generated_dir() -> Path:
     return Path(tempfile.gettempdir()) / "ee616_generated_pair_worlds"
 
 
+def _as_bool(value: str) -> bool:
+    normalized = value.strip().lower()
+    if normalized not in {"true", "false"}:
+        raise ValueError("gui must be true or false")
+    return normalized == "true"
+
+
 def _configure(context: LaunchContext):
     profile = LaunchConfiguration("profile").perform(context)
     run_id = LaunchConfiguration("run_id").perform(context)
     output_dir = LaunchConfiguration("output_dir").perform(context)
+    gui = _as_bool(LaunchConfiguration("gui").perform(context))
+    startup_extension_s = float(
+        LaunchConfiguration("startup_extension_s").perform(context)
+    )
+    if not 0.0 <= startup_extension_s <= 30.0:
+        raise ValueError("startup_extension_s must be between 0 and 30")
     if profile not in PAIR_PROFILES:
         raise ValueError("profile must be straight or turn")
     if not RUN_ID.fullmatch(run_id):
@@ -39,9 +52,13 @@ def _configure(context: LaunchContext):
     perception_share = Path(get_package_share_directory("ee616_perception"))
     control_share = Path(get_package_share_directory("ee616_control"))
     world_path = render_pair_world(profile, _generated_dir())
-    duration_s = 24.0 if profile == "straight" else 26.0
+    duration_s = (24.0 if profile == "straight" else 26.0) + startup_extension_s
+    simulation_command = ["gz", "sim", "-r"]
+    if not gui:
+        simulation_command.append("-s")
+    simulation_command.extend(["-v", "3", str(world_path)])
     simulation = ExecuteProcess(
-        cmd=["gz", "sim", "-r", "-s", "-v", "3", str(world_path)],
+        cmd=simulation_command,
         output="screen",
     )
     bridge = Node(
@@ -55,7 +72,11 @@ def _configure(context: LaunchContext):
         package="ee616_control",
         executable="leader_route",
         namespace="leader",
-        parameters=[{"profile": profile, "use_sim_time": True}],
+        parameters=[{
+            "profile": profile,
+            "settle_s": 4.0 + startup_extension_s,
+            "use_sim_time": True,
+        }],
         output="screen",
     )
     perception = Node(
@@ -93,6 +114,7 @@ def _configure(context: LaunchContext):
                 "run_id": run_id,
                 "output_dir": output_dir,
                 "duration_s": duration_s,
+                "warmup_s": 4.0 + startup_extension_s,
                 "use_sim_time": True,
             }
         ],
@@ -112,6 +134,8 @@ def generate_launch_description() -> LaunchDescription:
         [
             DeclareLaunchArgument("profile", default_value="straight"),
             DeclareLaunchArgument("run_id", default_value="run_01"),
+            DeclareLaunchArgument("gui", default_value="false"),
+            DeclareLaunchArgument("startup_extension_s", default_value="0.0"),
             DeclareLaunchArgument(
                 "output_dir",
                 default_value="/workspace/work/ros2_ws/results/pair_gate",

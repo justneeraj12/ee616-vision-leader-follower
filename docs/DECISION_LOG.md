@@ -207,3 +207,36 @@ Date: September 30, 2026
 Decision: Close the planned seven-gate simulation sequence by freezing the accepted Gate 1--6 source, protocols, configurations, raw results, summaries, figures, failed detector attempts, and evidence limits under a SHA-256 manifest. Package a separate indexed technical handbook and evidence walkthrough for operation, study, and review. Treat the handbook as learning and project-use documentation, not as Neeraj's faculty-authored report.
 
 Reason: The accepted gates now cover environment verification, static learned measurement, pair integration, incremental chain expansion, controlled disturbances, and target-laptop timing. A machine-verifiable archive makes those results reproducible and preserves failures as part of the technical record. Keeping the handbook separate supports Neeraj's understanding without silently replacing his own faculty-facing writing. Later experiments require a new approved scope and must not overwrite the frozen evidence.
+
+## D027 Separate live presentation runs from frozen scientific evidence
+
+Date: September 30, 2026
+
+Decision: Add Hyprland/XWayland-compatible Gazebo launch and recording paths
+that reuse the accepted robot stack but write only to a separate post-freeze
+result directory. Use a pair turn to show turning, a straight three-follower
+run to show chain topology, and a one-pair long synthetic occlusion to show
+`PREDICT`, `SAFE STOP`, and reacquisition. Show one representative RGB stream
+and every supervisor state in multi-follower presentation mode.
+
+Reason: Headless matrices are appropriate for repeated scientific experiments,
+but Professor Imtiaz also needs visible demonstrations. Native NVIDIA PRIME
+rendering fixes the blank Gazebo pane on the upgraded Hyprland host. Restricting
+the observer to one displayed camera prevents presentation-only subscriptions
+from affecting the three learned perception pipelines. The pair remains the
+minimum scientific unit for recovery behavior, while the separate chain video
+shows topology. These videos are presentation evidence and do not rewrite the
+frozen Gate 1--7 results.
+
+## D028 Faculty-first repository navigation
+
+Date: October 12, 2026
+
+Decision: Add a concise faculty review entry point, a shareable review PDF, and a
+deliverables index without moving ROS packages, experiment results, or historical
+artifacts. Keep the internal speaking guide and report working files outside the
+faculty package.
+
+Reason: Professor Imtiaz requested project material for review. A short, neutral
+path makes the question, implementation, evidence, and limitations visible without
+removing traceability or risking functional paths immediately before the meeting.

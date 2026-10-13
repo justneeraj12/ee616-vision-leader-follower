@@ -30,6 +30,8 @@ setup(
             "ee616_evaluation.chain_gate_evaluator:main",
             "disturbance_gate_evaluator = "
             "ee616_evaluation.disturbance_gate_evaluator:main",
+            "demo_viewer = "
+            "ee616_evaluation.demo_viewer:main",
             "timing_gate_evaluator = "
             "ee616_evaluation.timing_gate_evaluator:main",
             "pair_gate_evaluator = "

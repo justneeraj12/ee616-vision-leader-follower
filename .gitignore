@@ -18,6 +18,7 @@ work/ros2_ws/results/environment_gate/ros2_doctor.txt
 work/ros2_ws/results/environment_gate/colcon_test_result.txt
 work/ros2_ws/results/aws_world_benchmark/*/launch.log
 work/ros2_ws/results/scenario_validation/*/launch.log
+work/ros2_ws/results/professor_demos/
 .devcontainer/.Xauthority
 
 # Generated LaTeX and Gate 7 video build intermediates
@@ -42,6 +43,8 @@ work/gate7_video/*.ffconcat
 *.swo
 
 # Internal document and video quality-check renders
+output/
+tmp/
 work/tmp/
 work/**/page-*.png
 work/**/render-v*/

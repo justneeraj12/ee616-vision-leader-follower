@@ -11,7 +11,7 @@ import subprocess
 import sys
 import time
 
-from ee616_evaluation.pose_text import parse_entity_pose
+from ee616_evaluation.pose_text import parse_entity_pose, read_gz_topic_text
 from geometry_msgs.msg import Twist, Vector3Stamped
 import rclpy
 from rclpy.node import Node
@@ -112,16 +112,10 @@ class PairGateEvaluator(Node):
         self.inference_ms = value if math.isfinite(value) else None
 
     def _read_poses(self):
-        result = subprocess.run(
-            ["gz", "topic", "-e", "-t", self.pose_topic, "-n", "1"],
-            check=True,
-            capture_output=True,
-            text=True,
-            timeout=3.0,
-        )
+        message = read_gz_topic_text(self.pose_topic)
         return (
-            parse_entity_pose(result.stdout, "leader"),
-            parse_entity_pose(result.stdout, "follower_1"),
+            parse_entity_pose(message, "leader"),
+            parse_entity_pose(message, "follower_1"),
         )
 
     def _sample(self) -> None:
@@ -133,7 +127,7 @@ class PairGateEvaluator(Node):
             return
         try:
             leader, follower = self._read_poses()
-        except (ValueError, subprocess.SubprocessError) as exc:
+        except (RuntimeError, ValueError, subprocess.SubprocessError) as exc:
             if elapsed_s > 5.0:
                 self._finish(f"unable to read pair ground truth: {exc}")
             return

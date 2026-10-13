@@ -61,6 +61,23 @@ Gazebo pose truth is restricted to `ee616_evaluation`. It is not an input to det
 
 The earlier deterministic two-dimensional toy simulator remains useful as preliminary design evidence. It contains 32 pair trials and an 86-second warehouse demonstration with three followers. It does not replace ROS 2 or Gazebo evidence.
 
+## Post-freeze presentation material
+
+The following presentation runs were created after the Gate 7 evidence freeze.
+They reuse the accepted packages but write into a separate ignored
+`professor_demos` result directory. They do not replace or modify the frozen
+Gate 1--7 evidence.
+
+| Presentation | Recorded result | File |
+|---|---|---|
+| Pair gradual turn | 0.104 m spacing RMSE, 97.3% `TRACK`, 50 ms control-period p95, zero collision samples | `deliverables/Neeraj_Kanchani_EE616_Gazebo_Pair_Turn_Demo.mp4` |
+| Straight three-follower chain | 0.058, 0.051, and 0.050 m spacing RMSE; 95%, 99%, and 97% `TRACK`; zero collision samples | `deliverables/Neeraj_Kanchani_EE616_Gazebo_Three_Follower_Chain_Demo.mp4` |
+| One-pair recovery | 1.3 s synthetic blackout; `PREDICT`, `SAFE_STOP`, zero command, and later `TRACK` observed | `deliverables/Neeraj_Kanchani_EE616_Gazebo_Recovery_Demo.mp4` |
+
+See `docs/PROFESSOR_DEMO_GUIDE.md` for the exact commands and interpretation
+limits. The recovery recording intentionally uses the validated pair rather than
+claiming that a GUI recording is a new combined-chain scientific gate.
+
 ## Reproduction commands
 
 From the project root:

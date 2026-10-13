@@ -12,7 +12,7 @@ import sys
 import time
 
 from ee616_evaluation.pair_gate_evaluator import percentile
-from ee616_evaluation.pose_text import parse_entity_pose
+from ee616_evaluation.pose_text import parse_entity_pose, read_gz_topic_text
 from geometry_msgs.msg import Twist, Vector3Stamped
 import rclpy
 from rclpy.node import Node
@@ -39,7 +39,7 @@ def _read_with_retries(read_once, attempts: int = POSE_READ_ATTEMPTS):
     for attempt in range(attempts):
         try:
             return read_once()
-        except (ValueError, subprocess.SubprocessError) as exc:
+        except (RuntimeError, ValueError, subprocess.SubprocessError) as exc:
             last_error = exc
             if attempt + 1 < attempts:
                 time.sleep(0.05)
@@ -199,14 +199,11 @@ class DisturbanceGateEvaluator(Node):
 
     def _read_poses(self) -> dict:
         def read_once() -> dict:
-            result = subprocess.run(
-                ["gz", "topic", "-e", "-t", self.pose_topic, "-n", "1"],
-                check=True, capture_output=True, text=True, timeout=3.0,
-            )
+            message = read_gz_topic_text(self.pose_topic, attempts=1)
             names = ["leader"] + [
                 f"follower_{index}" for index in range(1, self.follower_count + 1)
             ]
-            return {name: parse_entity_pose(result.stdout, name) for name in names}
+            return {name: parse_entity_pose(message, name) for name in names}
 
         return _read_with_retries(read_once)
 
