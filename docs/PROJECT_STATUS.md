@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: September 30, 2026
+Last updated: October 12, 2026
 
 ## Current state
 
@@ -18,7 +18,7 @@ The camera baseline separates camera geometry from later learned-detection error
 
 The host now runs Ubuntu 26.04.1 LTS and contains a partial ROS 2 Lyrical installation, but the host ROS 2 CLI and Gazebo command were not available during inspection. The project did not migrate to Lyrical and Gazebo Jetty. The versioned Ubuntu Noble container remains the canonical ROS 2 Jazzy and Gazebo Harmonic implementation environment.
 
-The planned seven-gate simulation sequence is complete. Gate 7 freezes the accepted source, protocols, configurations, results, retained detector failures, and evidence boundaries through a machine-verifiable SHA-256 manifest. A separate indexed handbook, walkthrough video, final evidence index, and review archive support operation and faculty review. They do not replace Neeraj's own faculty-facing report.
+The planned seven-gate simulation sequence is complete. Gate 7 freezes the accepted source, protocols, configurations, results, retained detector failures, and evidence boundaries through a machine-verifiable SHA-256 manifest. The final evidence index maps each claim to its machine-readable source and reproduction command.
 
 Post-freeze Hyprland-compatible presentation launchers now show the actual
 Gazebo world beside a read-only follower-camera and supervisor dashboard. Three
@@ -34,12 +34,9 @@ manifest or frozen experiment matrices.
 - The nominal 86-second run completed seven path segments.
 - The run recorded zero collision samples in the toy collision model.
 - Spacing RMSE was 0.140 m, 0.164 m, and 0.200 m from Follower 1 through Follower 3.
-- Faculty-facing DOCX and PDF reports have been rendered and visually checked.
-- The eight-page initial technical explanation contains four traceable figures and has been rendered and visually checked page by page.
 - A two-dimensional warehouse demonstration video is available in `deliverables/`.
 - The GitHub repository is public at `https://github.com/justneeraj12/ee616-vision-leader-follower` under AGPL-3.0-only for original project work.
 - The repository includes a production-style README, reproducible quickstart, contribution guidance, citation metadata, and GitHub Actions testing for Python 3.11 and 3.12.
-- A separate five-page, single-column IEEEtran technical report has been compiled from LaTeX and visually checked page by page. It uses simple formal English and preserves the existing evidence boundaries.
 - Five ROS 2 packages build with `colcon`, and 61 package tests pass.
 - The `/leader` and `/follower_1` namespace probes each received five local heartbeat samples.
 - Gazebo produced 15 timestamped 640×480 RGB images through the ROS bridge.
@@ -98,8 +95,6 @@ manifest or frozen experiment matrices.
 - The timing observer used ROS topics only. Gazebo pose truth remained confined to the separate behavior evaluator. These are one-laptop simulation measurements, not network or physical-actuator timing.
 - Five ROS 2 packages build and 59 package tests pass after the Gate 6 evaluator-lifecycle repair.
 - The final verification rerun built all five ROS packages and passed 59 package tests with zero failures; all seven toy tests also passed.
-- The Gate 7 technical handbook compiled to 68 pages with a generated index and passed full-page visual inspection.
-- The Gate 7 evidence walkthrough is a verified 1920×1080, 30 fps, 40-second MP4.
 - The Gate 7 manifest verifies expected pass/fail evidence states and SHA-256 checksums for the frozen file set.
 - Native NVIDIA OpenGL 4.6 rendering was verified inside the display-enabled container on the RTX 3050 Ti. Three 1920 by 1080, 30 fps Gazebo presentation videos passed visual inspection.
 - The recorded pair-turn demo passed with 0.104 m spacing RMSE, 97.3% `TRACK`, 50 ms control-period p95, route completion, and zero collision samples.
@@ -121,20 +116,10 @@ manifest or frozen experiment matrices.
 - Native NVIDIA rendering is verified for the presentation workflow, but GUI rendering performance is not part of the frozen timing gate and does not replace headless resource evidence.
 - The AWS benchmark does not run a detector, range or bearing estimator, follower controller, collision experiment, or safety test.
 
-## Current deliverables
+## Current artifacts
 
-- A faculty-facing repository entry point separates the concise project
-  definition, current videos, frozen evidence, and historical artifacts.
-- `FACULTY_REVIEW.md` provides a neutral technical overview for Professor Imtiaz.
-- `deliverables/Neeraj_Kanchani_EE616_Faculty_Review_Packet.pdf` provides the same
-  current facts in a shareable PDF without speaking-practice or internal notes.
-- `deliverables/README.md` identifies current material and labels earlier
-  documents as historical or supporting evidence.
-
-- Initial technical explanation and preliminary figures in DOCX and PDF
-- Single-column IEEE LaTeX technical report in PDF, with editable source under `work/ieee_simple_report/`
-- Industry application and system rationale in DOCX and PDF
-- Initial toy simulation results in DOCX and PDF
+- `deliverables/README.md` indexes videos, screenshots, checksums, and archived
+  toy-simulation outputs.
 - Multi-follower warehouse demonstration video
 - Single-follower toy demonstration video
 - Reproducible baseline ZIP packages
@@ -149,20 +134,19 @@ manifest or frozen experiment matrices.
 - Controlled-disturbance proxy, pair-first 18-run matrix, raw logs, summaries, resource evidence, checksums, and a traceable result figure
 - Target-laptop timing observer, three-run raw timing logs, behavior summaries, resource time series, aggregate summary, checksums, and traceable figure
 - Final evidence index and machine-verifiable Gate 7 freeze manifest
-- 68-page indexed LaTeX project handbook and simulation user guide
-- Gate 7 evidence walkthrough video and frozen repository review ZIP
-- Three live-Gazebo professor demonstration videos and a command, interpretation, and troubleshooting guide
+- Three live Gazebo demonstration videos and a command, interpretation, and
+  troubleshooting guide
 
 ## Repository state
 
-The project is maintained in the public GitHub repository `justneeraj12/ee616-vision-leader-follower`. Original project software and documentation are licensed under AGPL-3.0-only. The pinned AWS warehouse assets retain their MIT terms, and external reference documents retain their respective terms. The repository includes the governing documentation, source, automated tests, machine-readable evidence, report builders, review deliverables, continuous integration, contribution guidance, and citation metadata. Internal render pages, temporary artifacts, and quality-check screenshots are excluded through `.gitignore`.
+The project is maintained in the public GitHub repository `justneeraj12/ee616-vision-leader-follower`. Original project software and documentation are licensed under AGPL-3.0-only. The pinned AWS warehouse assets retain their MIT terms, and external reference documents retain their respective terms. The repository includes source, automated tests, machine-readable evidence, demonstrations, continuous integration, contribution guidance, and citation metadata. Temporary build and render artifacts are excluded through `.gitignore`.
 
 ## Gate sequence status
 
-All seven planned simulation gates are complete. Faculty-facing report prose remains Neeraj's writing unless he explicitly approves a defined drafting task. Any new technical direction begins as a separately approved change rather than altering the frozen results.
+All seven planned simulation gates are complete. Any new technical direction begins as a separately approved change rather than altering the frozen results.
 
 ## Current blockers
 
 - No blocker remains inside the approved seven-gate simulation scope.
 - Physical-robot validation is unverified and was not part of these gates.
-- Professor Imtiaz may request a changed scope after review; no such change is assumed in the frozen package.
+- Any later scope change must create new evidence rather than overwrite the frozen simulation results.

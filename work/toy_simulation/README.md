@@ -9,7 +9,7 @@ This package is the first reproducible evidence baseline for the EE 616 project.
 - prediction through short visual occlusions;
 - explicit TRACK, PREDICT, and SAFE_STOP states;
 - machine-readable trial data and summary metrics;
-- figures suitable for an initial faculty discussion.
+- traceable figures for inspecting the baseline results.
 
 ## What it does not establish
 

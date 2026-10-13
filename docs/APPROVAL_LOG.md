@@ -277,9 +277,40 @@ approved material. The report draft, report build output, internal meeting guide
 temporary PDF renders, and frozen experiment directories were excluded from the
 commit scope. No material was sent directly to Professor Imtiaz.
 
+## A025 Project-only repository cleanup
+
+Status: Approved and completed; acceptance criteria met
+
+Approved scope: Remove faculty-specific navigation and generated report
+artifacts; preserve the project owner's uncommitted IEEE draft and all technical
+implementation and evidence; convert live-demo names to neutral project names;
+validate the repository; then commit and push the cleanup.
+
+Acceptance criteria: Present code, simulation, tests, numerical evidence,
+videos, screenshots, and baseline archives as a normal project repository;
+remove current faculty-specific entry points and generated reports; preserve
+truthful historical logs and Git history; keep all remaining local Markdown
+links valid; pass relevant tests and checksums; and leave the project owner's
+uncommitted report files outside the commit.
+
+Approval: The project owner replied "Approved" on October 12, 2026 after
+receiving the objective, exact scope, acceptance criteria, tests, risks,
+rollback, schedule effect, next gates, and commit/push request.
+
+Delivered evidence: Generated PDF and DOCX reports, the review packet, handbook,
+review archive, walkthrough video, and their builder sources were removed. The
+README and deliverables index now lead to architecture, setup, code, tests,
+machine-readable results, videos, screenshots, and baseline archives. Demo
+commands and files use neutral `gazebo-demo` names. Fifty-eight tracked local
+Markdown links passed; the three Gazebo video checksums passed; five ROS 2
+packages built and all 61 tests passed; all seven toy-simulation tests passed;
+and the installed `gazebo_demo.launch.py` exposed the expected modes and neutral
+`demo_runs` output path. The project owner's modified
+`work/ieee_simple_report/main.tex` and untracked PDF remained outside the staged
+cleanup.
+
 ## Next approval required
 
-The planned simulation, presentation, and faculty-review package stages are
-complete. Faculty-requested technical changes, physical-robot work, new experiment
-matrices, report authoring, or later commits and pushes require separate explicit
-approval.
+The planned simulation and demonstration stages are complete. Physical-robot
+work, new experiment matrices, report authoring, or later commits and pushes
+require separate explicit approval.

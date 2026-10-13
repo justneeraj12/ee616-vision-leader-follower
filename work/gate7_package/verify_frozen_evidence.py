@@ -45,7 +45,6 @@ def _frozen_files(manifest: dict) -> list[Path]:
                 collected.add(candidate.resolve())
     collected.add(MANIFEST_PATH.resolve())
     collected.add((PACKAGE_DIR / "verify_frozen_evidence.py").resolve())
-    collected.add((PACKAGE_DIR / "build_review_package.py").resolve())
     return sorted(collected, key=lambda path: path.relative_to(PROJECT_ROOT).as_posix())
 
 

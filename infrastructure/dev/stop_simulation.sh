@@ -13,7 +13,7 @@ patterns=(
     "gz sim.*generated_disturbance_worlds"
     "parameter_bridge.*camera_bridge"
     "demo_viewer"
-    "professor_demo.launch.py"
+    "gazebo_demo.launch.py"
 )
 
 found=0

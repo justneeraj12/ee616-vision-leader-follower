@@ -15,22 +15,22 @@ The leader owns the route. Each independently driven follower observes the robot
 >
 > The first two YOLOv8n checkpoints remain recorded failures. After correcting an RGB/BGR runtime mismatch and stale-frame labels, v3 passed on two new sealed scenes, six nominal closed-loop pair runs, 12 staged nominal chain runs, and 18 pair-first controlled-disturbance runs. Physical robots and production safety have not been demonstrated.
 
-## Faculty review: start here
+## Start here
 
-This repository contains the completed simulation-stage implementation and its
-retained evidence. A reviewer does not need to read the repository in file-tree
-order. Use this short path:
+This repository contains the simulation implementation, automated tests,
+machine-readable experiment results, and recorded demonstrations. A practical
+navigation path is:
 
-1. [Faculty review overview](FACULTY_REVIEW.md) - project question, architecture,
-   accepted results, limitations, and code map.
-2. [Faculty review PDF](deliverables/Neeraj_Kanchani_EE616_Faculty_Review_Packet.pdf) -
-   a concise shareable version of the same material.
-3. [Gazebo demonstration guide](docs/PROFESSOR_DEMO_GUIDE.md) - exact live commands,
+1. [System architecture](docs/SYSTEM_ARCHITECTURE.md) - robot roles, data flow,
+   namespaces, and the ground-truth boundary.
+2. [Environment setup](docs/ENVIRONMENT_SETUP.md) - container, ROS 2, Gazebo,
+   and GPU setup.
+3. [Gazebo demonstration guide](docs/GAZEBO_DEMO_GUIDE.md) - live commands,
    recorded results, and interpretation limits.
-4. [Final evidence index](docs/FINAL_EVIDENCE_INDEX.md) - gate-by-gate machine-readable
-   evidence and reproduction commands.
-5. [Deliverables index](deliverables/README.md) - current presentation material,
-   technical references, and clearly labeled earlier work.
+4. [Final evidence index](docs/FINAL_EVIDENCE_INDEX.md) - gate-by-gate
+   machine-readable evidence and reproduction commands.
+5. [Deliverables index](deliverables/README.md) - videos, screenshots, checksums,
+   and baseline archives.
 
 The fastest visual review is the
 [pair-turn demonstration](deliverables/Neeraj_Kanchani_EE616_Gazebo_Pair_Turn_Demo.mp4),
@@ -155,7 +155,7 @@ These states define deterministic research behavior. They do not establish certi
 
 ## Preliminary warehouse demonstration
 
-![Recorded toy trajectories and rearward spacing error](work/technical_explanation_report/figures/figure_4_preliminary_results.png)
+![Recorded toy baseline summary](work/toy_simulation/results/figure_4_summary.png)
 
 [Download the multi-follower warehouse demonstration video](deliverables/Neeraj_Kanchani_EE616_Multi_Follower_Warehouse_2D.mp4)
 
@@ -204,19 +204,19 @@ See [the scenario matrix](docs/SCENARIO_MATRIX.md) for the controlled variables,
 
 ### Live Gazebo demonstrations
 
-The post-freeze presentation launchers open Gazebo beside a read-only camera and
+The post-freeze demonstration launchers open Gazebo beside a read-only camera and
 supervisor dashboard on Hyprland/XWayland. They write only to a separate
-`professor_demos` result directory and do not alter the frozen Gate 1--7 evidence.
+`demo_runs` result directory and do not alter the frozen Gate 1--7 evidence.
 
 ```bash
-make professor-demo PROFESSOR_DEMO=pair_turn
-make professor-demo PROFESSOR_DEMO=chain_straight
-make professor-demo PROFESSOR_DEMO=recovery
+make gazebo-demo DEMO_MODE=pair_turn
+make gazebo-demo DEMO_MODE=chain_straight
+make gazebo-demo DEMO_MODE=recovery
 ```
 
-Use `make professor-demo-record PROFESSOR_DEMO=<mode>` to record the selected mode. See the
-[professor demonstration guide](docs/PROFESSOR_DEMO_GUIDE.md) for the exact
-workflow, verified video results, speaking notes, and evidence limits.
+Use `make gazebo-demo-record DEMO_MODE=<mode>` to record the selected mode. See the
+[Gazebo demonstration guide](docs/GAZEBO_DEMO_GUIDE.md) for the exact workflow,
+verified video results, and evidence limits.
 
 The YOLOv8n stage uses separated dataset-only Gazebo scenes and an isolated camera-only backend. See [the YOLOv8n gate protocol](docs/YOLOV8N_GATE.md). The first two checkpoints remain recorded failures. The synchronized v3 checkpoint passed its sealed static measurement gate and the nominal one-pair integration gate.
 
@@ -290,13 +290,11 @@ The commands write machine-readable summaries, time series, and figures beneath 
 ```text
 .
 ├── .github/workflows/         Continuous integration
-├── deliverables/              Review reports, videos, and packaged baselines
-├── docs/                      Status, decisions, and implementation approvals
+├── deliverables/              Videos, screenshots, checksums, and baseline archives
+├── docs/                      Setup, architecture, protocols, and evidence indexes
 ├── references/                Original supplied project context
 ├── work/
-│   ├── industry_application_report/
-│   ├── professor_package/
-│   ├── technical_explanation_report/
+│   ├── ros2_ws/               ROS 2 packages, scripts, and experiment results
 │   └── toy_simulation/
 │       ├── src/toy_swarm/     Simulator, measurement, filter, control, and plots
 │       ├── tests/             Automated toy-baseline tests
@@ -308,7 +306,9 @@ The commands write machine-readable summaries, time series, and figures beneath 
 └── CITATION.cff               Repository citation metadata
 ```
 
-The `work/` placement is intentional. Project source, report builders, datasets, and internal quality checks remain separate from review-ready files in `deliverables/`.
+The `work/` placement is intentional. Project source, datasets, experiment
+outputs, and internal checks remain separate from compact artifacts in
+`deliverables/`.
 
 ## Reproducibility and research integrity
 
@@ -359,21 +359,15 @@ Vision-based formation coordination is separate from industrial robot safety. A 
 
 This repository does not claim that the current toy model satisfies those requirements.
 
-## Faculty review materials
+## Demonstrations and project artifacts
 
 | Deliverable | Purpose |
 |---|---|
-| [Initial technical explanation and preliminary figures PDF](deliverables/Neeraj_Kanchani_EE616_Initial_Technical_Explanation_and_Preliminary_Figures.pdf) | Primary current faculty-review report |
-| [Editable technical explanation DOCX](deliverables/Neeraj_Kanchani_EE616_Initial_Technical_Explanation_and_Preliminary_Figures.docx) | Editable report source |
-| [Industry application and system rationale PDF](deliverables/Neeraj_Kanchani_EE616_Industry_Application_and_System_Rationale.pdf) | Application, roles, and safety boundary |
-| [Initial toy simulation results PDF](deliverables/Neeraj_Kanchani_EE616_Initial_Toy_Simulation_Results.pdf) | Single-pair preliminary evidence |
-| [Warehouse demonstration video](deliverables/Neeraj_Kanchani_EE616_Multi_Follower_Warehouse_2D.mp4) | Preliminary multi-follower visualization |
-| [Project handbook and simulation user guide](deliverables/Neeraj_Kanchani_EE616_Project_Handbook_and_Simulation_User_Guide.pdf) | Indexed technical reference for setup, algorithms, configuration, experiments, metrics, and troubleshooting |
-| [Gate 7 evidence walkthrough](deliverables/Neeraj_Kanchani_EE616_Gate7_Evidence_Walkthrough.mp4) | Concise walkthrough of the accepted simulation evidence and its limits |
 | [Gazebo pair-turn demo](deliverables/Neeraj_Kanchani_EE616_Gazebo_Pair_Turn_Demo.mp4) | Live pair motion, follower RGB view, and `TRACK` state |
 | [Gazebo three-follower chain demo](deliverables/Neeraj_Kanchani_EE616_Gazebo_Three_Follower_Chain_Demo.mp4) | Live predecessor-following chain and three supervisor states |
 | [Gazebo recovery demo](deliverables/Neeraj_Kanchani_EE616_Gazebo_Recovery_Demo.mp4) | Synthetic visual loss, `PREDICT`, `SAFE STOP`, and reacquisition |
-| [Gate 7 frozen project package](deliverables/Neeraj_Kanchani_EE616_Gate7_Frozen_Project_Package.zip) | Checksum-verifiable source, protocols, results, documentation, and retained failed evidence |
+| [Warehouse toy demonstration](deliverables/Neeraj_Kanchani_EE616_Multi_Follower_Warehouse_2D.mp4) | Preliminary multi-follower kinematic visualization |
+| [Gazebo video checksums](deliverables/Neeraj_Kanchani_EE616_Gazebo_Demo_SHA256SUMS.txt) | SHA-256 integrity checks for the three Gazebo videos |
 
 ## Documentation
 
@@ -381,10 +375,10 @@ This repository does not claim that the current toy model satisfies those requir
 |---|---|
 | Current evidence, blockers, and next gate | [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md) |
 | Technical and scope decisions | [docs/DECISION_LOG.md](docs/DECISION_LOG.md) |
-| Approved implementation stages | [docs/APPROVAL_LOG.md](docs/APPROVAL_LOG.md) |
-| Standing project requirements | [PROJECT_MASTER_PROMPT.md](PROJECT_MASTER_PROMPT.md) |
 | Controlled scenarios and AWS benchmark | [docs/SCENARIO_MATRIX.md](docs/SCENARIO_MATRIX.md) |
-| Live and recorded Gazebo faculty demonstrations | [docs/PROFESSOR_DEMO_GUIDE.md](docs/PROFESSOR_DEMO_GUIDE.md) |
+| Live and recorded Gazebo demonstrations | [docs/GAZEBO_DEMO_GUIDE.md](docs/GAZEBO_DEMO_GUIDE.md) |
+| Environment and container setup | [docs/ENVIRONMENT_SETUP.md](docs/ENVIRONMENT_SETUP.md) |
+| Metrics and interpretation | [docs/METRICS_GUIDE.md](docs/METRICS_GUIDE.md) |
 | Contribution and approval process | [CONTRIBUTING.md](CONTRIBUTING.md) |
 | Project milestones | [CHANGELOG.md](CHANGELOG.md) |
 | Final frozen evidence map | [docs/FINAL_EVIDENCE_INDEX.md](docs/FINAL_EVIDENCE_INDEX.md) |

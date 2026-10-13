@@ -18,6 +18,8 @@ work/ros2_ws/results/environment_gate/ros2_doctor.txt
 work/ros2_ws/results/environment_gate/colcon_test_result.txt
 work/ros2_ws/results/aws_world_benchmark/*/launch.log
 work/ros2_ws/results/scenario_validation/*/launch.log
+work/ros2_ws/results/demo_runs/
+# Preserve older local demonstration results created before the neutral rename.
 work/ros2_ws/results/professor_demos/
 .devcontainer/.Xauthority
 

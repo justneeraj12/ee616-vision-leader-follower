@@ -20,5 +20,5 @@ source "${workspace}/install/setup.bash"
 
 echo "EE616_DEMO_STARTING mode=${mode}"
 echo "The Gazebo and camera-dashboard windows are read-only presentation views."
-echo "Results are written below results/professor_demos, never into frozen gate directories."
-ros2 launch ee616_evaluation professor_demo.launch.py mode:="${mode}"
+echo "Results are written below results/demo_runs, never into frozen gate directories."
+ros2 launch ee616_evaluation gazebo_demo.launch.py mode:="${mode}"

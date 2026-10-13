@@ -125,9 +125,9 @@
       }
     },
     {
-      "label": "EE616: Launch professor demonstration",
+      "label": "EE616: Launch Gazebo demonstration",
       "type": "shell",
-      "command": "bash /workspace/infrastructure/dev/run_professor_demo.sh ${input:professorDemoMode}",
+      "command": "bash /workspace/infrastructure/dev/run_gazebo_demo.sh ${input:demoMode}",
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
@@ -137,9 +137,9 @@
       }
     },
     {
-      "label": "EE616: Open professor-demo inspection shell",
+      "label": "EE616: Open demo inspection shell",
       "type": "shell",
-      "command": "bash /workspace/infrastructure/dev/monitor_professor_demo.sh",
+      "command": "bash /workspace/infrastructure/dev/monitor_gazebo_demo.sh",
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
@@ -200,7 +200,7 @@
       ]
     },
     {
-      "id": "professorDemoMode",
+      "id": "demoMode",
       "type": "pickString",
       "description": "Choose a GUI demonstration",
       "default": "pair_turn",

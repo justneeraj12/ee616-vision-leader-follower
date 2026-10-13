@@ -6,8 +6,8 @@ SCENARIO ?= straight_aisle
 .PHONY: aws-benchmark aws-warehouse-gui container-build container-config \
 	container-shell environment-check environment-check-gpu gazebo-gui gpu-shell \
 	prepare-display scenario-gui scenario-validate vscode yolo-dataset-capture \
-	chain-gate disturbance-gate pair-gate timing-gate professor-demo \
-	professor-demo-record professor-demo-shell \
+	chain-gate disturbance-gate pair-gate timing-gate gazebo-demo \
+	gazebo-demo-record gazebo-demo-shell \
 	yolo-dataset-v2 yolo-dataset-v3 yolo-diagnose-v2 yolo-gate yolo-gate-v2 \
 	yolo-gate-v3 yolo-model-acquire yolo-train yolo-train-v2 yolo-train-v3
 
@@ -66,18 +66,18 @@ timing-gate:
 	LOCAL_UID=$$(id -u) LOCAL_GID=$$(id -g) $(COMPOSE) --profile gpu run --rm gpu \
 		bash /workspace/work/ros2_ws/scripts/run_timing_gate.sh
 
-PROFESSOR_DEMO ?= pair_turn
+DEMO_MODE ?= pair_turn
 
-professor-demo: prepare-display
+gazebo-demo: prepare-display
 	LOCAL_UID=$$(id -u) LOCAL_GID=$$(id -g) $(DEV_COMPOSE) run --rm dev \
-		bash /workspace/infrastructure/dev/run_professor_demo.sh $(PROFESSOR_DEMO)
+		bash /workspace/infrastructure/dev/run_gazebo_demo.sh $(DEMO_MODE)
 
-professor-demo-shell:
+gazebo-demo-shell:
 	LOCAL_UID=$$(id -u) LOCAL_GID=$$(id -g) $(DEV_COMPOSE) run --rm dev \
-		bash /workspace/infrastructure/dev/monitor_professor_demo.sh
+		bash /workspace/infrastructure/dev/monitor_gazebo_demo.sh
 
-professor-demo-record:
-	bash infrastructure/dev/record_professor_demo.sh $(PROFESSOR_DEMO)
+gazebo-demo-record:
+	bash infrastructure/dev/record_gazebo_demo.sh $(DEMO_MODE)
 
 yolo-model-acquire:
 	LOCAL_UID=$$(id -u) LOCAL_GID=$$(id -g) $(COMPOSE) run --rm dev \

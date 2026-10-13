@@ -90,7 +90,7 @@ def generate_launch_description() -> LaunchDescription:
         DeclareLaunchArgument("mode", default_value="pair_turn"),
         DeclareLaunchArgument(
             "output_root",
-            default_value="/workspace/work/ros2_ws/results/professor_demos",
+            default_value="/workspace/work/ros2_ws/results/demo_runs",
         ),
         OpaqueFunction(function=_configure),
     ])

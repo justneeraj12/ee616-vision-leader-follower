@@ -6,7 +6,6 @@ This index identifies the frozen evidence for the EE 616 vision-based predecesso
 
 Project owner: Neeraj Kumar Kanchani  
 Course: EE 616-57, section 9189, four credits  
-Faculty reviewer: Professor Masudul Imtiaz  
 Freeze date: September 30, 2026
 
 ## Claim boundary
@@ -26,7 +25,7 @@ Gazebo pose truth is restricted to `ee616_evaluation`. It is not an input to det
 | 4 | Does staged expansion to two and three followers pass the nominal matrix? | Pass, twelve runs | `work/ros2_ws/results/chain_gate/summary.json` |
 | 5 | Does the pair-first disturbance matrix produce the required recovery behavior? | Pass, eighteen runs | `work/ros2_ws/results/disturbance_gate/summary.json` |
 | 6 | Does the accepted three-follower scenario meet timing and laptop-resource limits? | Pass, three runs | `work/ros2_ws/results/timing_gate/summary.json` |
-| 7 | Are the protocols, source, evidence, manual, and review package frozen and verifiable? | Verified by the Gate 7 checksum tool | `work/gate7_package/` |
+| 7 | Are the protocols, source, and machine-readable evidence checksum-verifiable? | Verified by the Gate 7 checksum tool | `work/gate7_package/` |
 
 ## Accepted numerical results
 
@@ -65,7 +64,7 @@ The earlier deterministic two-dimensional toy simulator remains useful as prelim
 
 The following presentation runs were created after the Gate 7 evidence freeze.
 They reuse the accepted packages but write into a separate ignored
-`professor_demos` result directory. They do not replace or modify the frozen
+`demo_runs` result directory. They do not replace or modify the frozen
 Gate 1--7 evidence.
 
 | Presentation | Recorded result | File |
@@ -74,7 +73,7 @@ Gate 1--7 evidence.
 | Straight three-follower chain | 0.058, 0.051, and 0.050 m spacing RMSE; 95%, 99%, and 97% `TRACK`; zero collision samples | `deliverables/Neeraj_Kanchani_EE616_Gazebo_Three_Follower_Chain_Demo.mp4` |
 | One-pair recovery | 1.3 s synthetic blackout; `PREDICT`, `SAFE_STOP`, zero command, and later `TRACK` observed | `deliverables/Neeraj_Kanchani_EE616_Gazebo_Recovery_Demo.mp4` |
 
-See `docs/PROFESSOR_DEMO_GUIDE.md` for the exact commands and interpretation
+See `docs/GAZEBO_DEMO_GUIDE.md` for the exact commands and interpretation
 limits. The recovery recording intentionally uses the validated pair rather than
 claiming that a GUI recording is a new combined-chain scientific gate.
 

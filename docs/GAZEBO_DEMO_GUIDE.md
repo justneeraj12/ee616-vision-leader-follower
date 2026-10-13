@@ -1,4 +1,4 @@
-# Professor Gazebo Demonstration Guide
+# Gazebo Demonstration Guide
 
 This guide runs the live presentation views added after the Gate 7 evidence
 freeze. They reuse the accepted ROS 2 packages, YOLOv8n v3 detector, estimator,
@@ -22,26 +22,26 @@ normal detector still receives its own camera stream.
 Run these commands from the project root on the logged-in Hyprland desktop:
 
 ```bash
-make professor-demo PROFESSOR_DEMO=pair_turn
-make professor-demo PROFESSOR_DEMO=chain_straight
-make professor-demo PROFESSOR_DEMO=recovery
+make gazebo-demo DEMO_MODE=pair_turn
+make gazebo-demo DEMO_MODE=chain_straight
+make gazebo-demo DEMO_MODE=recovery
 ```
 
 Each command builds the four required ROS packages, opens Gazebo Sim and the
 read-only dashboard, runs one bounded experiment, writes a timestamped result
-below `work/ros2_ws/results/professor_demos/`, and closes the windows when the
+below `work/ros2_ws/results/demo_runs/`, and closes the windows when the
 evaluator completes.
 
-The equivalent VS Code task is **EE616: Launch professor demonstration**. It
-prompts for the mode. Use **EE616: Open professor-demo inspection shell** to
+The equivalent VS Code task is **EE616: Launch Gazebo demonstration**. It
+prompts for the mode. Use **EE616: Open demo inspection shell** to
 inspect ROS topics during a separate live run.
 
 ## Record a video
 
 ```bash
-make professor-demo-record PROFESSOR_DEMO=pair_turn
-make professor-demo-record PROFESSOR_DEMO=chain_straight
-make professor-demo-record PROFESSOR_DEMO=recovery
+make gazebo-demo-record DEMO_MODE=pair_turn
+make gazebo-demo-record DEMO_MODE=chain_straight
+make gazebo-demo-record DEMO_MODE=recovery
 ```
 
 The recorder moves the Gazebo and dashboard windows to Hyprland workspace 9,
@@ -81,7 +81,7 @@ Gazebo pose truth is read only by `ee616_evaluation` to calculate metrics. It is
 not published to detection, estimation, supervision, control, or the disturbance
 proxy.
 
-## Suggested explanation to Professor Imtiaz
+## Interpretation
 
 For the pair video: "This is the minimum scientific unit. The leader owns the
 route. The follower uses its forward RGB camera and local odometry. Gazebo pose

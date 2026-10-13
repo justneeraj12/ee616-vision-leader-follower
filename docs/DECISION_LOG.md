@@ -240,3 +240,17 @@ faculty package.
 Reason: Professor Imtiaz requested project material for review. A short, neutral
 path makes the question, implementation, evidence, and limitations visible without
 removing traceability or risking functional paths immediately before the meeting.
+
+## D029 Return the public repository to a project-only structure
+
+Date: October 12, 2026
+
+Decision: Remove generated reports, review packets, handbook artifacts, report
+builders, and the packaged review archive. Keep the implementation, tests,
+machine-readable evidence, demonstrations, screenshots, baseline archives, and
+the project owner's uncommitted IEEE draft. Rename operational demonstration
+commands and files from professor-specific names to neutral Gazebo-demo names.
+
+Reason: The repository should present the technical project directly rather
+than act as a document package for a particular reviewer. Historical decisions
+remain recorded, and Git history is not rewritten.

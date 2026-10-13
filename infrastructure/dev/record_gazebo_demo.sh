@@ -31,7 +31,7 @@ monitor="${EE616_RECORD_MONITOR:-$(hyprctl monitors -j | jq -r \
 previous_workspace="$(hyprctl activeworkspace -j | jq -r '.id')"
 demo_workspace="${EE616_DEMO_WORKSPACE:-9}"
 output="${project_root}/deliverables/${filename}"
-log_dir="${project_root}/work/ros2_ws/log/professor_demo_recording"
+log_dir="${project_root}/work/ros2_ws/log/gazebo_demo_recording"
 mkdir -p "${log_dir}"
 log_path="${log_dir}/${mode}.log"
 
@@ -52,8 +52,8 @@ trap cleanup EXIT INT TERM
 
 hyprctl dispatch workspace "${demo_workspace}" >/dev/null
 
-setsid make -C "${project_root}" professor-demo \
-    PROFESSOR_DEMO="${mode}" >"${log_path}" 2>&1 &
+setsid make -C "${project_root}" gazebo-demo \
+    DEMO_MODE="${mode}" >"${log_path}" 2>&1 &
 demo_pid=$!
 
 ready=0

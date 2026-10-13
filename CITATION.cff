@@ -11,7 +11,7 @@ repository-code: "https://github.com/justneeraj12/ee616-vision-leader-follower"
 url: "https://github.com/justneeraj12/ee616-vision-leader-follower"
 license: AGPL-3.0-only
 abstract: >-
-  Reproducible research code, evidence, and faculty-review material for a
+  Reproducible research code and simulation evidence for a
   camera-only predecessor-following warehouse material-delivery convoy. The
   repository includes a deterministic two-dimensional kinematic toy baseline
   and a ROS 2 Jazzy and Gazebo Harmonic camera-geometry measurement baseline.

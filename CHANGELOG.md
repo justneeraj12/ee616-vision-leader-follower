@@ -4,6 +4,16 @@ This file records reviewable project milestones. Detailed evidence and current l
 
 ## Unreleased
 
+### Changed
+
+- Repository navigation now presents the implementation, tests, evidence, and
+  demonstrations without a separate review package
+- Live demonstration commands use neutral `gazebo-demo` names
+
+### Removed
+
+- Generated report, handbook, review-packet, and report-builder artifacts
+
 ### Added
 
 - VS Code Dev Container configuration for the canonical ROS 2 image
@@ -61,7 +71,7 @@ The environment and scenario smoke tests do not constitute camera-accuracy, dete
 - Multi-follower warehouse maze with one leader and three followers
 - Seven automated tests
 - Machine-readable summaries, trial metrics, and time series
-- Faculty technical explanation, application rationale, figures, and videos
+- Technical explanation, application rationale, figures, and videos
 - Project status, decision log, approval log, and standing operating brief
 - Private GitHub repository with curated source, evidence, and review deliverables
 

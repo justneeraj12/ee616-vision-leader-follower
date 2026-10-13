@@ -1,7 +1,7 @@
 # Gazebo Presentation Screenshots
 
 These screenshots are full-resolution frames extracted from the three recorded
-professor demonstration videos. They are visual presentation material, not new
+Gazebo demonstration videos. They are visual presentation material, not new
 experimental runs or independent numerical evidence.
 
 | Screenshot | Source video time | What is visible |
@@ -14,5 +14,5 @@ experimental runs or independent numerical evidence.
 
 The screenshots show the Gazebo GUI beside the read-only demonstration viewer.
 The viewer does not publish commands into the robot stack. See
-`../../docs/PROFESSOR_DEMO_GUIDE.md` for the experiment summaries and claim
+`../../docs/GAZEBO_DEMO_GUIDE.md` for the experiment summaries and claim
 boundaries.
