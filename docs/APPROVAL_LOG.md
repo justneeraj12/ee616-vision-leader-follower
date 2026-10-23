@@ -309,6 +309,96 @@ and the installed `gazebo_demo.launch.py` exposed the expected modes and neutral
 `work/ieee_simple_report/main.tex` and untracked PDF remained outside the staged
 cleanup.
 
+## A026 One-command Gazebo demonstration launchers
+
+Status: Approved and completed; acceptance criteria met
+
+Approved scope: Add separate executable wrappers for the existing pair-turn,
+straight-chain, turning-chain, and recovery demonstrations; document their use;
+test mode selection and live startup; update the governing records; and preserve
+the project owner's uncommitted report and meeting files.
+
+Acceptance criteria: Each wrapper must work from any current directory, resolve
+the authorized project root, select exactly one existing mode, retain readable
+startup output, delegate to the accepted Docker/ROS/Gazebo stack, write only to
+the separate post-freeze demo result area, and leave no transient container after
+shutdown. Shell syntax, executable permissions, mode mapping, live startup, ROS
+tests, and toy-simulation tests must pass.
+
+Approval: The project owner replied "approved" on October 13, 2026 after
+receiving the objective, file scope, reason, acceptance criteria, tests,
+documentation changes, risks, rollback approach, schedule effect, and next two
+likely stages.
+
+Delivered evidence: Four executable files under `launchers/` map to
+`pair_turn`, `chain_straight`, `chain_turn`, and `recovery`. Absolute-path tests
+from `/tmp` confirmed project-root resolution and exact Make arguments. Each
+mode built the four required ROS packages and started its intended live node
+graph. Intentional smoke-test interruptions were cleaned up, and no transient
+demo container remained. The canonical ROS suite passed 61 tests with zero
+failures, and all seven toy-simulation tests passed. No frozen experiment,
+controller, detector, report, or user-owned uncommitted file was modified.
+
+## A027 Restore all live demonstrations after Ubuntu and Hyprland changes
+
+Status: Approved and completed; acceptance criteria met
+
+Approved scope: Repair the live display/container path, retain NVIDIA inference
+when it works, and verify every presentation launcher before the October 13
+meeting. Preserve frozen Gate 1--7 evidence and all unrelated uncommitted files.
+
+Approval: The project owner explicitly requested that the simulation be made
+working and that all four presentation modes be checked, while retaining the
+NVIDIA GPU path if functional.
+
+Delivered evidence: Docker and PyTorch detected the RTX 3050 Ti. Intel Mesa
+OpenGL/EGL and CUDA were verified simultaneously. Fresh `pair_turn`,
+`chain_straight`, `chain_turn`, and `recovery` runs opened Gazebo and the
+read-only dashboard and wrote passing JSON summaries. Both chain runs completed
+the route with every follower check true and zero collision samples. Recovery
+observed `PREDICT`, `SAFE_STOP`, zero command during `SAFE_STOP`, and 0.40 s
+reacquisition. No frozen result was overwritten.
+
+## A028 Mapped and optimized warehouse mission
+
+Status: Approved and completed; acceptance criteria met
+
+Approved scope: Replace the presentation-only fixed warehouse path with a
+logical receiving-to-dispatch mission in a multi-row warehouse; add multiple
+aisle turns; select and implement the appropriate leader path planner; retain
+camera-and-odometry-only follower control; optimize the laptop execution path;
+run a pair-first repeatability matrix; capture a video and screenshots; update
+documentation and GitHub; and preserve the owner's report and meeting files.
+
+Acceptance criteria: The leader must plan collision-aware, kinematically
+feasible routes on a known warehouse map; each follower must still observe only
+its immediate predecessor through RGB plus local odometry; the pair must pass
+before three full-chain trials; all accepted runs must complete loading,
+navigation, stopping, and unloading order; robot and shelf/wall collision
+samples must be zero; target-laptop RAM and VRAM must remain within declared
+limits; GUI launch and recording must work on Hyprland; failed development
+evidence must remain visible; and regression tests, checksums, and documentation
+links must pass.
+
+Approval: After requesting the camera-angle, station-layout, multi-row,
+multi-turn, planner, and optimization changes, the project owner replied
+"Fully approved" on October 23, 2026. The same work continued under the owner's
+explicit requests to optimize and update the repository.
+
+Delivered evidence: The leader now uses AMCL, a static occupancy map,
+leader-only LiDAR, Nav2 Smac Hybrid-A*, and Regulated Pure Pursuit. The mapped
+world contains three shelf rows, nine shelf blocks, separate receiving and
+dispatch docks, and four navigation goals. One pair run passed before three
+full-chain repetitions. Full-chain mean RMSE was 0.1313 m, 0.1392 m, and
+0.1331 m; zero robot and zero mapped-obstacle collision samples were recorded;
+minimum real-time factor was 0.9810; peak container RAM was 3,914 MiB and peak
+visible GPU memory was 647 MiB. The recorded GUI run also passed all mission
+checks. Five ROS packages passed 85 tests, seven toy tests passed, and all
+result and media hashes passed. The retained failed matrix documents the target
+switching defect that led to largest-box association, range-envelope gating,
+EKF innovation gating, and large-bearing slowdown. Cargo motion remains a
+scripted visual cue and does not claim robotic manipulation or throughput.
+
 ## Next approval required
 
 The planned simulation and demonstration stages are complete. Physical-robot

@@ -25,6 +25,9 @@ setup(
         "console_scripts": [
             "follower_controller = ee616_control.follower_node:main",
             "leader_route = ee616_control.leader_node:main",
+            "leader_map_tf = ee616_control.leader_map_tf:main",
+            "warehouse_mission = ee616_control.warehouse_mission_node:main",
+            "warehouse_nav_mission = ee616_control.warehouse_nav_mission_node:main",
         ],
     },
 )

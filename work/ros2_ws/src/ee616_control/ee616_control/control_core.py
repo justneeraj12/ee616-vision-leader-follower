@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 import math
+from dataclasses import dataclass
 
 import numpy as np
 
@@ -71,7 +71,13 @@ class RelativeEkf:
         q = np.diag([0.015**2, math.radians(0.8) ** 2, 0.12**2, 0.10**2]) * dt
         self.p = f @ self.p @ f.T + q
 
-    def update(self, range_m: float, bearing_rad: float) -> None:
+    def update(
+        self,
+        range_m: float,
+        bearing_rad: float,
+        *,
+        max_mahalanobis_sq: float = math.inf,
+    ) -> bool:
         if not self.initialized:
             raise RuntimeError("EKF must be initialized before update")
         h = np.zeros((2, 4), dtype=float)
@@ -83,11 +89,16 @@ class RelativeEkf:
         )
         r = np.diag([0.04**2, math.radians(0.5) ** 2])
         s = h @ self.p @ h.T + r
-        gain = self.p @ h.T @ np.linalg.inv(s)
+        inverse_s = np.linalg.inv(s)
+        mahalanobis_sq = float(innovation.T @ inverse_s @ innovation)
+        if mahalanobis_sq > max_mahalanobis_sq:
+            return False
+        gain = self.p @ h.T @ inverse_s
         self.x += gain @ innovation
         self.x[0] = max(0.05, self.x[0])
         self.x[1] = wrap_angle(float(self.x[1]))
         self.p = (np.eye(4) - gain @ h) @ self.p
+        return True
 
 
 class FollowerSupervisor:
@@ -106,9 +117,18 @@ class FollowerSupervisor:
         bearing_gain: float = 1.8,
         bearing_rate_gain: float = 0.2,
         predict_speed_scale: float = 0.55,
+        innovation_gate_sq: float = 100.0,
+        max_measurement_range_m: float = 30.0,
+        bearing_slowdown_rad: float = 0.0,
     ) -> None:
         if not 0.0 < track_timeout_s < predict_timeout_s:
             raise ValueError("timeouts must satisfy 0 < track < predict")
+        if innovation_gate_sq <= 0.0:
+            raise ValueError("innovation_gate_sq must be positive")
+        if max_measurement_range_m <= desired_range_m:
+            raise ValueError("max_measurement_range_m must exceed desired_range_m")
+        if bearing_slowdown_rad < 0.0:
+            raise ValueError("bearing_slowdown_rad must be nonnegative")
         self.desired_range_m = desired_range_m
         self.max_linear_mps = max_linear_mps
         self.max_angular_rps = max_angular_rps
@@ -119,6 +139,9 @@ class FollowerSupervisor:
         self.bearing_gain = bearing_gain
         self.bearing_rate_gain = bearing_rate_gain
         self.predict_speed_scale = predict_speed_scale
+        self.innovation_gate_sq = innovation_gate_sq
+        self.max_measurement_range_m = max_measurement_range_m
+        self.bearing_slowdown_rad = bearing_slowdown_rad
         self.ekf = RelativeEkf()
         self.last_measurement_s: float | None = None
 
@@ -129,15 +152,27 @@ class FollowerSupervisor:
         stamp_s: float,
         follower_v: float,
         follower_w: float,
-    ) -> None:
-        if not math.isfinite(range_m) or not math.isfinite(bearing_rad) or range_m <= 0.0:
-            return
+    ) -> bool:
+        if (
+            not math.isfinite(range_m)
+            or not math.isfinite(bearing_rad)
+            or not 0.0 < range_m <= self.max_measurement_range_m
+        ):
+            return False
         if not self.ekf.initialized:
             self.ekf.initialize(range_m, bearing_rad, stamp_s)
+            accepted = True
         else:
             self.ekf.predict(stamp_s, follower_v, follower_w)
-            self.ekf.update(range_m, bearing_rad)
+            accepted = self.ekf.update(
+                range_m,
+                bearing_rad,
+                max_mahalanobis_sq=self.innovation_gate_sq,
+            )
+        if not accepted:
+            return False
         self.last_measurement_s = stamp_s
+        return True
 
     def step(self, stamp_s: float, follower_v: float, follower_w: float) -> ControlOutput:
         self.ekf.predict(stamp_s, follower_v, follower_w)
@@ -154,6 +189,12 @@ class FollowerSupervisor:
         angular += self.bearing_rate_gain * float(bearing_rate)
         linear = max(0.0, min(self.max_linear_mps, linear))
         angular = max(-self.max_angular_rps, min(self.max_angular_rps, angular))
+        if self.bearing_slowdown_rad > 0.0:
+            alignment = max(
+                0.0,
+                1.0 - abs(float(bearing)) / self.bearing_slowdown_rad,
+            )
+            linear *= alignment
         if state == "PREDICT":
             linear *= self.predict_speed_scale
         return ControlOutput(state, linear, angular, float(range_m), float(bearing), age)

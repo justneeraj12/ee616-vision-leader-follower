@@ -11,7 +11,14 @@ from ament_index_python.packages import get_package_share_directory
 from ee616_simulation.disturbance_proxy import DISTURBANCE_SCENARIOS
 from ee616_simulation.pair_world import render_disturbance_world
 from launch import LaunchContext, LaunchDescription
-from launch.actions import DeclareLaunchArgument, EmitEvent, ExecuteProcess, OpaqueFunction, RegisterEventHandler
+from launch.actions import (
+    DeclareLaunchArgument,
+    EmitEvent,
+    ExecuteProcess,
+    OpaqueFunction,
+    RegisterEventHandler,
+    TimerAction,
+)
 from launch.event_handlers import OnProcessExit
 from launch.events import Shutdown
 from launch.substitutions import LaunchConfiguration
@@ -41,6 +48,8 @@ def _configure(context: LaunchContext):
     run_id = LaunchConfiguration("run_id").perform(context)
     output_dir = LaunchConfiguration("output_dir").perform(context)
     gui = _as_bool(LaunchConfiguration("gui").perform(context))
+    render_engine = LaunchConfiguration("render_engine").perform(context)
+    detector_device = LaunchConfiguration("detector_device").perform(context)
     startup_extension_s = float(
         LaunchConfiguration("startup_extension_s").perform(context)
     )
@@ -48,6 +57,8 @@ def _configure(context: LaunchContext):
         raise ValueError("startup_extension_s must be between 0 and 30")
     if scenario not in DISTURBANCE_SCENARIOS:
         raise ValueError("unsupported disturbance scenario")
+    if render_engine not in {"ogre", "ogre2"}:
+        raise ValueError("render_engine must be ogre or ogre2")
     if follower_count not in {1, 3}:
         raise ValueError("follower_count must be 1 or 3")
     if follower_count == 3 and scenario != "combined":
@@ -60,12 +71,17 @@ def _configure(context: LaunchContext):
     perception_share = Path(get_package_share_directory("ee616_perception"))
     control_share = Path(get_package_share_directory("ee616_control"))
     world_path = render_disturbance_world(scenario, follower_count, _generated_dir())
-    simulation_command = ["gz", "sim", "-r"]
-    if not gui:
-        simulation_command.append("-s")
-    simulation_command.extend(["-v", "3", str(world_path)])
+    simulation_command = [
+        "gz", "sim", "-s", "-r", "-v", "3",
+        "--render-engine-server", render_engine,
+        str(world_path),
+    ]
     actions = [
-        ExecuteProcess(cmd=simulation_command, output="screen"),
+        ExecuteProcess(
+            cmd=simulation_command,
+            additional_env={"EGL_PLATFORM": "surfaceless"},
+            output="screen",
+        ),
         Node(
             package="ros_gz_bridge", executable="parameter_bridge", name="disturbance_bridge",
             parameters=[{"config_file": str(simulation_share / "config" / "chain_bridge.yaml")}], output="screen",
@@ -79,6 +95,20 @@ def _configure(context: LaunchContext):
             }], output="screen",
         ),
     ]
+    if gui:
+        actions.insert(
+            1,
+            TimerAction(
+                period=2.0,
+                actions=[ExecuteProcess(
+                    cmd=[
+                        "gz", "sim", "-g", "-v", "3",
+                        "--render-engine-gui", render_engine,
+                    ],
+                    output="screen",
+                )],
+            ),
+        )
     for index in range(1, follower_count + 1):
         namespace = f"follower_{index}"
         targeted = index == target_follower
@@ -101,6 +131,7 @@ def _configure(context: LaunchContext):
                         "image_topic": f"/{namespace}/camera/disturbed",
                         "horizontal_fov_rad": 1.2217304764,
                         "target_height_m": 0.90,
+                        "device": detector_device,
                         "use_sim_time": True,
                     },
                 ], output="screen",
@@ -142,6 +173,8 @@ def generate_launch_description() -> LaunchDescription:
         DeclareLaunchArgument("follower_count", default_value="1"),
         DeclareLaunchArgument("run_id", default_value="run_01"),
         DeclareLaunchArgument("gui", default_value="false"),
+        DeclareLaunchArgument("render_engine", default_value="ogre2"),
+        DeclareLaunchArgument("detector_device", default_value="0"),
         DeclareLaunchArgument("startup_extension_s", default_value="4.0"),
         DeclareLaunchArgument("output_dir", default_value="/workspace/work/ros2_ws/results/disturbance_gate"),
         OpaqueFunction(function=_configure),

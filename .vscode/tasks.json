@@ -206,9 +206,11 @@
       "default": "pair_turn",
       "options": [
         "pair_turn",
-          "chain_straight",
-          "chain_turn",
-        "recovery"
+        "chain_straight",
+        "chain_turn",
+        "recovery",
+        "warehouse_mission",
+        "warehouse_nav_mission"
       ]
     }
   ]

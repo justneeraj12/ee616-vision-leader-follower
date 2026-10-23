@@ -16,6 +16,11 @@ This file records reviewable project milestones. Detailed evidence and current l
 
 ### Added
 
+- Mapped three-row warehouse with separate receiving and dispatch docks
+- Leader-only Nav2 AMCL, LiDAR, Smac Hybrid-A*, and Regulated Pure Pursuit
+- Pair-first mapped-mission repeatability runner, result plot, checksums, and
+  retained failed target-association development evidence
+- One-command mapped warehouse GUI and recording mode
 - VS Code Dev Container configuration for the canonical ROS 2 image
 - Integrated build, test, Gazebo GUI, ROS inspection, and stop tasks
 - Interactive six-shelf warehouse playground for development
@@ -31,6 +36,10 @@ This file records reviewable project milestones. Detailed evidence and current l
 
 ### Verified
 
+- One mapped pair run and three full mapped warehouse runs passed with zero
+  robot or mapped-obstacle collision samples
+- Mapped full-chain mean spacing RMSE was 0.1313 m, 0.1392 m, and 0.1331 m;
+  minimum real-time factor was 0.9810
 - ROS 2 Jazzy workspace builds two packages and passes six package tests
 - Isolated `/leader` and `/follower_1` namespace probes pass
 - Gazebo Sim 8.15.0 bridges 15 timestamped 640×480 RGB camera samples
@@ -41,8 +50,10 @@ This file records reviewable project milestones. Detailed evidence and current l
 
 ### Decisions
 
-- Initial leader uses a deterministic waypoint route and rear visual target
-- Leader LiDAR, IMU, odometry, and Nav2 remain a later optional extension
+- Use Hybrid-A* rather than RRT-Connect for the known 2-D warehouse map and
+  differential-drive leader; keep all route planning off the followers
+- The frozen baseline leader retains its deterministic waypoint route; the
+  post-freeze mapped mission adds leader-only Nav2, LiDAR, and odometry
 - Followers retain forward RGB camera and local wheel odometry as formation inputs
 - Controlled scenarios are primary Gate 2 environments; the AWS world is an optional visual and resource stress test
 

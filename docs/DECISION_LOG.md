@@ -254,3 +254,60 @@ commands and files from professor-specific names to neutral Gazebo-demo names.
 Reason: The repository should present the technical project directly rather
 than act as a document package for a particular reviewer. Historical decisions
 remain recorded, and Git history is not rewritten.
+
+## D030 Add thin executable wrappers for existing demonstration modes
+
+Date: October 13, 2026
+
+Decision: Provide one executable shell wrapper for each existing live Gazebo
+mode: pair turn, straight three-follower chain, turning three-follower chain,
+and one-pair visual-loss recovery. Keep environment preparation, ROS builds,
+mode selection, and result placement in the existing verified launch stack.
+
+Reason: The wrappers reduce command-entry mistakes during demonstrations while
+avoiding a duplicate launch architecture. They do not change perception,
+estimation, control, experiment criteria, or frozen evidence.
+
+## D031 Isolate Gazebo graphics from CUDA inference after the host upgrade
+
+Date: October 13, 2026
+
+Decision: Run the Gazebo server and GUI through Intel Mesa while exposing only
+the NVIDIA compute devices and required CUDA driver libraries to the
+display-enabled container. Keep YOLOv8n on CUDA device 0. Start Gazebo server
+and GUI as separate processes, select OGRE2 explicitly, and pin single-host
+Gazebo Transport discovery to `127.0.0.1`.
+
+Reason: After the Ubuntu 26.04.1 and Hyprland upgrade, combined Gazebo startup
+waited for a transport subscriber that never appeared. Exposing NVIDIA's render
+node alongside Intel caused headless EGL to select an unsupported path, while
+CPU-only inference made three YOLO instances miss timing and tracking limits.
+The isolated configuration gives Gazebo only Intel renderD128 and gives PyTorch
+the NVIDIA compute devices without the NVIDIA DRM render node. Fresh live runs
+of all four presentation modes completed with passing evaluator summaries.
+
+## D032 Use mapped Hybrid-A* navigation for the warehouse mission
+
+Date: October 23, 2026
+
+Decision: Keep route ownership on the leader and use Nav2 AMCL, a static
+occupancy map, leader-only 360-degree LiDAR, Smac Hybrid-A* with a Dubins motion
+model, and Regulated Pure Pursuit for the mapped warehouse mission. Keep every
+follower on the existing forward-RGB-camera and local-odometry pipeline. Require
+one pair to pass before three full-chain repetitions and retain both accepted
+and failed development evidence.
+
+Reason: RRT-Connect is useful for many high-dimensional planning problems, but
+this task has a known two-dimensional map, a differential-drive leader, narrow
+aisles, and a declared minimum turning radius. Hybrid-A* searches position and
+heading together, applies footprint costs and curvature constraints, and
+produces paths that the convoy can follow without adding a planner to every
+follower. The separation also preserves the research question: leader route
+planning is distinct from camera-only predecessor following.
+
+Development finding: An early repeatability attempt exposed target switching
+when a follower lost its immediate predecessor during a tight turn and selected
+a farther identical marker. That matrix was retained as failed evidence. The
+accepted revision uses largest-box association, a local range envelope, EKF
+innovation gating, and large-bearing speed reduction, then repeats the complete
+pair-first protocol in an isolated ROS domain and Gazebo partition.

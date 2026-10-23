@@ -34,6 +34,8 @@ setup(
             "ee616_evaluation.demo_viewer:main",
             "timing_gate_evaluator = "
             "ee616_evaluation.timing_gate_evaluator:main",
+            "warehouse_mission_evaluator = "
+            "ee616_evaluation.warehouse_mission_evaluator:main",
             "pair_gate_evaluator = "
             "ee616_evaluation.pair_gate_evaluator:main",
             "plot_chain_gate = "
@@ -44,6 +46,8 @@ setup(
             "ee616_evaluation.plot_pair_gate:main",
             "plot_timing_gate = "
             "ee616_evaluation.plot_timing_gate:main",
+            "plot_warehouse_mission = "
+            "ee616_evaluation.plot_warehouse_mission:main",
             "summarize_chain_gate = "
             "ee616_evaluation.summarize_chain_gate:main",
             "summarize_disturbance_gate = "
@@ -52,6 +56,8 @@ setup(
             "ee616_evaluation.summarize_pair_gate:main",
             "summarize_timing_gate = "
             "ee616_evaluation.summarize_timing_gate:main",
+            "summarize_warehouse_mission = "
+            "ee616_evaluation.summarize_warehouse_mission:main",
             "summarize_camera_gate = "
             "ee616_evaluation.summarize_camera_gate:main",
             "validate_yolo_dataset = "

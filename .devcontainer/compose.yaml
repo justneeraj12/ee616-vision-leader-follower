@@ -1,7 +1,14 @@
 services:
   dev:
     command: sleep infinity
-    gpus: all
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/nvidia0:/dev/nvidia0
+      - /dev/nvidiactl:/dev/nvidiactl
+      - /dev/nvidia-uvm:/dev/nvidia-uvm
+      - /dev/nvidia-uvm-tools:/dev/nvidia-uvm-tools
+    group_add:
+      - "${RENDER_GID:-992}"
     environment:
       HOME: /home/ubuntu
       DISPLAY: ${DISPLAY}
@@ -9,10 +16,10 @@ services:
       QT_QPA_PLATFORM: xcb
       QT_X11_NO_MITSHM: "1"
       LIBGL_ALWAYS_SOFTWARE: "0"
-      __GLX_VENDOR_LIBRARY_NAME: nvidia
-      __NV_PRIME_RENDER_OFFLOAD: "1"
-      NVIDIA_VISIBLE_DEVICES: all
-      NVIDIA_DRIVER_CAPABILITIES: compute,graphics,utility
+      __GLX_VENDOR_LIBRARY_NAME: mesa
+      MESA_LOADER_DRIVER_OVERRIDE: iris
     volumes:
       - ./.devcontainer/.Xauthority:/tmp/.Xauthority:ro
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /usr/lib/x86_64-linux-gnu/libcuda.so.1:/usr/lib/x86_64-linux-gnu/libcuda.so.1:ro
+      - /usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.1:/usr/lib/x86_64-linux-gnu/libnvidia-ptxjitcompiler.so.1:ro

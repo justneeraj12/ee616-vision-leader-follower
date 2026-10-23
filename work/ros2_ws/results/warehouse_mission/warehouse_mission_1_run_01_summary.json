@@ -1,0 +1,65 @@
+{
+  "failure": null,
+  "follower_count": 1,
+  "followers": {
+    "1": {
+      "bounded_commands": true,
+      "checks": {
+        "bounded_commands": true,
+        "collision_samples": true,
+        "control_period_p95": true,
+        "inference_latency_p95": true,
+        "track_fraction": true,
+        "transport_spacing_rmse": true
+      },
+      "collision_samples": 0,
+      "control_period_p95_ms": 50.00000000000426,
+      "inference_latency_p95_ms": 5.857246208190918,
+      "minimum_center_distance_m": 2.0290567026563853,
+      "predecessor": "leader",
+      "track_fraction": 1.0,
+      "transport_spacing_rmse_m": 0.07004391103606362
+    }
+  },
+  "ground_truth_boundary": "Gazebo /world/warehouse_mission_1/pose/info was read only by ee616_evaluation and was not published to perception, estimation, supervision, or control.",
+  "loading_station_max_error_m": {
+    "follower_1": 0.08902435311385798,
+    "leader": 0.018338537165921487
+  },
+  "mission_checks": {
+    "cargo_empty_at_completion": true,
+    "load_order": true,
+    "loading_station_accuracy": true,
+    "real_time_factor": true,
+    "route_complete": true,
+    "unload_order": true
+  },
+  "mission_state_sequence": [
+    "SETTLE",
+    "LOAD_LEADER",
+    "ADVANCE_TO_FOLLOWER_1",
+    "LOAD_FOLLOWER_1",
+    "WAREHOUSE_AISLE",
+    "WAREHOUSE_TURN",
+    "APPROACH_DROPOFF",
+    "DROPOFF_SETTLE",
+    "UNLOAD_LEADER",
+    "UNLOAD_FOLLOWER_1",
+    "COMPLETE"
+  ],
+  "observed_load_sequence": [
+    "LOAD_LEADER",
+    "LOAD_FOLLOWER_1"
+  ],
+  "observed_unload_sequence": [
+    "UNLOAD_LEADER",
+    "UNLOAD_FOLLOWER_1"
+  ],
+  "real_time_factor": 0.9668171767052589,
+  "run_id": "run_01",
+  "sample_count": 337,
+  "scope": "Simulated warehouse formation-transport mission with scripted visual cargo; not manipulation, physical-robot, throughput, or production-safety evidence.",
+  "sim_elapsed_s": 67.4,
+  "status": "pass",
+  "wall_elapsed_s": 69.71328356999948
+}

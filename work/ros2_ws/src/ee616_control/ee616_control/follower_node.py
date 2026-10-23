@@ -29,6 +29,9 @@ class FollowerControllerNode(Node):
             "bearing_gain": 1.8,
             "bearing_rate_gain": 0.2,
             "predict_speed_scale": 0.55,
+            "innovation_gate_sq": 100.0,
+            "max_measurement_range_m": 30.0,
+            "bearing_slowdown_rad": 0.0,
             "control_rate_hz": 20.0,
         }
         for name, value in defaults.items():
@@ -98,7 +101,11 @@ class FollowerControllerNode(Node):
         estimate.header.frame_id = "follower_1/camera"
         estimate.vector.x = output.range_m
         estimate.vector.y = output.bearing_rad
-        estimate.vector.z = output.measurement_age_s if math.isfinite(output.measurement_age_s) else -1.0
+        estimate.vector.z = (
+            output.measurement_age_s
+            if math.isfinite(output.measurement_age_s)
+            else -1.0
+        )
         self.estimate_publisher.publish(estimate)
 
     def destroy_node(self):

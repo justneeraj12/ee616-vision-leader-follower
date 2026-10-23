@@ -1,0 +1,33 @@
+{
+  "chains": {
+    "1": {
+      "dropoff_station_error_m_worst": 0.433680580038862,
+      "followers": {
+        "1": {
+          "collision_samples_total": 0,
+          "inference_latency_p95_ms_worst": 7.461469078063965,
+          "track_fraction_min": 0.9393939393939394,
+          "transport_spacing_rmse_m_mean": 0.11823865205892933,
+          "transport_spacing_rmse_m_worst": 0.11823865205892933
+        }
+      },
+      "loading_station_error_m_worst": 0.0885931995992525,
+      "real_time_factor_min": 0.985719495657447,
+      "run_count": 1,
+      "warehouse_obstacle_collision_samples_total": 0
+    }
+  },
+  "checks": {
+    "all_runs_pass": true,
+    "laptop_memory_limits": true,
+    "pair_first_then_three_full_runs": true
+  },
+  "expected_runs": {
+    "1": 1
+  },
+  "ground_truth_boundary": "Gazebo pose truth was consumed only inside ee616_evaluation.",
+  "resources": null,
+  "run_count": 1,
+  "scope": "Repeatable simulated formation transport with scripted visual cargo; not measured airport or warehouse throughput.",
+  "status": "pass"
+}

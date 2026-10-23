@@ -1,0 +1,173 @@
+{
+  "dropoff_station_final_error_m": 0.4083544739929953,
+  "dropoff_station_max_error_m": 0.4083544739929953,
+  "failure": null,
+  "follower_count": 1,
+  "followers": {
+    "1": {
+      "bounded_commands": true,
+      "checks": {
+        "bounded_commands": true,
+        "collision_samples": true,
+        "control_period_p95": true,
+        "inference_latency_p95": true,
+        "track_fraction": true,
+        "transport_spacing_rmse": true
+      },
+      "collision_samples": 0,
+      "control_period_p95_ms": 50.00000000001137,
+      "inference_latency_p95_ms": 7.669291806221008,
+      "minimum_center_distance_m": 1.9756617078466043,
+      "predecessor": "leader",
+      "track_fraction": 0.9542936288088643,
+      "transport_spacing_rmse_m": 0.14777441705554722
+    }
+  },
+  "ground_truth_boundary": "Gazebo /world/warehouse_nav_mission_1/pose/info was read only by ee616_evaluation and was not published to perception, estimation, supervision, or control.",
+  "loading_station_max_error_m": {
+    "follower_1": 0.09024979141887483,
+    "leader": 0.020088536996537343
+  },
+  "mission_checks": {
+    "amcl_localization": true,
+    "cargo_empty_at_completion": true,
+    "dropoff_station_accuracy": true,
+    "hybrid_astar_plans": true,
+    "leader_lidar_received": true,
+    "load_order": true,
+    "loading_station_accuracy": true,
+    "planner_reported_no_failure": true,
+    "real_time_factor": true,
+    "regulated_path_controller": true,
+    "route_complete": true,
+    "unload_order": true,
+    "warehouse_obstacle_collisions": true
+  },
+  "mission_state_sequence": [
+    "SETTLE",
+    "LOAD_LEADER",
+    "ADVANCE_TO_FOLLOWER_1",
+    "LOAD_FOLLOWER_1",
+    "NAV2_HANDOFF",
+    "WAIT_NAV2",
+    "NAV_BOTTOM_AISLE_EAST",
+    "NAV_TURN_ENTRY",
+    "NAV_RIGHT_CROSS_AISLE",
+    "NAV_DISPATCH_DOCK",
+    "DROPOFF_SETTLE",
+    "UNLOAD_LEADER",
+    "UNLOAD_FOLLOWER_1",
+    "COMPLETE"
+  ],
+  "observed_load_sequence": [
+    "LOAD_LEADER",
+    "LOAD_FOLLOWER_1"
+  ],
+  "observed_unload_sequence": [
+    "UNLOAD_LEADER",
+    "UNLOAD_FOLLOWER_1"
+  ],
+  "planner_state": {
+    "action_active": false,
+    "algorithm": "Nav2 SmacPlannerHybrid (Hybrid-A*)",
+    "controller": "Nav2 RegulatedPurePursuitController",
+    "failure": null,
+    "localization": "Nav2 AMCL",
+    "plans": [
+      {
+        "path_end_xy_m": [
+          7.000000387430191,
+          -5.999999910593033
+        ],
+        "path_length_m": 15.068781971899952,
+        "path_pose_count": 107,
+        "path_start_xy_m": [
+          -8.068773488235081,
+          -5.984379487996989
+        ],
+        "path_y_bounds_m": [
+          -5.999999910593033,
+          -5.984379487996989
+        ],
+        "planning_time_s": 0.005,
+        "waypoint": "BOTTOM_AISLE_EAST"
+      },
+      {
+        "path_end_xy_m": [
+          10.500000439584255,
+          -2.4999998584389687
+        ],
+        "path_length_m": 5.404345213486983,
+        "path_pose_count": 39,
+        "path_start_xy_m": [
+          6.714383317744478,
+          -5.9937048970714955
+        ],
+        "path_y_bounds_m": [
+          -5.9937048970714955,
+          -2.4999998584389687
+        ],
+        "planning_time_s": 0.0,
+        "waypoint": "TURN_ENTRY"
+      },
+      {
+        "path_end_xy_m": [
+          7.000000387430191,
+          -0.9999998360872269
+        ],
+        "path_length_m": 4.856538273131316,
+        "path_pose_count": 35,
+        "path_start_xy_m": [
+          10.456277904753051,
+          -2.7854956207498276
+        ],
+        "path_y_bounds_m": [
+          -2.7854956207498276,
+          -0.772836899352626
+        ],
+        "planning_time_s": 0.0,
+        "waypoint": "RIGHT_CROSS_AISLE"
+      },
+      {
+        "path_end_xy_m": [
+          -9.99999986588955,
+          -0.9999998360872269
+        ],
+        "path_length_m": 17.289675998353122,
+        "path_pose_count": 123,
+        "path_start_xy_m": [
+          7.289325342913344,
+          -0.9813329962094599
+        ],
+        "path_y_bounds_m": [
+          -0.9999998360872269,
+          -0.9813329962094599
+        ],
+        "planning_time_s": 0.005,
+        "waypoint": "DISPATCH_DOCK"
+      }
+    ],
+    "scan_snapshot": {
+      "front_min_m": 9.10094928741455,
+      "left_min_m": 3.3515381813049316,
+      "nearest_angle_deg": -53.649027536430744,
+      "nearest_range_m": 0.5868821144104004,
+      "rear_min_m": 7.075104713439941,
+      "right_min_m": 1.0500802993774414,
+      "valid_samples": 321
+    },
+    "waypoint_count": 4,
+    "waypoint_index": 4
+  },
+  "real_time_factor": 0.9866504985710682,
+  "run_id": "run_01",
+  "sample_count": 875,
+  "scope": "Simulated warehouse formation-transport mission with scripted visual cargo; not manipulation, physical-robot, throughput, or production-safety evidence.",
+  "sim_elapsed_s": 175.20000000000002,
+  "status": "pass",
+  "wall_elapsed_s": 177.5704773409998,
+  "warehouse_obstacle_collision_samples": {
+    "follower_1": 0,
+    "leader": 0
+  }
+}

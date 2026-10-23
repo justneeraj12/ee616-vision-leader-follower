@@ -13,8 +13,14 @@ case "${mode}" in
     recovery)
         filename=Neeraj_Kanchani_EE616_Gazebo_Recovery_Demo.mp4
         ;;
+    warehouse_mission)
+        filename=Neeraj_Kanchani_EE616_Warehouse_Mission_Demo.mp4
+        ;;
+    warehouse_nav_mission)
+        filename=Neeraj_Kanchani_EE616_Hybrid_AStar_Warehouse_Demo.mp4
+        ;;
     *)
-        echo "Usage: $0 {pair_turn|chain_straight|chain_turn|recovery}" >&2
+        echo "Usage: $0 {pair_turn|chain_straight|chain_turn|recovery|warehouse_mission|warehouse_nav_mission}" >&2
         exit 2
         ;;
 esac
@@ -37,6 +43,22 @@ log_path="${log_dir}/${mode}.log"
 
 demo_pid=""
 recorder_pid=""
+focus_workspace() {
+    local workspace_id="$1"
+    hyprctl repl \
+        "return hl.dispatch(hl.dsp.focus({ workspace = ${workspace_id} }))" \
+        >/dev/null
+}
+move_window_to_workspace() {
+    local window_address="$1"
+    local workspace_id="$2"
+    hyprctl repl \
+        "return hl.dispatch(hl.dsp.focus({ window = \"address:${window_address}\" }))" \
+        >/dev/null
+    hyprctl repl \
+        "return hl.dispatch(hl.dsp.window.move({ workspace = ${workspace_id}, silent = true }))" \
+        >/dev/null
+}
 cleanup() {
     if [[ -n "${recorder_pid}" ]] && kill -0 "${recorder_pid}" 2>/dev/null; then
         kill -INT "${recorder_pid}" 2>/dev/null || true
@@ -46,11 +68,11 @@ cleanup() {
         kill -INT -- "-${demo_pid}" 2>/dev/null || true
         wait "${demo_pid}" 2>/dev/null || true
     fi
-    hyprctl dispatch workspace "${previous_workspace}" >/dev/null 2>&1 || true
+    focus_workspace "${previous_workspace}" >/dev/null 2>&1 || true
 }
 trap cleanup EXIT INT TERM
 
-hyprctl dispatch workspace "${demo_workspace}" >/dev/null
+focus_workspace "${demo_workspace}"
 
 setsid make -C "${project_root}" gazebo-demo \
     DEMO_MODE="${mode}" >"${log_path}" 2>&1 &
@@ -82,11 +104,9 @@ if [[ "${ready}" -ne 1 ]]; then
     exit 1
 fi
 
-hyprctl dispatch movetoworkspacesilent \
-    "${demo_workspace},address:${gazebo_address}" >/dev/null
-hyprctl dispatch movetoworkspacesilent \
-    "${demo_workspace},address:${dashboard_address}" >/dev/null
-hyprctl dispatch workspace "${demo_workspace}" >/dev/null
+move_window_to_workspace "${gazebo_address}" "${demo_workspace}"
+move_window_to_workspace "${dashboard_address}" "${demo_workspace}"
+focus_workspace "${demo_workspace}"
 sleep 2
 
 echo "Recording ${mode} on monitor ${monitor} to ${output}"
@@ -105,6 +125,6 @@ demo_pid=""
 kill -INT "${recorder_pid}" 2>/dev/null || true
 wait "${recorder_pid}"
 recorder_pid=""
-hyprctl dispatch workspace "${previous_workspace}" >/dev/null
+focus_workspace "${previous_workspace}"
 trap - EXIT INT TERM
 echo "Recorded ${output}"

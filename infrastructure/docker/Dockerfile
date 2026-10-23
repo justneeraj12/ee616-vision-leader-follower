@@ -18,6 +18,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         python3-yaml \
         ros-jazzy-camera-info-manager \
         ros-jazzy-image-transport \
+        ros-jazzy-navigation2 \
+        ros-jazzy-nav2-bringup \
         ros-jazzy-ros-gz \
     && rm -rf /var/lib/apt/lists/*
 

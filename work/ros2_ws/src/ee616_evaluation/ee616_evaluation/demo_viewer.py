@@ -90,6 +90,7 @@ class DemoViewerNode(Node):
         self.declare_parameter("follower_count", 1)
         self.declare_parameter("camera_count", 1)
         self.declare_parameter("disturbed_images", False)
+        self.declare_parameter("event_topic", "/experiment/event")
         self.follower_count = int(self.get_parameter("follower_count").value)
         self.camera_count = int(self.get_parameter("camera_count").value)
         if self.follower_count not in {1, 2, 3}:
@@ -119,7 +120,9 @@ class DemoViewerNode(Node):
                 lambda message, i=index: self._state(i, message),
                 10,
             )
-        self.create_subscription(String, "/experiment/event", self._event, 10)
+        self.create_subscription(
+            String, str(self.get_parameter("event_topic").value), self._event, 10
+        )
         cv2.namedWindow(self.window_name, cv2.WINDOW_NORMAL)
         cv2.resizeWindow(
             self.window_name, min(1680, PANEL_WIDTH * self.follower_count), PANEL_HEIGHT

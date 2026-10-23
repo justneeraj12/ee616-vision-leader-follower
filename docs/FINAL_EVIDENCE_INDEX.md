@@ -72,10 +72,32 @@ Gate 1--7 evidence.
 | Pair gradual turn | 0.104 m spacing RMSE, 97.3% `TRACK`, 50 ms control-period p95, zero collision samples | `deliverables/Neeraj_Kanchani_EE616_Gazebo_Pair_Turn_Demo.mp4` |
 | Straight three-follower chain | 0.058, 0.051, and 0.050 m spacing RMSE; 95%, 99%, and 97% `TRACK`; zero collision samples | `deliverables/Neeraj_Kanchani_EE616_Gazebo_Three_Follower_Chain_Demo.mp4` |
 | One-pair recovery | 1.3 s synthetic blackout; `PREDICT`, `SAFE_STOP`, zero command, and later `TRACK` observed | `deliverables/Neeraj_Kanchani_EE616_Gazebo_Recovery_Demo.mp4` |
+| Scripted-route warehouse mission | Sequential visual loading, transport, and unloading; repeated pair-first matrix passed | `deliverables/Neeraj_Kanchani_EE616_Warehouse_Mission_Demo.mp4` |
+| Mapped Hybrid-A* warehouse mission | Pair-first matrix plus three full runs passed; zero robot and mapped-obstacle collision samples | `deliverables/Neeraj_Kanchani_EE616_Hybrid_AStar_Warehouse_Demo.mp4` |
 
 See `docs/GAZEBO_DEMO_GUIDE.md` for the exact commands and interpretation
 limits. The recovery recording intentionally uses the validated pair rather than
 claiming that a GUI recording is a new combined-chain scientific gate.
+
+## Post-freeze mapped warehouse evidence
+
+The separately approved mapped warehouse revision does not modify the September
+30 Gate 7 archive. Its accepted machine-readable evidence is under
+`work/ros2_ws/results/warehouse_nav_evidence/`.
+
+- One pair run passed before three full leader-plus-three-follower runs began.
+- Three-run mean spacing RMSE was 0.1313 m, 0.1392 m, and 0.1331 m from
+  Follower 1 through Follower 3.
+- Worst spacing RMSE was 0.1526 m, 0.1556 m, and 0.1588 m.
+- Zero robot-to-robot and zero mapped shelf/wall collision samples were recorded.
+- Minimum real-time factor was 0.9810. Peak container RAM was 3,914 MiB and
+  peak visible GPU memory was 647 MiB.
+
+The leader used AMCL, leader-only LiDAR, Nav2 Smac Hybrid-A*, and Regulated Pure
+Pursuit. Followers remained camera-and-odometry only. Loading and unloading are
+scripted visual events, not robotic manipulation or measured throughput. The
+failed target-switching development attempt is retained under
+`work/ros2_ws/results/warehouse_nav_development_failures/`.
 
 ## Reproduction commands
 
@@ -87,6 +109,7 @@ make pair-gate
 make chain-gate
 make disturbance-gate
 make timing-gate
+make warehouse-nav-mission-gate
 ```
 
 These commands overwrite their corresponding result directories. Preserve the frozen package before intentionally collecting a new experimental revision.

@@ -35,11 +35,15 @@ class _FakeModel:
         return [SimpleNamespace(boxes=self.boxes)]
 
 
-def test_detector_selects_highest_confidence_target_class():
+def test_detector_selects_largest_target_class_box():
     boxes = SimpleNamespace(
-        xyxy=np.array([[10.0, 10.0, 20.0, 20.0], [280.0, 160.0, 360.0, 320.0]]),
-        cls=np.array([1.0, 0.0]),
-        conf=np.array([0.99, 0.80]),
+        xyxy=np.array([
+            [10.0, 10.0, 20.0, 20.0],
+            [300.0, 210.0, 340.0, 290.0],
+            [280.0, 160.0, 360.0, 320.0],
+        ]),
+        cls=np.array([1.0, 0.0, 0.0]),
+        conf=np.array([0.99, 0.95, 0.80]),
     )
     detector = YoloTargetDetector("unused.pt", model=_FakeModel(boxes))
     result = detector.detect(

@@ -7,7 +7,8 @@ SCENARIO ?= straight_aisle
 	container-shell environment-check environment-check-gpu gazebo-gui gpu-shell \
 	prepare-display scenario-gui scenario-validate vscode yolo-dataset-capture \
 	chain-gate disturbance-gate pair-gate timing-gate gazebo-demo \
-	gazebo-demo-record gazebo-demo-shell \
+	gazebo-demo-record gazebo-demo-shell warehouse-mission-gate \
+	warehouse-nav-mission-gate \
 	yolo-dataset-v2 yolo-dataset-v3 yolo-diagnose-v2 yolo-gate yolo-gate-v2 \
 	yolo-gate-v3 yolo-model-acquire yolo-train yolo-train-v2 yolo-train-v3
 
@@ -65,6 +66,14 @@ disturbance-gate:
 timing-gate:
 	LOCAL_UID=$$(id -u) LOCAL_GID=$$(id -g) $(COMPOSE) --profile gpu run --rm gpu \
 		bash /workspace/work/ros2_ws/scripts/run_timing_gate.sh
+
+warehouse-mission-gate:
+	LOCAL_UID=$$(id -u) LOCAL_GID=$$(id -g) $(COMPOSE) --profile gpu run --rm gpu \
+		bash /workspace/work/ros2_ws/scripts/run_warehouse_mission.sh
+
+warehouse-nav-mission-gate:
+	LOCAL_UID=$$(id -u) LOCAL_GID=$$(id -g) $(COMPOSE) --profile gpu run --rm gpu \
+		bash /workspace/work/ros2_ws/scripts/run_warehouse_nav_mission.sh
 
 DEMO_MODE ?= pair_turn
 

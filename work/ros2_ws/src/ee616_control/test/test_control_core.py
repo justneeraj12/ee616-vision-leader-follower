@@ -34,3 +34,24 @@ def test_commands_are_bounded():
     output = supervisor.step(0.01, 0.0, 0.0)
     assert 0.0 <= output.linear_mps <= 0.5
     assert -0.7 <= output.angular_rps <= 0.7
+
+
+def test_supervisor_rejects_gross_target_switch():
+    supervisor = FollowerSupervisor(innovation_gate_sq=100.0)
+    assert supervisor.accept_measurement(1.0, 0.0, 0.0, 0.0, 0.0)
+    assert not supervisor.accept_measurement(3.0, 0.0, 0.05, 0.0, 0.0)
+    assert supervisor.last_measurement_s == 0.0
+
+
+def test_supervisor_rejects_measurements_outside_tracking_envelope():
+    supervisor = FollowerSupervisor(max_measurement_range_m=2.5)
+    assert not supervisor.accept_measurement(3.0, 0.0, 0.0, 0.0, 0.0)
+    assert supervisor.step(0.1, 0.0, 0.0).state == "SAFE_STOP"
+
+
+def test_large_bearing_reduces_forward_command():
+    supervisor = FollowerSupervisor(bearing_slowdown_rad=0.5)
+    supervisor.accept_measurement(2.0, 0.4, 0.0, 0.0, 0.0)
+    output = supervisor.step(0.01, 0.0, 0.0)
+    assert 0.0 < output.linear_mps < 0.15
+    assert output.angular_rps > 0.0

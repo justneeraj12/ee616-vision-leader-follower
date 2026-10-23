@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: October 12, 2026
+Last updated: October 23, 2026
 
 ## Current state
 
@@ -26,6 +26,20 @@ Gazebo world beside a read-only follower-camera and supervisor dashboard. Three
 chain, and a passing one-pair long-occlusion recovery. These presentation runs
 write to a separate ignored result directory and do not modify the Gate 7
 manifest or frozen experiment matrices.
+
+Six executable convenience wrappers under `launchers/` now start the existing
+pair-turn, straight-chain, turning-chain, recovery, scripted warehouse, and
+mapped warehouse modes with one command.
+They resolve the authorized project root automatically and delegate to the
+unchanged `gazebo-demo` target.
+
+A post-freeze mapped warehouse mission now places the robots in a three-row,
+nine-shelf warehouse with separate receiving and dispatch docks and multiple
+aisle turns. The leader uses a static occupancy map, AMCL, a simulated
+360-degree LiDAR, Nav2 Smac Hybrid-A*, and Regulated Pure Pursuit. Followers do
+not receive those navigation inputs; each still uses its own forward RGB camera
+and local wheel odometry. The pair-first repeatability matrix passed before
+three full-chain repetitions were accepted.
 
 ## Verified evidence
 
@@ -96,11 +110,42 @@ manifest or frozen experiment matrices.
 - Five ROS 2 packages build and 59 package tests pass after the Gate 6 evaluator-lifecycle repair.
 - The final verification rerun built all five ROS packages and passed 59 package tests with zero failures; all seven toy tests also passed.
 - The Gate 7 manifest verifies expected pass/fail evidence states and SHA-256 checksums for the frozen file set.
-- Native NVIDIA OpenGL 4.6 rendering was verified inside the display-enabled container on the RTX 3050 Ti. Three 1920 by 1080, 30 fps Gazebo presentation videos passed visual inspection.
+- The current Hyprland presentation path uses Intel Mesa OpenGL/EGL for Gazebo
+  and compute-only RTX 3050 Ti access for YOLOv8n. CUDA and Intel rendering were
+  verified simultaneously inside the display-enabled container.
 - The recorded pair-turn demo passed with 0.104 m spacing RMSE, 97.3% `TRACK`, 50 ms control-period p95, route completion, and zero collision samples.
 - The recorded straight three-follower demo passed with 0.058, 0.051, and 0.050 m spacing RMSE; 95%, 99%, and 97% `TRACK`; route completion; and zero collision samples.
 - The recorded long-occlusion pair demo passed with `PREDICT`, `SAFE STOP`, zero command during `SAFE STOP`, 0.60 s stop latency, 0.40 s reacquisition, 1.00 s spacing recovery, and zero collision samples.
 - The post-freeze regression built all five ROS packages and passed 61 tests with zero failures; all seven toy-simulation tests also passed.
+- All four convenience wrappers passed shell syntax, executable-permission,
+  project-root resolution, and mode-mapping checks. Live smoke tests built the
+  four required ROS packages and started the correct pair, three-follower, and
+  recovery node graphs. After intentional interruption, no transient demo
+  container remained. The unchanged regression suites passed 61 ROS tests and
+  seven toy-simulation tests.
+- The mapped warehouse mission completed one required pair run followed by
+  three full leader-plus-three-follower repetitions; all four runs passed.
+- Across the three full mapped-mission runs, mean spacing RMSE was 0.1313 m,
+  0.1392 m, and 0.1331 m from Follower 1 through Follower 3. Worst RMSE was
+  0.1526 m, 0.1556 m, and 0.1588 m.
+- The mapped mission recorded zero robot-to-robot collision samples and zero
+  mapped shelf or wall collision samples. The minimum real-time factor was
+  0.9810.
+- The mapped mission used 3,914 MiB peak container RAM, 647 MiB peak visible
+  GPU memory, 59% peak GPU utilization, and about 3.15 CPU cores across the
+  laptop's 12 logical CPUs.
+- One failed development matrix is retained: a visually identical farther
+  robot was selected after target loss in a tight turn. The accepted revision
+  added largest-box association, a local measurement-range envelope, EKF
+  innovation gating, and large-bearing slowdown before repeating the entire
+  pair-first matrix.
+- The final mapped-mission regression built all five ROS packages and passed
+  85 tests with zero failures. All seven toy-simulation tests, Compose
+  validation, static syntax checks, result hashes, and media hashes passed.
+- The recorded mapped GUI run also passed: F1--F3 transport RMSE was 0.1514 m,
+  0.1219 m, and 0.1232 m; TRACK fraction was 92.3%, 93.1%, and 91.3%; all
+  mission checks passed; and robot and mapped-obstacle collision samples were
+  zero.
 
 ## Evidence limitations
 
@@ -113,8 +158,13 @@ manifest or frozen experiment matrices.
 - During stopped-leader runs, final commands settled near zero but the pair retained about 0.12 m of short-gap undershoot because the controller does not reverse.
 - No wheel slip, detailed actuator dynamics, person traffic, or safety-rated obstacle system
 - No physical robot validation or certification claim
-- Native NVIDIA rendering is verified for the presentation workflow, but GUI rendering performance is not part of the frozen timing gate and does not replace headless resource evidence.
+- The hybrid Intel-rendering/NVIDIA-inference presentation workflow is verified,
+  but GUI rendering performance is not part of the frozen timing gate and does
+  not replace headless resource evidence.
 - The AWS benchmark does not run a detector, range or bearing estimator, follower controller, collision experiment, or safety test.
+- The mapped mission's cargo state changes are scripted visual events. It does
+  not demonstrate grasping, loading hardware, throughput savings, or airport
+  baggage operations.
 
 ## Current artifacts
 
@@ -134,8 +184,11 @@ manifest or frozen experiment matrices.
 - Controlled-disturbance proxy, pair-first 18-run matrix, raw logs, summaries, resource evidence, checksums, and a traceable result figure
 - Target-laptop timing observer, three-run raw timing logs, behavior summaries, resource time series, aggregate summary, checksums, and traceable figure
 - Final evidence index and machine-verifiable Gate 7 freeze manifest
-- Three live Gazebo demonstration videos and a command, interpretation, and
+- Gazebo demonstration videos and a command, interpretation, and
   troubleshooting guide
+- Six executable one-command wrappers for the live Gazebo demonstration modes
+- Mapped Nav2 warehouse source, one-pair-first repeatability evidence, failed
+  development evidence, checksums, result plot, video, and screenshots
 
 ## Repository state
 

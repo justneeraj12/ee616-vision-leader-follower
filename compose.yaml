@@ -15,6 +15,7 @@ x-ee616-common: &ee616-common
     ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-57}
     RMW_IMPLEMENTATION: rmw_fastrtps_cpp
     GZ_PARTITION: ${GZ_PARTITION:-ee616}
+    GZ_IP: ${GZ_IP:-127.0.0.1}
     LIBGL_ALWAYS_SOFTWARE: ${LIBGL_ALWAYS_SOFTWARE:-1}
     YOLO_CONFIG_DIR: /tmp
   volumes:
@@ -42,6 +43,7 @@ services:
       ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-57}
       RMW_IMPLEMENTATION: rmw_fastrtps_cpp
       GZ_PARTITION: ${GZ_PARTITION:-ee616}
+      GZ_IP: ${GZ_IP:-127.0.0.1}
       LIBGL_ALWAYS_SOFTWARE: "0"
       NVIDIA_VISIBLE_DEVICES: all
       NVIDIA_DRIVER_CAPABILITIES: compute,graphics,utility

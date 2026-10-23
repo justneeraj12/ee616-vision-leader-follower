@@ -61,7 +61,7 @@ def _numpy(value: Any) -> np.ndarray:
 
 
 class YoloTargetDetector:
-    """Run an Ultralytics model and select the best target-class box."""
+    """Run YOLO and select the nearest apparent target-class marker."""
 
     def __init__(
         self,
@@ -110,7 +110,13 @@ class YoloTargetDetector:
         horizontal_fov_rad: float,
         target_height_m: float,
     ) -> CameraMeasurement:
-        """Return the highest-confidence target measurement from one image."""
+        """Return the largest target-class box from one image.
+
+        Every convoy robot uses the same marker class. In a predecessor chain,
+        the immediate predecessor should have the largest apparent marker.
+        Confidence still gates detections inside Ultralytics, but it must not
+        select a smaller, farther robot over the immediate predecessor.
+        """
         if rgb_image.ndim != 3 or rgb_image.shape[2] != 3:
             raise ValueError("rgb_image must have shape (height, width, 3)")
         bgr_image = np.ascontiguousarray(rgb_image[..., ::-1])
@@ -136,7 +142,10 @@ class YoloTargetDetector:
         candidates = np.flatnonzero(classes == self.class_id)
         if candidates.size == 0:
             return CameraMeasurement(False, float("nan"), float("nan"))
-        best_index = int(candidates[np.argmax(confidences[candidates])])
+        widths = coordinates[:, 2] - coordinates[:, 0]
+        heights = coordinates[:, 3] - coordinates[:, 1]
+        areas = widths * heights
+        best_index = int(candidates[np.argmax(areas[candidates])])
         bbox = tuple(float(value) for value in coordinates[best_index])
         self.last_confidence = float(confidences[best_index])
         self.last_bbox_xyxy = bbox

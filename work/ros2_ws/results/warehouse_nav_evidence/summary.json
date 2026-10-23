@@ -1,0 +1,74 @@
+{
+  "chains": {
+    "1": {
+      "dropoff_station_error_m_worst": 0.4083544739929953,
+      "followers": {
+        "1": {
+          "collision_samples_total": 0,
+          "inference_latency_p95_ms_worst": 7.669291806221008,
+          "track_fraction_min": 0.9542936288088643,
+          "transport_spacing_rmse_m_mean": 0.14777441705554722,
+          "transport_spacing_rmse_m_worst": 0.14777441705554722
+        }
+      },
+      "loading_station_error_m_worst": 0.09024979141887483,
+      "real_time_factor_min": 0.9866504985710682,
+      "run_count": 1,
+      "warehouse_obstacle_collision_samples_total": 0
+    },
+    "3": {
+      "dropoff_station_error_m_worst": 0.4606519853182654,
+      "followers": {
+        "1": {
+          "collision_samples_total": 0,
+          "inference_latency_p95_ms_worst": 15.914384746551512,
+          "track_fraction_min": 0.9280245022970903,
+          "transport_spacing_rmse_m_mean": 0.13129849506706193,
+          "transport_spacing_rmse_m_worst": 0.1525769221287531
+        },
+        "2": {
+          "collision_samples_total": 0,
+          "inference_latency_p95_ms_worst": 13.918001174926758,
+          "track_fraction_min": 0.9065849923430321,
+          "transport_spacing_rmse_m_mean": 0.13922979345017525,
+          "transport_spacing_rmse_m_worst": 0.1556339300415945
+        },
+        "3": {
+          "collision_samples_total": 0,
+          "inference_latency_p95_ms_worst": 11.612753295898438,
+          "track_fraction_min": 0.9025875190258752,
+          "transport_spacing_rmse_m_mean": 0.13308280523439323,
+          "transport_spacing_rmse_m_worst": 0.15883542042943513
+        }
+      },
+      "loading_station_error_m_worst": 0.2627408856459915,
+      "real_time_factor_min": 0.9809861162271931,
+      "run_count": 3,
+      "warehouse_obstacle_collision_samples_total": 0
+    }
+  },
+  "checks": {
+    "all_runs_pass": true,
+    "laptop_memory_limits": true,
+    "pair_first_then_three_full_runs": true
+  },
+  "expected_runs": {
+    "1": 1,
+    "3": 3
+  },
+  "ground_truth_boundary": "Gazebo pose truth was consumed only inside ee616_evaluation.",
+  "resources": {
+    "cpu_core_equivalent_percent": 315.4396517774126,
+    "elapsed_s": 741.5785675069983,
+    "logical_cpu_count": 12,
+    "peak_gpu_memory_mib": 647.0,
+    "peak_gpu_utilization_percent": 59.0,
+    "peak_memory_mib": 3914.0078125,
+    "sample_count": 1418,
+    "scope": "container-level resource sample",
+    "timestamp_utc": "2026-10-23T18:00:22.581975+00:00"
+  },
+  "run_count": 4,
+  "scope": "Repeatable simulated formation transport with scripted visual cargo; not measured airport or warehouse throughput.",
+  "status": "pass"
+}

@@ -10,4 +10,5 @@
     bearing_gain: 1.80
     bearing_rate_gain: 0.20
     predict_speed_scale: 0.55
+    innovation_gate_sq: 100.0
     control_rate_hz: 20.0
