@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: October 23, 2026
+Last updated: November 7, 2026
 
 ## Current state
 
@@ -40,6 +40,23 @@ aisle turns. The leader uses a static occupancy map, AMCL, a simulated
 not receive those navigation inputs; each still uses its own forward RGB camera
 and local wheel odometry. The pair-first repeatability matrix passed before
 three full-chain repetitions were accepted.
+
+A post-freeze configurable experiment console is now implemented as a sixth
+ROS package. It selects one to three followers and three bounded route profiles,
+starts the mapped mission, displays live estimator/controller/YOLO/resource
+telemetry, and exports a live JSON snapshot. The evaluator now reports each
+route leg separately and computes rearward RMSE amplification. The preserved
+standard route and a new wide-route pair passed their initial validation. A
+turn-dense pair stress run failed after the second cross-aisle turn and remains
+explicit failed evidence. It is not presented as a passing nominal mission.
+
+A post-freeze convoy-governance gate now separates mission completion from
+failure containment. Nav2 and loading commands pass through a governor that
+uses follower supervisor and estimate health, never Gazebo pose truth. Three
+nominal sparse/wide pair runs and three bounded command-dropout pair runs
+passed. Three sparse/wide three-follower runs reached a contained leader hold
+with zero sampled collisions, but none completed the route after visual loss.
+The incomplete chain missions are a verified limitation, not passing results.
 
 ## Verified evidence
 
@@ -146,6 +163,37 @@ three full-chain repetitions were accepted.
   0.1219 m, and 0.1232 m; TRACK fraction was 92.3%, 93.1%, and 91.3%; all
   mission checks passed; and robot and mapped-obstacle collision samples were
   zero.
+- The configurable console HTTP interface, bounded profile validation, static
+  assets, and telemetry endpoint passed local smoke tests. Invalid follower
+  counts were rejected before starting ROS.
+- The post-console regression built all six ROS packages and passed 102 tests
+  with zero errors, failures, or skipped tests.
+- The governed sparse/wide pair passed three repeated full missions. Mean
+  spacing RMSE was 0.0860 m, worst RMSE was 0.0887 m, minimum `TRACK` was
+  95.8%, minimum real-time factor was 0.9841, and collision samples were zero.
+- The new two-follower standard mission passed its initial full mission:
+  0.1405 m and 0.1276 m RMSE, 94.0% and 93.0% `TRACK`, zero collision samples,
+  and 0.9808 real-time factor.
+- The turn-dense pair is a retained failed stress result. `TRACK` fell to 27.0%
+  during the second cross-aisle turn and remained at zero afterward. The
+  follower entered `SAFE_STOP`, the leader continued, and Nav2 later aborted
+  the final route leg on a collision-ahead prediction. The evaluator recorded
+  zero physical collision samples.
+- All three bounded leader command-dropout pair runs passed. Mean spacing RMSE
+  was 0.0959 m, minimum `TRACK` was 95.6%, minimum real-time factor was 0.9799,
+  all 180 fault samples had zero leader output, and collision samples were zero.
+- All three governed three-follower chain runs reached `HOLD` after visual loss
+  and recorded zero robot and mapped-obstacle collision samples. None completed
+  the route. Mean spacing RMSE was 0.0849 m, 0.0877 m, and 0.1249 m from front
+  to rear, but those errors do not convert an incomplete mission into a pass.
+- The governance matrix attributed process CPU and resident memory separately
+  to leader navigation, follower perception/control, and
+  simulation/evaluation. This is resource attribution, not an
+  all-independent-Nav2 compute-savings comparison.
+- The final post-governance regression built all six ROS packages and passed
+  138 tests with zero errors, failures, or skipped tests. All seven toy tests,
+  static Python and shell checks, Compose validation, and evidence checksums
+  also passed.
 
 ## Evidence limitations
 
@@ -165,6 +213,18 @@ three full-chain repetitions were accepted.
 - The mapped mission's cargo state changes are scripted visual events. It does
   not demonstrate grasping, loading hardware, throughput savings, or airport
   baggage operations.
+- The console's live spacing error and RMSE use the EKF estimate. Only the
+  post-run evaluator CSV and JSON contain evaluation-only Gazebo truth metrics.
+- The wide pair now has repeated evidence. The two-follower standard result is
+  still one initial run and must not be used as an aggregate claim.
+- The convoy governor contains chain visual loss by holding the leader, but the
+  current forward-camera and zero-motion `SAFE_STOP` design may not reacquire a
+  predecessor that is already outside the camera view.
+- The command-dropout scenario is a bounded software fault injection. It does
+  not demonstrate redundant leader hardware, autonomous leader promotion, or
+  recovery from a complete leader computer or sensor failure.
+- No all-independent-Nav2 baseline has been run, so relative compute or cost
+  savings remain unverified.
 
 ## Current artifacts
 
@@ -189,6 +249,11 @@ three full-chain repetitions were accepted.
 - Six executable one-command wrappers for the live Gazebo demonstration modes
 - Mapped Nav2 warehouse source, one-pair-first repeatability evidence, failed
   development evidence, checksums, result plot, video, and screenshots
+- Configurable browser experiment console, one-command launcher, route-profile
+  manifest, segment-level evaluator metrics, and usage guide
+- Convoy governor, selectable standard and sparse layouts, repeated nominal and
+  command-dropout pair evidence, repeated chain-containment evidence, retained
+  failed development attempts, and component resource attribution
 
 ## Repository state
 
@@ -196,10 +261,16 @@ The project is maintained in the public GitHub repository `justneeraj12/ee616-vi
 
 ## Gate sequence status
 
-All seven planned simulation gates are complete. Any new technical direction begins as a separately approved change rather than altering the frozen results.
+All seven planned simulation gates remain frozen. The configurable console and
+convoy-governance gate are separate approved post-freeze stages and do not alter
+those results.
 
 ## Current blockers
 
-- No blocker remains inside the approved seven-gate simulation scope.
+- No blocker remains inside the frozen seven-gate simulation scope.
+- Governed chain mission continuity after complete forward-camera target loss
+  remains unresolved. A new recovery state, wider sensing architecture, or
+  operator procedure would require a separate architecture decision.
+- The all-independent-Nav2 cost and compute baseline remains unverified.
 - Physical-robot validation is unverified and was not part of these gates.
 - Any later scope change must create new evidence rather than overwrite the frozen simulation results.

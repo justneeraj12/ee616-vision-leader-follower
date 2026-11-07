@@ -5,11 +5,11 @@ from __future__ import annotations
 import csv
 import json
 import math
-from pathlib import Path
 import statistics
 import subprocess
 import sys
 import time
+from pathlib import Path
 
 from ee616_control.warehouse_mission import ROBOT_NAMES
 from ee616_evaluation.pair_gate_evaluator import percentile
@@ -27,6 +27,7 @@ CSV_FIELDS = [
     "measurement_age_s", "linear_cmd_mps", "angular_cmd_rps",
     "center_distance_m", "collision_sample", "inference_ms",
     "leader_x_m", "leader_y_m",
+    "governor_mode", "governor_reason", "governor_linear_scale",
 ]
 TRANSPORT_STATES = {"WAREHOUSE_AISLE", "WAREHOUSE_TURN", "APPROACH_DROPOFF"}
 WAREHOUSE_SHELF_X_M = (-3.0, 0.0, 3.0)
@@ -42,6 +43,8 @@ def warehouse_obstacle_collision(
     x_m: float,
     y_m: float,
     robot_radius_m: float = EVALUATION_ROBOT_RADIUS_M,
+    shelf_x_m: tuple[float, ...] = WAREHOUSE_SHELF_X_M,
+    shelf_y_m: tuple[float, ...] = WAREHOUSE_SHELF_Y_M,
 ) -> bool:
     """Return whether a circular robot footprint intersects mapped static geometry."""
     if (
@@ -49,13 +52,50 @@ def warehouse_obstacle_collision(
         or abs(y_m) + robot_radius_m >= WAREHOUSE_WALL_INNER_Y_M
     ):
         return True
-    for shelf_x_m in WAREHOUSE_SHELF_X_M:
-        for shelf_y_m in WAREHOUSE_SHELF_Y_M:
-            dx_m = max(abs(x_m - shelf_x_m) - WAREHOUSE_SHELF_HALF_X_M, 0.0)
-            dy_m = max(abs(y_m - shelf_y_m) - WAREHOUSE_SHELF_HALF_Y_M, 0.0)
+    for shelf_x in shelf_x_m:
+        for shelf_y in shelf_y_m:
+            dx_m = max(abs(x_m - shelf_x) - WAREHOUSE_SHELF_HALF_X_M, 0.0)
+            dy_m = max(abs(y_m - shelf_y) - WAREHOUSE_SHELF_HALF_Y_M, 0.0)
             if math.hypot(dx_m, dy_m) <= robot_radius_m:
                 return True
     return False
+
+
+def route_segment_metrics(rows: list[dict], follower_count: int) -> dict:
+    """Summarize spacing and supervisor behavior for each planned route leg."""
+    metrics: dict[str, dict] = {}
+    for index in range(1, follower_count + 1):
+        follower_rows = [
+            row for row in rows
+            if int(row["follower_index"]) == index
+            and str(row["mission_state"]).startswith("NAV_")
+            and row["mission_state"] != "NAV_FAILED"
+        ]
+        by_segment: dict[str, list[dict]] = {}
+        for row in follower_rows:
+            by_segment.setdefault(str(row["mission_state"]), []).append(row)
+        follower_metrics = {}
+        for segment, segment_rows in by_segment.items():
+            errors = [float(row["spacing_error_m"]) for row in segment_rows]
+            sample_count = len(segment_rows)
+            follower_metrics[segment] = {
+                "sample_count": sample_count,
+                "spacing_rmse_m": math.sqrt(
+                    statistics.fmean(error * error for error in errors)
+                ),
+                "peak_absolute_spacing_error_m": max(map(abs, errors)),
+                "track_fraction": sum(
+                    row["control_state"] == "TRACK" for row in segment_rows
+                ) / sample_count,
+                "predict_fraction": sum(
+                    row["control_state"] == "PREDICT" for row in segment_rows
+                ) / sample_count,
+                "safe_stop_fraction": sum(
+                    row["control_state"] == "SAFE_STOP" for row in segment_rows
+                ) / sample_count,
+            }
+        metrics[str(index)] = follower_metrics
+    return metrics
 
 
 class WarehouseMissionEvaluator(Node):
@@ -75,9 +115,16 @@ class WarehouseMissionEvaluator(Node):
         self.declare_parameter("dropoff_y_m", 3.9)
         self.declare_parameter("require_nav2", False)
         self.declare_parameter("expected_nav_waypoints", 5)
+        self.declare_parameter("map_profile", "standard")
+        self.declare_parameter("shelf_x_m", list(WAREHOUSE_SHELF_X_M))
+        self.declare_parameter("shelf_y_m", list(WAREHOUSE_SHELF_Y_M))
+        self.declare_parameter("require_fault_event", False)
+        self.declare_parameter("minimum_track_fraction", 0.90)
+        self.declare_parameter("max_f1_rmse_m", 0.20)
+        self.declare_parameter("max_later_rmse_m", 0.25)
         self.follower_count = int(self.get_parameter("follower_count").value)
-        if self.follower_count not in {1, 3}:
-            raise ValueError("follower_count must be 1 or 3")
+        if self.follower_count not in {1, 2, 3}:
+            raise ValueError("follower_count must be 1, 2, or 3")
         self.run_id = str(self.get_parameter("run_id").value)
         self.output_dir = Path(str(self.get_parameter("output_dir").value))
         self.duration_s = float(self.get_parameter("duration_s").value)
@@ -96,6 +143,25 @@ class WarehouseMissionEvaluator(Node):
         self.expected_nav_waypoints = int(
             self.get_parameter("expected_nav_waypoints").value
         )
+        self.map_profile = str(self.get_parameter("map_profile").value)
+        self.shelf_x_m = tuple(
+            float(value) for value in self.get_parameter("shelf_x_m").value
+        )
+        self.shelf_y_m = tuple(
+            float(value) for value in self.get_parameter("shelf_y_m").value
+        )
+        self.require_fault_event = bool(
+            self.get_parameter("require_fault_event").value
+        )
+        self.minimum_track_fraction = float(
+            self.get_parameter("minimum_track_fraction").value
+        )
+        self.max_f1_rmse_m = float(
+            self.get_parameter("max_f1_rmse_m").value
+        )
+        self.max_later_rmse_m = float(
+            self.get_parameter("max_later_rmse_m").value
+        )
         indexes = range(1, self.follower_count + 1)
         self.rows: list[dict] = []
         self.control_states = {index: "UNSEEN" for index in indexes}
@@ -108,6 +174,10 @@ class WarehouseMissionEvaluator(Node):
         self.cargo_state: dict[str, bool] = {}
         self.state_sequence: list[str] = []
         self.planner_state: dict = {}
+        self.governor_state: dict = {}
+        self.governor_modes: list[str] = []
+        self.governor_fault_samples = 0
+        self.governor_fault_zero_samples = 0
         self.complete_seen_s: float | None = None
         self.nav_failure_seen_s: float | None = None
         self.dropoff_errors: list[float] = []
@@ -129,6 +199,9 @@ class WarehouseMissionEvaluator(Node):
         )
         self.create_subscription(
             String, "/warehouse_mission/cargo_state", self._cargo, 10
+        )
+        self.create_subscription(
+            String, "/warehouse_nav/governor_state", self._governor_state, 10
         )
         for index in indexes:
             prefix = f"/follower_{index}"
@@ -177,6 +250,24 @@ class WarehouseMissionEvaluator(Node):
             self.cargo_state = {str(key): bool(value) for key, value in parsed.items()}
         except (json.JSONDecodeError, TypeError):
             self.get_logger().warning("ignored malformed cargo state")
+
+    def _governor_state(self, message: String) -> None:
+        try:
+            parsed = json.loads(message.data)
+            if not isinstance(parsed, dict):
+                return
+            self.governor_state = parsed
+            mode = str(parsed.get("mode", "UNKNOWN"))
+            if not self.governor_modes or self.governor_modes[-1] != mode:
+                self.governor_modes.append(mode)
+            if parsed.get("fault_active"):
+                self.governor_fault_samples += 1
+                linear = float(parsed.get("output_linear_mps", math.nan))
+                angular = float(parsed.get("output_angular_rps", math.nan))
+                if abs(linear) <= 1.0e-6 and abs(angular) <= 1.0e-6:
+                    self.governor_fault_zero_samples += 1
+        except (json.JSONDecodeError, TypeError, ValueError):
+            self.get_logger().warning("ignored malformed governor state")
 
     def _control_state(self, index: int, message: String) -> None:
         self.control_states[index] = message.data
@@ -230,7 +321,12 @@ class WarehouseMissionEvaluator(Node):
             return
 
         for robot, pose in poses.items():
-            if warehouse_obstacle_collision(pose.x, pose.y):
+            if warehouse_obstacle_collision(
+                pose.x,
+                pose.y,
+                shelf_x_m=self.shelf_x_m,
+                shelf_y_m=self.shelf_y_m,
+            ):
                 self.warehouse_obstacle_collision_samples[robot] += 1
 
         if self.mission_state.startswith("LOAD_"):
@@ -287,6 +383,11 @@ class WarehouseMissionEvaluator(Node):
                 "inference_ms": self.inference_ms[index],
                 "leader_x_m": poses["leader"].x,
                 "leader_y_m": poses["leader"].y,
+                "governor_mode": self.governor_state.get("mode", "UNSEEN"),
+                "governor_reason": self.governor_state.get("reason", ""),
+                "governor_linear_scale": self.governor_state.get(
+                    "linear_scale", math.nan
+                ),
             })
 
     def _finish(self, failure: str) -> None:
@@ -342,11 +443,15 @@ class WarehouseMissionEvaluator(Node):
             )
             checks = {
                 "transport_spacing_rmse": rmse is not None
-                and rmse <= (0.20 if index == 1 else 0.25),
+                and rmse <= (
+                    self.max_f1_rmse_m
+                    if index == 1
+                    else self.max_later_rmse_m
+                ),
                 "collision_samples": sum(row["collision_sample"] for row in evaluated) == 0,
                 "bounded_commands": bounded,
                 "control_period_p95": period_p95 is not None and period_p95 <= 66.7,
-                "track_fraction": track_fraction >= 0.90,
+                "track_fraction": track_fraction >= self.minimum_track_fraction,
                 "inference_latency_p95": latency_p95 is not None and latency_p95 <= 66.7,
             }
             all_checks.extend(checks.values())
@@ -390,7 +495,17 @@ class WarehouseMissionEvaluator(Node):
             "warehouse_obstacle_collisions": not any(
                 self.warehouse_obstacle_collision_samples.values()
             ),
+            "convoy_governor_received": bool(self.governor_modes),
         }
+        if self.require_fault_event:
+            mission_checks.update({
+                "leader_fault_observed": self.governor_fault_samples > 0,
+                "leader_fault_commands_zero": (
+                    self.governor_fault_samples > 0
+                    and self.governor_fault_zero_samples
+                    == self.governor_fault_samples
+                ),
+            })
         if self.require_nav2:
             plans = self.planner_state.get("plans", [])
             scan_snapshot = self.planner_state.get("scan_snapshot") or {}
@@ -398,7 +513,7 @@ class WarehouseMissionEvaluator(Node):
                 "hybrid_astar_plans": (
                     self.planner_state.get("algorithm")
                     == "Nav2 SmacPlannerHybrid (Hybrid-A*)"
-                    and len(plans) == self.expected_nav_waypoints
+                    and len(plans) >= self.expected_nav_waypoints
                     and all(record.get("path_length_m", 0.0) > 0.0 for record in plans)
                 ),
                 "regulated_path_controller": (
@@ -416,6 +531,7 @@ class WarehouseMissionEvaluator(Node):
         all_checks.extend(mission_checks.values())
         summary = {
             "follower_count": self.follower_count,
+            "map_profile": self.map_profile,
             "run_id": self.run_id,
             "sample_count": len(self.rows),
             "mission_state_sequence": self.state_sequence,
@@ -423,6 +539,19 @@ class WarehouseMissionEvaluator(Node):
             "observed_unload_sequence": observed_unloads,
             "loading_station_max_error_m": station_max,
             "followers": followers,
+            "route_segment_metrics": route_segment_metrics(
+                self.rows, self.follower_count
+            ),
+            "rearward_rmse_amplification": {
+                str(index): (
+                    followers[str(index)]["transport_spacing_rmse_m"]
+                    / followers["1"]["transport_spacing_rmse_m"]
+                    if followers["1"]["transport_spacing_rmse_m"]
+                    and followers[str(index)]["transport_spacing_rmse_m"] is not None
+                    else None
+                )
+                for index in range(1, self.follower_count + 1)
+            },
             "real_time_factor": real_time_factor,
             "wall_elapsed_s": wall_elapsed_s,
             "sim_elapsed_s": self.last_elapsed_s,
@@ -431,6 +560,13 @@ class WarehouseMissionEvaluator(Node):
                 self.warehouse_obstacle_collision_samples
             ),
             "planner_state": self.planner_state or None,
+            "governor": {
+                "mode_sequence": self.governor_modes,
+                "final_state": self.governor_state or None,
+                "fault_samples": self.governor_fault_samples,
+                "fault_zero_command_samples": self.governor_fault_zero_samples,
+                "ground_truth_used": False,
+            },
             "dropoff_station_max_error_m": (
                 max(self.dropoff_errors) if self.dropoff_errors else None
             ),

@@ -8,9 +8,15 @@ The project evaluates vision-based predecessor following for warehouse material 
 
 ### Leader
 
-The research leader follows a deterministic waypoint route. It provides repeatable motion and exposes a known visual target on its rear for Follower 1. The initial leader does not require a navigation camera or LiDAR because autonomous leader navigation is not the first research variable.
+The controlled pair and chain gates use a deterministic leader route. This
+keeps follower perception and control as the measured variables.
 
-A later warehouse demonstration may add a 2-D LiDAR, wheel odometry, an IMU, and Nav2 to the leader if the core follower evidence and schedule support that extension. Those sensors would serve leader localization and route navigation.
+The mapped warehouse mission gives the leader route ownership through a static
+occupancy map, wheel odometry, a simulated 360-degree LiDAR, AMCL localization,
+Nav2 Smac Hybrid-A* planning, and Regulated Pure Pursuit control. These leader
+inputs are not forwarded to any follower. The leader exposes the same rear
+visual target for Follower 1 in both modes. In the revised mapped mission, Nav2
+commands pass through a convoy governor before reaching the leader.
 
 ### Followers
 
@@ -26,26 +32,44 @@ Each follower is independently driven. Its formation layer uses:
 
 Follower 1 tracks the leader. Follower 2 tracks Follower 1. Each later follower tracks its immediate predecessor. Every robot that has a follower behind it exposes the same rear visual target.
 
+The revised mapped warehouse robot adds matching left, right, and front target
+faces and uses a 120-degree forward RGB camera. The known target height remains
+0.90 m, so the same pinhole height relationship applies with the configured
+camera focal length.
+
+The convoy governor uses only follower `TRACK`, `PREDICT`, and `SAFE_STOP`
+states, estimator bearing and age, telemetry freshness, and the leader's Nav2
+command. It reduces leader speed during turns or bounded `PREDICT`, and it
+holds the leader for `SAFE_STOP`, stale follower health, or a stale leader
+navigation command. Stable `TRACK` is required before resuming. This is
+supervisory coordination, not follower localization or route data.
+
 Safety-rated obstacle and person protection is separate from formation coordination. A future safety sensor must not be described as evidence that the formation controller is safe or certified.
 
-## ROS 2 package plan
+## Current ROS 2 packages
 
-| Package | Responsibility | Gate |
-|---|---|---:|
-| `ee616_bringup` | Launch, namespace, and environment checks | 1 |
-| `ee616_simulation` | Gazebo worlds, robot spawning, and bridges | 1 onward |
-| `ee616_description` | Robot URDF/SDF and sensor mounting | 2 |
-| `ee616_perception` | Predecessor detection and range/bearing measurements | 2 |
-| `ee616_estimation` | Relative-state estimation | 3 |
-| `ee616_control` | Bounded formation commands | 3 |
-| `ee616_supervisor` | `TRACK`, `PREDICT`, and `SAFE STOP` transitions | 3 |
-| `ee616_evaluation` | Synchronized logging and evaluation-only ground truth | 2 onward |
+| Package | Responsibility |
+|---|---|
+| `ee616_bringup` | Namespace and environment probes |
+| `ee616_simulation` | Gazebo worlds, robot models, sensors, and ROS bridges |
+| `ee616_perception` | Fixed-target baseline and YOLOv8n range/bearing measurements |
+| `ee616_control` | Relative EKF, follower supervisor, bounded controller, convoy governor, leader mission, and Nav2 coordination |
+| `ee616_evaluation` | Synchronized logging, metrics, plots, and evaluation-only Gazebo ground truth |
+| `ee616_dashboard` | Validated experiment selection and read-only live telemetry |
 
-Only the first two packages are created during the environment gate. Later packages require their own approved implementation stages.
+Robot descriptions are generated with the simulation assets. Estimation and
+supervision remain separate Python components inside `ee616_control`; they were
+not split into extra ROS packages because the repeated follower node owns one
+coherent estimator-supervisor-controller pipeline.
 
 ## Ground-truth separation
 
 Gazebo ground truth may enter `ee616_evaluation`. It must not enter perception, estimation, supervision, or control. Evaluation topics and data files must be named clearly so that this boundary can be audited.
+
+The browser dashboard receives estimator, governor, and command telemetry. Its live error
+plot uses estimated range, not Gazebo truth. It can start or stop a complete
+experiment process, but it does not publish velocity commands into a running
+robot graph. The route drawing is schematic.
 
 ## Initial performance strategy
 

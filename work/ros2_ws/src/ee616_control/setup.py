@@ -24,6 +24,7 @@ setup(
     entry_points={
         "console_scripts": [
             "follower_controller = ee616_control.follower_node:main",
+            "convoy_governor = ee616_control.convoy_governor_node:main",
             "leader_route = ee616_control.leader_node:main",
             "leader_map_tf = ee616_control.leader_map_tf:main",
             "warehouse_mission = ee616_control.warehouse_mission_node:main",

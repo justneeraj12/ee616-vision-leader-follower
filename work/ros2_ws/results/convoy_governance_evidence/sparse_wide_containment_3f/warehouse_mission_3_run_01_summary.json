@@ -1,0 +1,390 @@
+{
+  "dropoff_station_final_error_m": null,
+  "dropoff_station_max_error_m": null,
+  "failure": "warehouse navigation failed: regulated path tracking failed: 105 ",
+  "follower_count": 3,
+  "followers": {
+    "1": {
+      "bounded_commands": true,
+      "checks": {
+        "bounded_commands": true,
+        "collision_samples": true,
+        "control_period_p95": true,
+        "inference_latency_p95": true,
+        "track_fraction": true,
+        "transport_spacing_rmse": true
+      },
+      "collision_samples": 0,
+      "control_period_p95_ms": 50.00000000001137,
+      "inference_latency_p95_ms": 20.09426240921021,
+      "minimum_center_distance_m": 1.9721227817578373,
+      "predecessor": "leader",
+      "track_fraction": 0.9764397905759162,
+      "transport_spacing_rmse_m": 0.07733400745012485
+    },
+    "2": {
+      "bounded_commands": true,
+      "checks": {
+        "bounded_commands": true,
+        "collision_samples": true,
+        "control_period_p95": true,
+        "inference_latency_p95": true,
+        "track_fraction": false,
+        "transport_spacing_rmse": true
+      },
+      "collision_samples": 0,
+      "control_period_p95_ms": 50.00000000001137,
+      "inference_latency_p95_ms": 17.75560178756714,
+      "minimum_center_distance_m": 1.9603191776993172,
+      "predecessor": "follower_1",
+      "track_fraction": 0.5078534031413613,
+      "transport_spacing_rmse_m": 0.05914709913075166
+    },
+    "3": {
+      "bounded_commands": true,
+      "checks": {
+        "bounded_commands": true,
+        "collision_samples": true,
+        "control_period_p95": true,
+        "inference_latency_p95": true,
+        "track_fraction": true,
+        "transport_spacing_rmse": true
+      },
+      "collision_samples": 0,
+      "control_period_p95_ms": 50.00000000001137,
+      "inference_latency_p95_ms": 14.92328109741211,
+      "minimum_center_distance_m": 1.9559533308907202,
+      "predecessor": "follower_2",
+      "track_fraction": 0.9973821989528796,
+      "transport_spacing_rmse_m": 0.0459570994397626
+    }
+  },
+  "governor": {
+    "fault_samples": 0,
+    "fault_zero_command_samples": 0,
+    "final_state": {
+      "command_source": "nav2",
+      "fault_active": false,
+      "fault_mode": "none",
+      "followers": {
+        "1": {
+          "bearing_rad": -0.0002782221537014351,
+          "measurement_age_s": 0.05500000000000682,
+          "state": "TRACK",
+          "telemetry_age_s": 0.05000000000001137
+        },
+        "2": {
+          "bearing_rad": -1.721914521623634,
+          "measurement_age_s": 75.16,
+          "state": "SAFE_STOP",
+          "telemetry_age_s": 0.05000000000001137
+        },
+        "3": {
+          "bearing_rad": -8.624737721341091e-06,
+          "measurement_age_s": 0.044999999999987494,
+          "state": "TRACK",
+          "telemetry_age_s": 0.05000000000001137
+        }
+      },
+      "ground_truth_used": false,
+      "linear_scale": 0.0,
+      "mission_state": "NAV_FAILED",
+      "mode": "HOLD",
+      "output_angular_rps": 0.0,
+      "output_linear_mps": 0.0,
+      "reason": "leader Nav2 command is stale"
+    },
+    "ground_truth_used": false,
+    "mode_sequence": [
+      "MISSION",
+      "NORMAL",
+      "CAUTION",
+      "NORMAL",
+      "CAUTION",
+      "NORMAL",
+      "CAUTION",
+      "NORMAL",
+      "CAUTION",
+      "NORMAL",
+      "CAUTION",
+      "NORMAL",
+      "CAUTION",
+      "NORMAL",
+      "CAUTION",
+      "NORMAL",
+      "HOLD",
+      "CAUTION",
+      "NORMAL",
+      "CAUTION",
+      "NORMAL",
+      "CAUTION",
+      "NORMAL",
+      "CAUTION",
+      "NORMAL",
+      "CAUTION",
+      "NORMAL",
+      "CAUTION",
+      "NORMAL",
+      "CAUTION",
+      "HOLD",
+      "CAUTION",
+      "NORMAL",
+      "CAUTION",
+      "NORMAL",
+      "CAUTION",
+      "NORMAL",
+      "CAUTION",
+      "NORMAL",
+      "CAUTION",
+      "HOLD"
+    ]
+  },
+  "ground_truth_boundary": "Gazebo /world/warehouse_nav_mission_sparse_3/pose/info was read only by ee616_evaluation and was not published to perception, estimation, supervision, or control.",
+  "loading_station_max_error_m": {
+    "follower_1": 0.07337799635629053,
+    "follower_2": 0.16046523871987534,
+    "follower_3": 0.21069466658980532,
+    "leader": 0.01833853715717204
+  },
+  "map_profile": "sparse",
+  "mission_checks": {
+    "amcl_localization": true,
+    "cargo_empty_at_completion": false,
+    "convoy_governor_received": true,
+    "dropoff_station_accuracy": false,
+    "hybrid_astar_plans": true,
+    "leader_lidar_received": true,
+    "load_order": true,
+    "loading_station_accuracy": true,
+    "planner_reported_no_failure": false,
+    "real_time_factor": true,
+    "regulated_path_controller": true,
+    "route_complete": false,
+    "unload_order": false,
+    "warehouse_obstacle_collisions": true
+  },
+  "mission_state_sequence": [
+    "SETTLE",
+    "LOAD_LEADER",
+    "ADVANCE_TO_FOLLOWER_1",
+    "LOAD_FOLLOWER_1",
+    "ADVANCE_TO_FOLLOWER_2",
+    "LOAD_FOLLOWER_2",
+    "ADVANCE_TO_FOLLOWER_3",
+    "LOAD_FOLLOWER_3",
+    "NAV2_HANDOFF",
+    "WAIT_NAV2",
+    "NAV_BOTTOM_AISLE_EAST",
+    "NAV_RIGHT_CROSS_AISLE",
+    "NAV_DISPATCH_DOCK",
+    "RECOVER_DISPATCH_DOCK",
+    "NAV_DISPATCH_DOCK",
+    "NAV_FAILED"
+  ],
+  "observed_load_sequence": [
+    "LOAD_LEADER",
+    "LOAD_FOLLOWER_1",
+    "LOAD_FOLLOWER_2",
+    "LOAD_FOLLOWER_3"
+  ],
+  "observed_unload_sequence": [],
+  "planner_state": {
+    "action_active": false,
+    "algorithm": "Nav2 SmacPlannerHybrid (Hybrid-A*)",
+    "controller": "Nav2 RegulatedPurePursuitController",
+    "failure": "regulated path tracking failed: 105 ",
+    "localization": "Nav2 AMCL",
+    "map_profile": "sparse",
+    "plans": [
+      {
+        "path_end_xy_m": [
+          10.000000432133675,
+          -5.999999910593033
+        ],
+        "path_length_m": 14.086916473212737,
+        "path_pose_count": 100,
+        "path_start_xy_m": [
+          -4.086747519474443,
+          -6.0688963959946705
+        ],
+        "path_y_bounds_m": [
+          -6.0688963959946705,
+          -5.999999910593033
+        ],
+        "planning_time_s": 0.005,
+        "waypoint": "BOTTOM_AISLE_EAST"
+      },
+      {
+        "path_end_xy_m": [
+          10.000000432133675,
+          -0.9999998360872269
+        ],
+        "path_length_m": 6.188326062067689,
+        "path_pose_count": 44,
+        "path_start_xy_m": [
+          9.707535217814666,
+          -5.9977183401244645
+        ],
+        "path_y_bounds_m": [
+          -5.9977183401244645,
+          -0.9999998360872269
+        ],
+        "planning_time_s": 0.005,
+        "waypoint": "RIGHT_CROSS_AISLE"
+      },
+      {
+        "path_end_xy_m": [
+          -9.99999986588955,
+          -0.9999998360872269
+        ],
+        "path_length_m": 20.716161958991684,
+        "path_pose_count": 142,
+        "path_start_xy_m": [
+          10.03020367965405,
+          -1.291515190772941
+        ],
+        "path_y_bounds_m": [
+          -1.291515190772941,
+          0.028537074632190462
+        ],
+        "planning_time_s": 0.01,
+        "waypoint": "DISPATCH_DOCK"
+      },
+      {
+        "path_end_xy_m": [
+          -9.99999986588955,
+          -0.9999998360872269
+        ],
+        "path_length_m": 20.716161958991684,
+        "path_pose_count": 142,
+        "path_start_xy_m": [
+          10.03020367965405,
+          -1.291515190772941
+        ],
+        "path_y_bounds_m": [
+          -1.291515190772941,
+          0.028537074632190462
+        ],
+        "planning_time_s": 0.005,
+        "waypoint": "DISPATCH_DOCK"
+      }
+    ],
+    "retries": [
+      {
+        "attempt": 1,
+        "reason": "regulated path tracking failed: 105 ",
+        "waypoint": "DISPATCH_DOCK"
+      }
+    ],
+    "route_profile": "wide",
+    "scan_snapshot": {
+      "front_min_m": 9.381052017211914,
+      "left_min_m": 4.003209114074707,
+      "nearest_angle_deg": 108.80222921395931,
+      "nearest_range_m": 4.003209114074707,
+      "rear_min_m": 10.466057777404785,
+      "right_min_m": 8.700369834899902,
+      "valid_samples": 316
+    },
+    "waypoint_count": 3,
+    "waypoint_index": 2
+  },
+  "real_time_factor": 0.9855457187505502,
+  "rearward_rmse_amplification": {
+    "1": 1.0,
+    "2": 0.7648265114011775,
+    "3": 0.5942676573356397
+  },
+  "route_segment_metrics": {
+    "1": {
+      "NAV_BOTTOM_AISLE_EAST": {
+        "peak_absolute_spacing_error_m": 0.09006797619335472,
+        "predict_fraction": 0.0,
+        "safe_stop_fraction": 0.0,
+        "sample_count": 238,
+        "spacing_rmse_m": 0.03372772464818922,
+        "track_fraction": 1.0
+      },
+      "NAV_DISPATCH_DOCK": {
+        "peak_absolute_spacing_error_m": 0.044552817826060354,
+        "predict_fraction": 0.0,
+        "safe_stop_fraction": 0.0,
+        "sample_count": 349,
+        "spacing_rmse_m": 0.044552777275068754,
+        "track_fraction": 1.0
+      },
+      "NAV_RIGHT_CROSS_AISLE": {
+        "peak_absolute_spacing_error_m": 0.28534707262157166,
+        "predict_fraction": 0.08139534883720931,
+        "safe_stop_fraction": 0.023255813953488372,
+        "sample_count": 172,
+        "spacing_rmse_m": 0.14458697756990171,
+        "track_fraction": 0.8953488372093024
+      }
+    },
+    "2": {
+      "NAV_BOTTOM_AISLE_EAST": {
+        "peak_absolute_spacing_error_m": 0.1196790152656726,
+        "predict_fraction": 0.0,
+        "safe_stop_fraction": 0.0,
+        "sample_count": 238,
+        "spacing_rmse_m": 0.03506551227196883,
+        "track_fraction": 1.0
+      },
+      "NAV_DISPATCH_DOCK": {
+        "peak_absolute_spacing_error_m": 0.017998454249164464,
+        "predict_fraction": 0.0,
+        "safe_stop_fraction": 1.0,
+        "sample_count": 349,
+        "spacing_rmse_m": 0.01793829728328284,
+        "track_fraction": 0.0
+      },
+      "NAV_RIGHT_CROSS_AISLE": {
+        "peak_absolute_spacing_error_m": 0.29855523212148083,
+        "predict_fraction": 0.08139534883720931,
+        "safe_stop_fraction": 0.046511627906976744,
+        "sample_count": 172,
+        "spacing_rmse_m": 0.11478513583774073,
+        "track_fraction": 0.872093023255814
+      }
+    },
+    "3": {
+      "NAV_BOTTOM_AISLE_EAST": {
+        "peak_absolute_spacing_error_m": 0.12404395278059432,
+        "predict_fraction": 0.004201680672268907,
+        "safe_stop_fraction": 0.0,
+        "sample_count": 238,
+        "spacing_rmse_m": 0.03653724913500718,
+        "track_fraction": 0.9957983193277311
+      },
+      "NAV_DISPATCH_DOCK": {
+        "peak_absolute_spacing_error_m": 0.039023737737008846,
+        "predict_fraction": 0.0028653295128939827,
+        "safe_stop_fraction": 0.0,
+        "sample_count": 349,
+        "spacing_rmse_m": 0.03901330711604835,
+        "track_fraction": 0.997134670487106
+      },
+      "NAV_RIGHT_CROSS_AISLE": {
+        "peak_absolute_spacing_error_m": 0.17095169285571954,
+        "predict_fraction": 0.0,
+        "safe_stop_fraction": 0.0,
+        "sample_count": 172,
+        "spacing_rmse_m": 0.06634499222928715,
+        "track_fraction": 1.0
+      }
+    }
+  },
+  "run_id": "run_01",
+  "sample_count": 2934,
+  "scope": "Simulated warehouse formation-transport mission with scripted visual cargo; not manipulation, physical-robot, throughput, or production-safety evidence.",
+  "sim_elapsed_s": 195.8,
+  "status": "fail",
+  "wall_elapsed_s": 198.67165599200234,
+  "warehouse_obstacle_collision_samples": {
+    "follower_1": 0,
+    "follower_2": 0,
+    "follower_3": 0,
+    "leader": 0
+  }
+}

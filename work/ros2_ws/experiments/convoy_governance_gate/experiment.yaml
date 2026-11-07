@@ -1,0 +1,47 @@
+experiment: convoy_governance_gate
+date_approved: 2026-11-07
+purpose: >-
+  Validate convoy-aware leader command governance, bounded leader command
+  dropout containment, selectable warehouse layouts, and route repeatability
+  without giving Gazebo ground truth or leader navigation data to a follower.
+canonical_environment:
+  ros_distribution: jazzy
+  gazebo: harmonic
+  host: MSI Katana GF66 12UD
+profiles:
+  nominal_pair:
+    follower_count: 1
+    map_profile: sparse
+    route_profile: wide
+    repetitions: 3
+  contained_chain:
+    follower_count: 3
+    map_profile: sparse
+    route_profile: wide
+    repetitions: 3
+    expected_outcome: >-
+      A complete passing mission or, after visual loss, a bounded convoy HOLD
+      with zero collision samples. An incomplete route remains a limitation and
+      must not be reported as mission completion.
+  leader_dropout:
+    follower_count: 1
+    map_profile: sparse
+    route_profile: wide
+    repetitions: 3
+acceptance:
+  pair_before_chain: true
+  accepted_mission_runs: nominal_pair_and_leader_dropout_only
+  chain_acceptance: complete_pass_or_bounded_contained_stop
+  follower_1_max_spacing_rmse_m: 0.30
+  later_follower_max_spacing_rmse_m: 0.35
+  minimum_track_fraction: 0.85
+  maximum_control_period_p95_ms: 66.7
+  minimum_real_time_factor: 0.90
+  collision_samples: 0
+  leader_fault_output_must_be_zero: true
+boundaries:
+  - Gazebo poses are evaluation-only.
+  - Follower navigation inputs remain forward RGB and local wheel odometry.
+  - Supervisor health may govern leader speed but carries no position or route data.
+  - Leader command-dropout containment is not autonomous leader promotion.
+  - Simulation collision checks are not physical-person safety evidence.

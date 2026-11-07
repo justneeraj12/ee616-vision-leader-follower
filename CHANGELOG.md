@@ -16,6 +16,13 @@ This file records reviewable project milestones. Detailed evidence and current l
 
 ### Added
 
+- Local browser experiment console with bounded follower, route, layout, and
+  command-dropout selections plus estimator, governor, and resource telemetry
+- Convoy-aware leader command governor using follower health without Gazebo
+  truth, two deterministic mapped layouts, four-face visual targets, and a
+  120-degree mapped-mission camera
+- Repeated post-freeze nominal-pair, command-dropout, chain-containment, and
+  component-resource evidence with retained failed development attempts
 - Mapped three-row warehouse with separate receiving and dispatch docks
 - Leader-only Nav2 AMCL, LiDAR, Smac Hybrid-A*, and Regulated Pure Pursuit
 - Pair-first mapped-mission repeatability runner, result plot, checksums, and
@@ -36,6 +43,12 @@ This file records reviewable project milestones. Detailed evidence and current l
 
 ### Verified
 
+- Three governed sparse/wide nominal pair runs passed with 0.0860 m mean
+  spacing RMSE and zero collision samples
+- Three bounded command-dropout pair runs passed; all 180 fault samples had
+  zero leader output and collision samples were zero
+- Three governed three-follower runs reached a contained hold with zero
+  collision samples but did not complete the route after visual loss
 - One mapped pair run and three full mapped warehouse runs passed with zero
   robot or mapped-obstacle collision samples
 - Mapped full-chain mean spacing RMSE was 0.1313 m, 0.1392 m, and 0.1331 m;

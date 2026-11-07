@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+from dataclasses import dataclass
 from pathlib import Path
 
 from ee616_simulation.warehouse_mission_world import (
@@ -22,6 +23,48 @@ MAP_RESOLUTION = 0.10
 MAP_WIDTH = 380
 MAP_HEIGHT = 240
 LIDAR_HEIGHT_M = 0.90
+NAV_CAMERA_HORIZONTAL_FOV_RAD = 2.0943951024
+
+
+@dataclass(frozen=True)
+class WarehouseLayout:
+    """Deterministic shelf arrangement sharing the verified map boundary."""
+
+    label: str
+    shelf_x: tuple[float, ...]
+    shelf_y: tuple[float, ...]
+    description: str
+
+
+WAREHOUSE_LAYOUTS = {
+    "standard": WarehouseLayout(
+        "Nine-shelf warehouse",
+        SHELF_X,
+        SHELF_Y,
+        "Three rows with three shelf blocks per row.",
+    ),
+    "sparse": WarehouseLayout(
+        "Six-shelf flexible warehouse",
+        (-4.5, 4.5),
+        SHELF_Y,
+        "Three rows with a removable center bay and wider internal openings.",
+    ),
+}
+
+
+def warehouse_layout(profile: str) -> WarehouseLayout:
+    """Return one bounded warehouse layout profile."""
+    try:
+        return WAREHOUSE_LAYOUTS[profile]
+    except KeyError as error:
+        choices = ", ".join(sorted(WAREHOUSE_LAYOUTS))
+        raise ValueError(f"map_profile must be one of: {choices}") from error
+
+
+def warehouse_world_name(follower_count: int, map_profile: str) -> str:
+    """Return a stable Gazebo world name for an evaluated profile."""
+    suffix = "" if map_profile == "standard" else f"_{map_profile}"
+    return f"{WORLD_NAME_PREFIX}{suffix}_{follower_count}"
 
 
 def _nav_leader(x: float, y: float) -> str:
@@ -45,7 +88,51 @@ def _nav_leader(x: float, y: float) -> str:
         </sensor>
 """
     needle = "      </link>\n      <link name=\"left_wheel\">"
-    return robot.replace(needle, f"{lidar}      </link>\n      <link name=\"left_wheel\">", 1)
+    robot = robot.replace(
+        needle,
+        f"{lidar}      </link>\n      <link name=\"left_wheel\">",
+        1,
+    )
+    return _with_wraparound_target(robot)
+
+
+def _with_wraparound_target(robot: str) -> str:
+    """Add a known-height visual beacon that remains visible through turns."""
+    beacon = """
+        <!-- The original rear panel remains unchanged. These three flat,
+             known-height faces preserve the trained target appearance when
+             the predecessor rotates through a warehouse corner. -->
+        <visual name="wraparound_predecessor_target_left">
+          <pose>-0.02 0.25 0.38 0 0 0</pose>
+          <geometry><box><size>0.70 0.04 0.90</size></box></geometry>
+          <material><ambient>0.9 0.15 0.05 1</ambient><diffuse>0.9 0.15 0.05 1</diffuse></material>
+        </visual>
+        <visual name="wraparound_predecessor_target_right">
+          <pose>-0.02 -0.25 0.38 0 0 0</pose>
+          <geometry><box><size>0.70 0.04 0.90</size></box></geometry>
+          <material><ambient>0.9 0.15 0.05 1</ambient><diffuse>0.9 0.15 0.05 1</diffuse></material>
+        </visual>
+        <visual name="wraparound_predecessor_target_front">
+          <pose>0.30 0 0.38 0 0 0</pose>
+          <geometry><box><size>0.04 0.70 0.90</size></box></geometry>
+          <material><ambient>0.9 0.15 0.05 1</ambient><diffuse>0.9 0.15 0.05 1</diffuse></material>
+        </visual>
+"""
+    needle = "      </link>\n      <link name=\"left_wheel\">"
+    return robot.replace(
+        needle,
+        f"{beacon}      </link>\n      <link name=\"left_wheel\">",
+        1,
+    )
+
+
+def _with_nav_wide_angle_camera(robot: str) -> str:
+    """Use a 120-degree forward RGB camera for mapped warehouse turns."""
+    return robot.replace(
+        "<horizontal_fov>1.2217304764</horizontal_fov>",
+        f"<horizontal_fov>{NAV_CAMERA_HORIZONTAL_FOV_RAD}</horizontal_fov>",
+        1,
+    )
 
 
 def _aisle_stripe(name: str, x: float, y: float, sx: float, sy: float) -> str:
@@ -82,17 +169,23 @@ def _warehouse_wall(
     </model>"""
 
 
-def build_warehouse_nav_world(follower_count: int) -> str:
+def build_warehouse_nav_world(
+    follower_count: int,
+    map_profile: str = "standard",
+) -> str:
     """Return a logical receiving-to-dispatch warehouse with three shelf rows."""
-    if follower_count not in {1, 3}:
-        raise ValueError("follower_count must be 1 or 3")
+    if follower_count not in {1, 2, 3}:
+        raise ValueError("follower_count must be 1, 2, or 3")
+    layout = warehouse_layout(map_profile)
     robots = [_nav_leader(-10.0, -6.0)]
     robots.extend(
-        _cargo_robot(
-            f"follower_{index}",
-            -10.0 - 2.0 * index,
-            y=-6.0,
-            camera=True,
+        _with_nav_wide_angle_camera(
+            _with_wraparound_target(_cargo_robot(
+                f"follower_{index}",
+                -10.0 - 2.0 * index,
+                y=-6.0,
+                camera=True,
+            ))
         )
         for index in range(1, follower_count + 1)
     )
@@ -102,8 +195,8 @@ def build_warehouse_nav_world(follower_count: int) -> str:
             x,
             y,
         )
-        for row, y in enumerate(SHELF_Y, start=1)
-        for column, x in enumerate(SHELF_X, start=1)
+        for row, y in enumerate(layout.shelf_y, start=1)
+        for column, x in enumerate(layout.shelf_x, start=1)
     )
     stripes = "".join(
         _aisle_stripe(f"aisle_{index}", 0.0, y, 15.0, 0.06)
@@ -129,7 +222,7 @@ def build_warehouse_nav_world(follower_count: int) -> str:
     ])
     return f"""<?xml version="1.0"?>
 <sdf version="1.9">
-  <world name="{WORLD_NAME_PREFIX}_{follower_count}">
+  <world name="{warehouse_world_name(follower_count, map_profile)}">
     <physics name="navigation_physics" type="ignored">
       <max_step_size>0.005</max_step_size><real_time_factor>1.0</real_time_factor>
     </physics>
@@ -178,17 +271,23 @@ def build_warehouse_nav_world(follower_count: int) -> str:
 """
 
 
-def render_warehouse_nav_world(follower_count: int, output_dir: Path) -> Path:
+def render_warehouse_nav_world(
+    follower_count: int,
+    output_dir: Path,
+    map_profile: str = "standard",
+) -> Path:
     """Write a content-addressed navigation world and return its path."""
-    text = build_warehouse_nav_world(follower_count)
+    text = build_warehouse_nav_world(follower_count, map_profile)
     digest = hashlib.sha256(text.encode("utf-8")).hexdigest()[:12]
     output_dir.mkdir(parents=True, exist_ok=True)
-    path = output_dir / f"{WORLD_NAME_PREFIX}_{follower_count}-{digest}.sdf"
+    path = output_dir / (
+        f"{WORLD_NAME_PREFIX}_{map_profile}_{follower_count}-{digest}.sdf"
+    )
     path.write_text(text, encoding="utf-8")
     return path
 
 
-def _occupied(x: float, y: float) -> bool:
+def _occupied(x: float, y: float, layout: WarehouseLayout) -> bool:
     """Return whether one map cell belongs to a wall or shelf footprint."""
     if abs(x) >= 18.7 or abs(y) >= 11.7:
         return True
@@ -196,14 +295,18 @@ def _occupied(x: float, y: float) -> bool:
         # Measured from the vendored AWS ShelfE collision mesh after its
         # COLLADA transform: approximately 3.92 m long by 0.88 m deep.
         abs(x - shelf_x) <= 1.98 and abs(y - shelf_y) <= 0.48
-        for shelf_x in SHELF_X
-        for shelf_y in SHELF_Y
+        for shelf_x in layout.shelf_x
+        for shelf_y in layout.shelf_y
     )
 
 
-def render_warehouse_nav_map(output_dir: Path) -> Path:
+def render_warehouse_nav_map(
+    output_dir: Path,
+    map_profile: str = "standard",
+) -> Path:
     """Write the deterministic static occupancy map and return its YAML path."""
     output_dir.mkdir(parents=True, exist_ok=True)
+    layout = warehouse_layout(map_profile)
     rows: list[str] = []
     origin_x, origin_y = MAP_ORIGIN
     for row in range(MAP_HEIGHT):
@@ -211,12 +314,12 @@ def render_warehouse_nav_map(output_dir: Path) -> Path:
         values = []
         for column in range(MAP_WIDTH):
             x = origin_x + (column + 0.5) * MAP_RESOLUTION
-            values.append("0" if _occupied(x, y) else "254")
+            values.append("0" if _occupied(x, y, layout) else "254")
         rows.append(" ".join(values))
     image_text = f"P2\n{MAP_WIDTH} {MAP_HEIGHT}\n255\n" + "\n".join(rows) + "\n"
     digest = hashlib.sha256(image_text.encode("ascii")).hexdigest()[:12]
-    image_path = output_dir / f"warehouse_nav-{digest}.pgm"
-    yaml_path = output_dir / f"warehouse_nav-{digest}.yaml"
+    image_path = output_dir / f"warehouse_nav-{map_profile}-{digest}.pgm"
+    yaml_path = output_dir / f"warehouse_nav-{map_profile}-{digest}.yaml"
     image_path.write_text(image_text, encoding="ascii")
     yaml_path.write_text(
         "\n".join([

@@ -1,0 +1,82 @@
+{
+  "experiment": "convoy_governance_gate",
+  "status": "pass",
+  "accepted_mission_run_count": 6,
+  "chain_completed_run_count": 0,
+  "chain_contained_stop_run_count": 3,
+  "groups": {
+    "sparse_wide_nominal_1f": {
+      "acceptance_kind": "mission",
+      "run_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "minimum_real_time_factor": 0.9840829203035041,
+      "mean_spacing_rmse_m": {
+        "1": 0.08602591666407232
+      },
+      "maximum_spacing_rmse_m": {
+        "1": 0.08868524520799051
+      },
+      "minimum_track_fraction": {
+        "1": 0.9584859584859585
+      },
+      "warehouse_obstacle_collision_sample_total": 0,
+      "fault_samples": 0,
+      "fault_zero_command_samples": 0
+    },
+    "sparse_wide_containment_3f": {
+      "acceptance_kind": "chain_safety",
+      "run_count": 3,
+      "statuses": [
+        "fail",
+        "fail",
+        "fail"
+      ],
+      "minimum_real_time_factor": 0.9855457187505502,
+      "mean_spacing_rmse_m": {
+        "1": 0.08492745682783741,
+        "2": 0.08772572562377477,
+        "3": 0.12492744700815046
+      },
+      "maximum_spacing_rmse_m": {
+        "1": 0.10129140501109309,
+        "2": 0.11664489707004823,
+        "3": 0.22898607395774262
+      },
+      "minimum_track_fraction": {
+        "1": 0.5486618004866181,
+        "2": 0.5078534031413613,
+        "3": 0.5450121654501217
+      },
+      "warehouse_obstacle_collision_sample_total": 0,
+      "fault_samples": 0,
+      "fault_zero_command_samples": 0
+    },
+    "sparse_wide_leader_dropout_1f": {
+      "acceptance_kind": "mission",
+      "run_count": 3,
+      "statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "minimum_real_time_factor": 0.9799036781589696,
+      "mean_spacing_rmse_m": {
+        "1": 0.09590358564357286
+      },
+      "maximum_spacing_rmse_m": {
+        "1": 0.09717886163393963
+      },
+      "minimum_track_fraction": {
+        "1": 0.955794504181601
+      },
+      "warehouse_obstacle_collision_sample_total": 0,
+      "fault_samples": 180,
+      "fault_zero_command_samples": 180
+    }
+  },
+  "ground_truth_boundary": "Gazebo truth is consumed only by ee616_evaluation and never by perception, estimation, supervision, or control."
+}

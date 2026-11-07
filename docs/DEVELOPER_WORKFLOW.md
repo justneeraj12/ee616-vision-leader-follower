@@ -33,12 +33,25 @@ Use these VS Code tasks:
 | `EE616: Validate all controlled scenarios` | Check camera transport in all five templates |
 | `EE616: Launch AWS warehouse benchmark world` | Open the optional imported warehouse |
 | `EE616: Benchmark AWS warehouse headless` | Record fixed timing and resource evidence |
+| `EE616: Start experiment console` | Select follower count and mapped route in a local browser |
 | `EE616: Open ROS learning shell` | Open a terminal with ROS 2 sourced |
 | `EE616: Measure camera topic rate` | Measure `/smoke/camera/image` delivery rate |
 | `EE616: Stop simulation` | Send a stop signal to playground processes |
 | `EE616: Run seven toy tests` | Recheck the deterministic toy baseline |
 
 Stop a running launch with `Ctrl+C` in its simulation terminal. The stop task is available if the terminal was closed first.
+
+For a bounded mapped-mission configuration and live telemetry, run the
+experiment console from the host project root:
+
+```bash
+./launchers/experiment_console.sh
+```
+
+The browser interface is local to `127.0.0.1:8765`. It starts the ROS launch
+inside the same display-enabled container and writes only to the ignored
+`work/ros2_ws/results/dashboard_runs/` directory. See
+[EXPERIMENT_CONSOLE.md](EXPERIMENT_CONSOLE.md).
 
 ## Commands to learn
 

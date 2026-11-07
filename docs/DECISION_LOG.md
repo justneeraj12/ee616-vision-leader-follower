@@ -311,3 +311,52 @@ a farther identical marker. That matrix was retained as failed evidence. The
 accepted revision uses largest-box association, a local range envelope, EKF
 innovation gating, and large-bearing speed reduction, then repeats the complete
 pair-first protocol in an isolated ROS domain and Gazebo partition.
+
+## D033 Separate configurable nominal profiles from diagnostic stress profiles
+
+Date: November 7, 2026
+
+Decision: Add a local browser experiment console with validated follower-count
+and route selections. Keep the existing standard route unchanged, add a wide
+route as a nominal candidate, and label the eight-goal serpentine route as a
+diagnostic stress profile. Live graphs use estimator telemetry. Gazebo truth
+remains inside the evaluator. Report route-leg metrics and retained failures
+without weakening nominal acceptance limits.
+
+Reason: Faculty feedback requires clearer industrial configuration, live
+telemetry, and evidence of how repeated turns affect the chain. A bounded
+profile catalog preserves reproducibility better than arbitrary user gains. The
+first turn-dense run exposed a real continuity failure: the follower entered
+`SAFE_STOP` during the second cross-aisle turn while the leader continued. That
+failure identifies a future convoy-governor experiment; it is more informative
+than hiding the profile or relabeling it as a pass.
+
+## D034 Govern leader motion from follower health without weakening SAFE STOP
+
+Date: November 7, 2026
+
+Decision: Route the leader mission and Nav2 commands through a low-bandwidth
+convoy governor. The governor uses follower supervisor state, relative-estimate
+bearing, measurement age, and message freshness. It applies reduced-speed
+caution during `PREDICT`, large bearing, or a leader turn. It commands a hard
+hold for `SAFE_STOP`, stale follower health, stale Nav2 commands, or the bounded
+command-dropout experiment. It requires stable `TRACK` before resuming. Gazebo
+pose truth remains unavailable to this component.
+
+The mapped mission also provides a 120-degree forward camera, four flat visual
+target panels on each predecessor, two deterministic warehouse layouts, and a
+single bounded Nav2 retry. These changes apply only to the post-freeze mapped
+mission; they do not alter the frozen Gate 1--7 evidence.
+
+Reason: The first turn-dense experiment showed that independently stopping a
+follower while the leader continued could separate the convoy. The governor
+contains that condition by stopping the route owner. Development runs also
+showed that stopping at the first `PREDICT` state was too conservative and could
+trigger Nav2's no-progress limit in an otherwise passing pair. Reduced-speed
+prediction followed by a hard `SAFE_STOP` hold preserves the declared follower
+supervisor semantics.
+
+Boundary: A stopped follower whose predecessor is already outside the forward
+camera view may require operator intervention. The governor is not autonomous
+leader promotion, redundant leader hardware, person-safety control, or proof of
+mission completion after every visual loss.

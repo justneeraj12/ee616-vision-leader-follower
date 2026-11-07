@@ -32,6 +32,19 @@ Run these commands from the project root on the logged-in Hyprland desktop:
 ./launchers/warehouse_nav_mission.sh
 ```
 
+To select one to three followers and a controlled mapped route from a browser,
+use the separate post-freeze experiment console:
+
+```bash
+./launchers/experiment_console.sh
+```
+
+The console is documented in [EXPERIMENT_CONSOLE.md](EXPERIMENT_CONSOLE.md).
+Its default sparse/wide pair profile has three passing governed repetitions.
+The governed three-follower profile produced a contained stop without route
+completion in three repetitions. The standard governed pair and turn-dense
+route are diagnostic failures, not passing demos.
+
 The executable wrappers resolve the project root automatically, so they also
 work when called by absolute path from another directory. The equivalent manual
 commands are:

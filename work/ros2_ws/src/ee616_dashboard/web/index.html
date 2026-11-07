@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EE 616 Convoy Experiment Console</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <div>
+      <p class="eyebrow">EE 616 · Simulation experiment console</p>
+      <h1>Vision Leader–Follower Warehouse Convoy</h1>
+      <p class="subtitle">Validated profiles, live estimator telemetry, and reproducible result exports</p>
+    </div>
+    <div id="run-badge" class="badge idle"><span></span><strong>IDLE</strong></div>
+  </header>
+
+  <main>
+    <section class="panel controls">
+      <div class="section-heading">
+        <div><p class="step">01</p><h2>Configure experiment</h2></div>
+        <p>Only bounded, predefined options are available.</p>
+      </div>
+      <div class="control-grid">
+        <label>Follower robots
+          <select id="follower-count">
+            <option value="1">1 follower · pair</option>
+            <option value="2">2 followers · short chain</option>
+            <option value="3" selected>3 followers · target chain</option>
+          </select>
+        </label>
+        <label>Route profile
+          <select id="route-profile"></select>
+        </label>
+        <label>Warehouse layout
+          <select id="map-profile"></select>
+        </label>
+        <label>Scenario
+          <select id="scenario-profile"></select>
+        </label>
+        <label class="check"><input id="show-gazebo" type="checkbox" checked> Open Gazebo visualization</label>
+      </div>
+      <div id="profile-description" class="profile-description"></div>
+      <div class="actions">
+        <button id="start" class="primary">Start experiment</button>
+        <button id="stop" class="danger" disabled>Safe stop run</button>
+        <button id="export">Export live snapshot</button>
+      </div>
+      <p id="message" role="status"></p>
+      <p id="output-dir" class="caption"></p>
+    </section>
+
+    <section class="overview-grid">
+      <article class="panel stat-card"><p>Mission state</p><strong id="mission-state">IDLE</strong><small id="route-progress">No route active</small></article>
+      <article class="panel stat-card"><p>Planner</p><strong id="planner-name">—</strong><small id="controller-name">Waiting for Nav2</small></article>
+      <article class="panel stat-card"><p>Convoy governor</p><strong id="governor-mode">—</strong><small id="governor-reason">Waiting for follower health</small></article>
+      <article class="panel stat-card"><p>Container memory</p><strong id="memory">—</strong><small id="load-average">System load unavailable</small></article>
+      <article class="panel stat-card"><p>GPU</p><strong id="gpu-memory">—</strong><small id="gpu-utilization">GPU telemetry unavailable</small></article>
+      <article class="panel stat-card"><p>Measured stack resources</p><strong id="component-memory">—</strong><small id="component-cpu">Waiting for process attribution</small></article>
+    </section>
+
+    <section class="visual-grid">
+      <article class="panel map-panel">
+        <div class="section-heading compact"><div><p class="step">02</p><h2>Route profile</h2></div><p id="map-label">Standard warehouse</p></div>
+        <canvas id="map-canvas" width="760" height="420" aria-label="Warehouse route schematic"></canvas>
+        <p class="caption">Schematic map. Robot positions are not taken from Gazebo ground truth.</p>
+      </article>
+      <article class="panel chart-panel">
+        <div class="section-heading compact"><div><p class="step">03</p><h2>Estimated spacing error</h2></div><p>Live EKF output</p></div>
+        <canvas id="error-canvas" width="760" height="420" aria-label="Live spacing error plot"></canvas>
+        <p class="caption">Zero is the requested 1.5 m camera-to-target separation.</p>
+      </article>
+    </section>
+
+    <section class="panel followers-panel">
+      <div class="section-heading compact"><div><p class="step">04</p><h2>Follower telemetry</h2></div><p>TRACK · PREDICT · SAFE STOP</p></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Robot</th><th>Supervisor</th><th>Range</th><th>Bearing</th><th>Error</th><th>RMSE to date</th><th>Measurement age</th><th>Command v / ω</th><th>YOLO p/frame</th></tr></thead>
+          <tbody id="follower-rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="boundary">
+      <strong>Evidence boundary</strong>
+      <p id="metric-boundary">Live values are estimator telemetry. Ground truth is reserved for the evaluation process.</p>
+      <p>Simulation collision checks do not demonstrate physical-robot or person safety.</p>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

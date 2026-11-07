@@ -11,7 +11,7 @@ A reproducible research project for camera-only predecessor following in a flexi
 
 The leader owns the route. Each independently driven follower observes the robot immediately ahead through a forward RGB camera, combines the relative visual measurement with local wheel odometry, and uses bounded control to maintain a commanded gap. The planned implementation targets ROS 2 Jazzy and Gazebo Harmonic on constrained laptop hardware.
 
-> **Current status:** deterministic toy baseline, containerized ROS 2/Gazebo foundation, synchronized YOLOv8n v3 measurement gate complete, nominal incremental chains through three followers passed, controlled-disturbance and timing gates passed, and a mapped pair-first warehouse mission using Nav2 Hybrid-A* passed.
+> **Current status:** the frozen seven-gate simulation package is complete. Post-freeze work adds a configurable experiment console, two warehouse layouts, a convoy-aware leader command governor, repeated nominal and command-dropout pair results, and repeated three-follower visual-loss containment evidence. The governed pair missions passed; the governed three-follower chain stopped without sampled collisions but did not finish the route after visual loss.
 >
 > The first two YOLOv8n checkpoints remain recorded failures. After correcting an RGB/BGR runtime mismatch and stale-frame labels, v3 passed on two new sealed scenes, six nominal closed-loop pair runs, 12 staged nominal chain runs, and 18 pair-first controlled-disturbance runs. Physical robots and production safety have not been demonstrated.
 
@@ -31,6 +31,9 @@ navigation path is:
    machine-readable evidence and reproduction commands.
 5. [Deliverables index](deliverables/README.md) - videos, screenshots, checksums,
    and baseline archives.
+6. [Configurable experiment console](docs/EXPERIMENT_CONSOLE.md) - follower and
+   route selection, live telemetry, result locations, and current pass/fail
+   boundaries.
 
 The fastest visual review is the
 [mapped Hybrid-A* warehouse mission](deliverables/Neeraj_Kanchani_EE616_Hybrid_AStar_Warehouse_Demo.mp4),
@@ -101,10 +104,13 @@ a selected live demonstration.
 | Incremental three-follower chain | Worst spacing RMSE: F1 0.1004 m, F2 0.0739 m, F3 0.0523 m | All 12 staged nominal runs passed. Rearward error growth was not observed under these nominal conditions. |
 | Scripted-route warehouse cargo mission | Three-run mean transport RMSE: F1 0.0734 m, F2 0.0642 m, F3 0.0492 m; zero collision samples | The pair passed before three full pickup, gradual-turn transport, and drop-off repetitions. |
 | Mapped Nav2 warehouse mission | Three-run mean transport RMSE: F1 0.1313 m, F2 0.1392 m, F3 0.1331 m; zero robot or mapped-obstacle collision samples | The leader used AMCL, a static map, LiDAR, Hybrid-A*, and Regulated Pure Pursuit through three aisle turns. Each follower remained camera-and-odometry only. |
+| Governed nominal pair | Three sparse/wide runs passed; 0.0860 m mean spacing RMSE; at least 95.8% TRACK; zero collision samples | Follower health can reduce or hold leader motion without Gazebo truth entering control. |
+| Leader command dropout | Three sparse/wide pair runs passed; all 180 injected-fault samples had zero leader output; 0.0959 m mean spacing RMSE; zero collision samples | A bounded three-second upstream command interruption was contained and the pair resumed. This is not redundant leader hardware or autonomous leader replacement. |
+| Governed chain containment | Three three-follower runs reached governor HOLD with zero collision samples; 0 of 3 completed the route | The governor prevents the leader from continuing after follower visual loss, but a stopped follower cannot always reacquire a predecessor outside its forward camera view. |
 | Controlled disturbances | Pair worst RMSE: 0.1247 m; combined-chain worst RMSE: F1 0.1007 m, F2 0.1242 m, F3 0.1403 m | All 18 pair-first runs passed. The combined disturbance showed error growth toward the rear. |
 | Target-laptop timing | 23.09 ms camera-to-measurement p95; 48.35 ms measurement-to-control p95; minimum real-time factor 0.9996 | Three combined-chain runs met the frozen timing limits on the target laptop. |
 | Resource use | 3,584 MiB peak container RAM; 642 MiB peak visible VRAM | The accepted timing experiment stayed within the laptop's 16 GB RAM and 4 GB VRAM limits. |
-| ROS verification | 5 packages built; 85 tests passed | The repository tests cover simulation, perception, estimation, control, and evaluation components. |
+| ROS verification | 6 packages built; 138 tests passed | The repository tests cover simulation, perception, estimation, control, evaluation, and the configurable console. |
 
 The evaluator recorded zero collision samples in these defined Gazebo gates.
 This is simulation evidence and is not proof of physical-robot or person safety.
@@ -150,7 +156,8 @@ their exact CSV and JSON sources.
 
 ```mermaid
 flowchart LR
-    mission["Warehouse or fleet mission"] --> leader["Leader robot<br/>route owner"]
+    mission["Warehouse or fleet mission"] --> governor["Convoy governor<br/>bounded leader command"]
+    governor --> leader["Leader robot<br/>route owner"]
     leader --> f1["Follower 1<br/>tracks leader"]
     f1 --> f2["Follower 2<br/>tracks Follower 1"]
     f2 --> fn["Follower N<br/>tracks predecessor"]
@@ -164,6 +171,8 @@ flowchart LR
         supervisor --> control["Bounded formation controller"]
         control --> cmd["Velocity command"]
     end
+
+    supervisor -. health state only .-> governor
 
     truth["Gazebo ground truth"] -. evaluation only .-> logger["Experiment logger and evaluator"]
     camera -. timestamped telemetry .-> logger
@@ -249,6 +258,32 @@ supervisor dashboard on Hyprland/XWayland. They write only to a separate
 `demo_runs` result directory and do not alter the frozen Gate 1--7 evidence.
 On the target laptop, Gazebo uses Intel Mesa graphics while YOLOv8n uses the
 RTX 3050 Ti through a compute-only CUDA mapping.
+
+For configurable post-freeze experiments, start the local browser console:
+
+```bash
+./launchers/experiment_console.sh
+```
+
+It selects one, two, or three followers and a wide, standard, or turn-dense
+route. It displays live estimator, supervisor, detector, command, and resource
+telemetry. The default sparse/wide pair profile passed three governed
+repetitions. The revised three-follower route produced a contained stop, not a
+completed mission, in all three repetitions. The standard governed pair and
+turn-dense route are retained diagnostic failures. See the
+[experiment console guide](docs/EXPERIMENT_CONSOLE.md); do not describe a
+contained or diagnostic run as a passing mission.
+
+Reproduce the post-freeze pair, chain-containment, command-dropout, and
+component-resource matrix with:
+
+```bash
+make convoy-governance-gate
+```
+
+The command refuses to overwrite an existing evidence directory. Results are
+under `work/ros2_ws/results/convoy_governance_evidence/`; failed development
+attempts remain under `work/ros2_ws/results/convoy_governance_development/`.
 
 Run the executable wrappers from any working directory:
 

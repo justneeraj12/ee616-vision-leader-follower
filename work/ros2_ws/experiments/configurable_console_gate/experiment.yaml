@@ -1,0 +1,64 @@
+experiment_id: configurable_console_gate_v1
+date: 2026-11-07
+status: implementation_complete_followed_by_convoy_governance_gate
+objective: >-
+  Select one to three followers and controlled route profiles, display live
+  estimator and resource telemetry, and measure route-segment error without
+  allowing Gazebo ground truth into the robot stack.
+fixed_conditions:
+  warehouse_world: warehouse_nav_mission
+  leader_planner: Nav2 SmacPlannerHybrid
+  leader_controller: Nav2 RegulatedPurePursuitController
+  leader_localization: Nav2 AMCL
+  follower_detector: YOLOv8n v3
+  desired_spacing_m: 1.5
+  follower_inputs:
+    - forward_rgb_camera
+    - local_wheel_odometry
+profiles:
+  wide:
+    waypoint_count: 3
+    initial_validation:
+      follower_count: 1
+      status: pass
+      spacing_rmse_m: 0.1084253381
+      track_fraction: 0.9663526245
+      collision_samples: 0
+      real_time_factor: 0.9817388014
+  standard:
+    waypoint_count: 4
+    initial_validation:
+      follower_count: 2
+      status: pass
+      follower_1_spacing_rmse_m: 0.1405368165
+      follower_2_spacing_rmse_m: 0.1275711346
+      follower_1_track_fraction: 0.9404934688
+      follower_2_track_fraction: 0.9303338171
+      collision_samples: 0
+      real_time_factor: 0.9807533056
+  turn_dense:
+    waypoint_count: 8
+    intended_use: diagnostic_stress_profile
+    initial_validation:
+      follower_count: 1
+      status: fail
+      failure: regulated_path_controller_collision_ahead_on_final_leg
+      first_safe_stop_growth_segment: NAV_LEFT_CROSS_AISLE_1
+      overall_track_fraction: 0.4182406908
+      collision_samples: 0
+acceptance_boundary:
+  passing_nominal_profile_requires:
+    - route_complete
+    - all_evaluator_checks_true
+    - zero_robot_collision_samples
+    - zero_mapped_obstacle_collision_samples
+  stress_profile: >-
+    A failure is retained and reported. It is not converted to a pass by
+    weakening the nominal acceptance criteria.
+ground_truth_boundary: >-
+  Gazebo pose truth is consumed only by ee616_evaluation. Live dashboard RMSE
+  uses the EKF estimate and is labeled separately.
+next_required_evidence:
+  - See ../convoy_governance_gate/experiment.yaml for the completed pair-first
+    governor, chain-containment, command-dropout, and resource protocol.
+  - An all-independent-Nav2 cost and compute baseline remains unverified.

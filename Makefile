@@ -8,7 +8,8 @@ SCENARIO ?= straight_aisle
 	prepare-display scenario-gui scenario-validate vscode yolo-dataset-capture \
 	chain-gate disturbance-gate pair-gate timing-gate gazebo-demo \
 	gazebo-demo-record gazebo-demo-shell warehouse-mission-gate \
-	warehouse-nav-mission-gate \
+	warehouse-nav-mission-gate experiment-console \
+	convoy-governance-gate \
 	yolo-dataset-v2 yolo-dataset-v3 yolo-diagnose-v2 yolo-gate yolo-gate-v2 \
 	yolo-gate-v3 yolo-model-acquire yolo-train yolo-train-v2 yolo-train-v3
 
@@ -87,6 +88,14 @@ gazebo-demo-shell:
 
 gazebo-demo-record:
 	bash infrastructure/dev/record_gazebo_demo.sh $(DEMO_MODE)
+
+experiment-console: prepare-display
+	LOCAL_UID=$$(id -u) LOCAL_GID=$$(id -g) $(DEV_COMPOSE) run --rm dev \
+		bash /workspace/infrastructure/dev/run_experiment_console.sh
+
+convoy-governance-gate:
+	LOCAL_UID=$$(id -u) LOCAL_GID=$$(id -g) $(COMPOSE) --profile gpu run --rm gpu \
+		bash /workspace/work/ros2_ws/scripts/run_convoy_governance_gate.sh
 
 yolo-model-acquire:
 	LOCAL_UID=$$(id -u) LOCAL_GID=$$(id -g) $(COMPOSE) run --rm dev \

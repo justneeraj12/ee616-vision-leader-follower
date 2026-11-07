@@ -4,8 +4,10 @@ import pytest
 
 from ee616_control.warehouse_nav_mission import (
     NAV_WAYPOINTS,
+    ROUTE_PROFILES,
     build_loading_segments,
     loading_duration_s,
+    route_waypoints,
 )
 
 
@@ -17,7 +19,7 @@ def test_nav_route_has_multiple_aisles_and_turns():
     assert NAV_WAYPOINTS[-1].yaw_rad == pytest.approx(math.pi)
 
 
-@pytest.mark.parametrize("follower_count", [1, 3])
+@pytest.mark.parametrize("follower_count", [1, 2, 3])
 def test_loading_is_pair_first_compatible_and_bounded(follower_count):
     segments = build_loading_segments(follower_count, startup_s=4.0)
     loads = [
@@ -37,6 +39,18 @@ def test_loading_is_pair_first_compatible_and_bounded(follower_count):
 
 def test_loading_rejects_invalid_inputs():
     with pytest.raises(ValueError):
-        build_loading_segments(2)
+        build_loading_segments(4)
     with pytest.raises(ValueError):
         build_loading_segments(1, startup_s=-1.0)
+
+
+def test_route_profiles_add_controlled_turn_complexity():
+    assert set(ROUTE_PROFILES) == {"wide", "standard", "turn_dense"}
+    assert len(route_waypoints("wide")) < len(route_waypoints("standard"))
+    assert len(route_waypoints("standard")) < len(route_waypoints("turn_dense"))
+    assert all(
+        route[-1].name == "DISPATCH_DOCK"
+        for route in ROUTE_PROFILES.values()
+    )
+    with pytest.raises(ValueError):
+        route_waypoints("unknown")

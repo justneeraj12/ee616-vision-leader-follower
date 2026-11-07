@@ -8,8 +8,8 @@ import math
 from action_msgs.msg import GoalStatus
 from ee616_control.warehouse_mission import ROBOT_NAMES, cargo_position
 from ee616_control.warehouse_nav_mission import (
-    NAV_WAYPOINTS,
     build_loading_segments,
+    route_waypoints,
 )
 from geometry_msgs.msg import PoseStamped, Twist
 from nav2_msgs.action import ComputePathToPose, FollowPath
@@ -29,7 +29,19 @@ class WarehouseNavMissionNode(Node):
         self.declare_parameter("follower_count", 3)
         self.declare_parameter("startup_s", 10.0)
         self.declare_parameter("waypoint_dwell_s", 4.0)
+        self.declare_parameter("route_profile", "standard")
+        self.declare_parameter("map_profile", "standard")
+        self.declare_parameter("leader_command_topic", "/leader/cmd_vel")
+        self.declare_parameter("max_nav_retries", 1)
         self.follower_count = int(self.get_parameter("follower_count").value)
+        self.route_profile = str(self.get_parameter("route_profile").value)
+        self.map_profile = str(self.get_parameter("map_profile").value)
+        self.max_nav_retries = int(
+            self.get_parameter("max_nav_retries").value
+        )
+        if not 0 <= self.max_nav_retries <= 3:
+            raise ValueError("max_nav_retries must be between 0 and 3")
+        self.nav_waypoints = route_waypoints(self.route_profile)
         startup_s = float(self.get_parameter("startup_s").value)
         self.waypoint_dwell_s = float(
             self.get_parameter("waypoint_dwell_s").value
@@ -42,9 +54,10 @@ class WarehouseNavMissionNode(Node):
             startup_s=startup_s,
         )
         self.started_s = self._now_s()
-        self.command_publisher = self.create_publisher(
-            Twist, "/leader/cmd_vel", 10
+        command_topic = str(
+            self.get_parameter("leader_command_topic").value
         )
+        self.command_publisher = self.create_publisher(Twist, command_topic, 10)
         self.state_publisher = self.create_publisher(
             String, "/warehouse_mission/state", 10
         )
@@ -77,6 +90,8 @@ class WarehouseNavMissionNode(Node):
         self.navigation_complete_s: float | None = None
         self.next_goal_after_s = 0.0
         self.planning_records: list[dict] = []
+        self.retry_records: list[dict] = []
+        self.waypoint_retry_count = 0
         self.scan_snapshot: dict | None = None
         self.create_subscription(LaserScan, "/leader/scan", self._scan, 10)
         self.timer = self.create_timer(0.05, self._tick)
@@ -160,11 +175,14 @@ class WarehouseNavMissionNode(Node):
             "algorithm": "Nav2 SmacPlannerHybrid (Hybrid-A*)",
             "controller": "Nav2 RegulatedPurePursuitController",
             "localization": "Nav2 AMCL",
+            "route_profile": self.route_profile,
+            "map_profile": self.map_profile,
             "waypoint_index": self.waypoint_index,
-            "waypoint_count": len(NAV_WAYPOINTS),
+            "waypoint_count": len(self.nav_waypoints),
             "action_active": self.action_active,
             "failure": self.failure or None,
             "plans": self.planning_records,
+            "retries": self.retry_records,
             "scan_snapshot": self.scan_snapshot,
         }, sort_keys=True)
         self.planner_state_publisher.publish(message)
@@ -198,7 +216,7 @@ class WarehouseNavMissionNode(Node):
         self._publish_planner_state()
 
     def _request_plan(self) -> None:
-        if self.waypoint_index >= len(NAV_WAYPOINTS):
+        if self.waypoint_index >= len(self.nav_waypoints):
             self.navigation_complete_s = self._now_s()
             self.command_publisher.publish(Twist())
             return
@@ -206,7 +224,7 @@ class WarehouseNavMissionNode(Node):
             self.state = "WAIT_NAV2_PLANNER"
             self.next_goal_after_s = self._now_s() + 0.5
             return
-        waypoint = NAV_WAYPOINTS[self.waypoint_index]
+        waypoint = self.nav_waypoints[self.waypoint_index]
         self.state = f"PLAN_{waypoint.name}"
         self.action_active = True
         goal = ComputePathToPose.Goal()
@@ -233,7 +251,7 @@ class WarehouseNavMissionNode(Node):
         response = future.result()
         result = response.result
         if response.status != GoalStatus.STATUS_SUCCEEDED or result.error_code:
-            self._fail(
+            self._retry_or_fail(
                 f"Hybrid-A* planning failed: {result.error_code} {result.error_msg}"
             )
             return
@@ -254,7 +272,7 @@ class WarehouseNavMissionNode(Node):
             result.planning_time.sec
             + result.planning_time.nanosec * 1.0e-9
         )
-        waypoint = NAV_WAYPOINTS[self.waypoint_index]
+        waypoint = self.nav_waypoints[self.waypoint_index]
         self.planning_records.append({
             "waypoint": waypoint.name,
             "path_length_m": length_m,
@@ -280,7 +298,7 @@ class WarehouseNavMissionNode(Node):
         if not self.controller_client.server_is_ready():
             self._fail("regulated path controller action server is unavailable")
             return
-        waypoint = NAV_WAYPOINTS[self.waypoint_index]
+        waypoint = self.nav_waypoints[self.waypoint_index]
         self.state = f"NAV_{waypoint.name}"
         goal = FollowPath.Goal()
         goal.path = path
@@ -301,16 +319,38 @@ class WarehouseNavMissionNode(Node):
         response = future.result()
         result = response.result
         if response.status != GoalStatus.STATUS_SUCCEEDED or result.error_code:
-            self._fail(
+            self._retry_or_fail(
                 "regulated path tracking failed: "
                 f"{result.error_code} {result.error_msg}"
             )
             return
         self.waypoint_index += 1
+        self.waypoint_retry_count = 0
         self.action_active = False
         self.next_goal_after_s = self._now_s() + self.waypoint_dwell_s
-        if self.waypoint_index >= len(NAV_WAYPOINTS):
+        if self.waypoint_index >= len(self.nav_waypoints):
             self.navigation_complete_s = self._now_s()
+
+    def _retry_or_fail(self, reason: str) -> None:
+        """Retry the current leg once before declaring a mission failure."""
+        self.action_active = False
+        if self.waypoint_retry_count >= self.max_nav_retries:
+            self._fail(reason)
+            return
+        self.waypoint_retry_count += 1
+        waypoint = self.nav_waypoints[self.waypoint_index]
+        self.retry_records.append({
+            "waypoint": waypoint.name,
+            "attempt": self.waypoint_retry_count,
+            "reason": reason,
+        })
+        self.state = f"RECOVER_{waypoint.name}"
+        self.next_goal_after_s = self._now_s() + 1.0
+        self.command_publisher.publish(Twist())
+        self.get_logger().warning(
+            f"{reason}; retrying {waypoint.name} "
+            f"({self.waypoint_retry_count}/{self.max_nav_retries})"
+        )
 
     def _fail(self, reason: str) -> None:
         self.failure = reason
@@ -331,6 +371,11 @@ def main(args=None) -> None:
         rclpy.spin(node)
     except KeyboardInterrupt:
         pass
+    except RuntimeError:
+        # Launch shutdown can invalidate a subscription while the executor is
+        # taking its final message. Ignore only that expected shutdown race.
+        if rclpy.ok():
+            raise
     finally:
         node.destroy_node()
         if rclpy.ok():

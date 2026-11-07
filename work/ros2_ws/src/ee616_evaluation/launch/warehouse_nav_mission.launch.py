@@ -8,10 +8,13 @@ import tempfile
 from pathlib import Path
 
 from ament_index_python.packages import get_package_share_directory
+from ee616_control.warehouse_nav_mission import route_waypoints
 from ee616_simulation.warehouse_nav_world import (
-    WORLD_NAME_PREFIX,
+    NAV_CAMERA_HORIZONTAL_FOV_RAD,
     render_warehouse_nav_map,
     render_warehouse_nav_world,
+    warehouse_layout,
+    warehouse_world_name,
 )
 from launch import LaunchContext, LaunchDescription
 from launch.actions import (
@@ -59,8 +62,29 @@ def _configure(context: LaunchContext):
     render_engine = LaunchConfiguration("render_engine").perform(context)
     detector_device = LaunchConfiguration("detector_device").perform(context)
     startup_s = float(LaunchConfiguration("startup_s").perform(context))
-    if follower_count not in {1, 3}:
-        raise ValueError("follower_count must be 1 or 3")
+    duration_s = float(LaunchConfiguration("duration_s").perform(context))
+    route_profile = LaunchConfiguration("route_profile").perform(context)
+    map_profile = LaunchConfiguration("map_profile").perform(context)
+    fault_mode = LaunchConfiguration("fault_mode").perform(context)
+    require_fault_event = _as_bool(
+        LaunchConfiguration("require_fault_event").perform(context)
+    )
+    minimum_track_fraction = float(
+        LaunchConfiguration("minimum_track_fraction").perform(context)
+    )
+    max_f1_rmse_m = float(
+        LaunchConfiguration("max_f1_rmse_m").perform(context)
+    )
+    max_later_rmse_m = float(
+        LaunchConfiguration("max_later_rmse_m").perform(context)
+    )
+    mapped_predict_timeout_s = float(
+        LaunchConfiguration("mapped_predict_timeout_s").perform(context)
+    )
+    route = route_waypoints(route_profile)
+    layout = warehouse_layout(map_profile)
+    if follower_count not in {1, 2, 3}:
+        raise ValueError("follower_count must be 1, 2, or 3")
     if not RUN_ID.fullmatch(run_id):
         raise ValueError("run_id must match run_NN")
     if render_engine not in {"ogre", "ogre2"}:
@@ -70,8 +94,10 @@ def _configure(context: LaunchContext):
     perception_share = Path(get_package_share_directory("ee616_perception"))
     control_share = Path(get_package_share_directory("ee616_control"))
     generated_dir = _generated_dir()
-    world_path = render_warehouse_nav_world(follower_count, generated_dir)
-    map_path = render_warehouse_nav_map(generated_dir)
+    world_path = render_warehouse_nav_world(
+        follower_count, generated_dir, map_profile
+    )
+    map_path = render_warehouse_nav_map(generated_dir, map_profile)
     nav_params = control_share / "config" / "warehouse_nav2.yaml"
     model_path = simulation_share / "vendor" / "aws_small_warehouse" / "models"
     existing_path = os.environ.get("GZ_SIM_RESOURCE_PATH", "")
@@ -135,7 +161,7 @@ def _configure(context: LaunchContext):
             executable="controller_server",
             name="controller_server",
             parameters=[str(nav_params)],
-            remappings=[("cmd_vel", "/leader/cmd_vel")],
+            remappings=[("cmd_vel", "/leader/nav_cmd_vel")],
             output="screen",
         ),
         Node(
@@ -147,11 +173,25 @@ def _configure(context: LaunchContext):
         ),
         Node(
             package="ee616_control",
+            executable="convoy_governor",
+            parameters=[{
+                "follower_count": follower_count,
+                "fault_mode": fault_mode,
+                "use_sim_time": True,
+            }],
+            output="screen",
+        ),
+        Node(
+            package="ee616_control",
             executable="warehouse_nav_mission",
             parameters=[{
                 "follower_count": follower_count,
                 "startup_s": startup_s,
                 "waypoint_dwell_s": 4.0,
+                "route_profile": route_profile,
+                "map_profile": map_profile,
+                "leader_command_topic": "/leader/mission_cmd_vel",
+                "max_nav_retries": 1,
                 "use_sim_time": True,
             }],
             output="screen",
@@ -206,7 +246,7 @@ def _configure(context: LaunchContext):
                     str(perception_share / "config" / "yolov8n_target_v3.yaml"),
                     {
                         "image_topic": f"/{namespace}/camera/image",
-                        "horizontal_fov_rad": 1.2217304764,
+                        "horizontal_fov_rad": NAV_CAMERA_HORIZONTAL_FOV_RAD,
                         "target_height_m": 0.90,
                         "device": detector_device,
                         "use_sim_time": True,
@@ -224,6 +264,9 @@ def _configure(context: LaunchContext):
                         "innovation_gate_sq": 25.0,
                         "max_measurement_range_m": 2.5,
                         "bearing_slowdown_rad": 0.52,
+                        "track_timeout_s": 0.25,
+                        "predict_timeout_s": mapped_predict_timeout_s,
+                        "predict_speed_scale": 0.35,
                         "use_sim_time": True,
                     },
                 ],
@@ -239,14 +282,23 @@ def _configure(context: LaunchContext):
             "follower_count": follower_count,
             "run_id": run_id,
             "output_dir": output_dir,
-            "duration_s": 260.0,
-            "world_name": f"{WORLD_NAME_PREFIX}_{follower_count}",
+            "duration_s": duration_s,
+            "world_name": warehouse_world_name(
+                follower_count, map_profile
+            ),
             "loading_x_m": -10.0,
             "loading_y_m": -6.0,
             "dropoff_x_m": -10.0,
             "dropoff_y_m": -1.0,
             "require_nav2": True,
-            "expected_nav_waypoints": 4,
+            "expected_nav_waypoints": len(route),
+            "map_profile": map_profile,
+            "shelf_x_m": list(layout.shelf_x),
+            "shelf_y_m": list(layout.shelf_y),
+            "require_fault_event": require_fault_event,
+            "minimum_track_fraction": minimum_track_fraction,
+            "max_f1_rmse_m": max_f1_rmse_m,
+            "max_later_rmse_m": max_later_rmse_m,
             "use_sim_time": True,
         }],
         output="screen",
@@ -269,6 +321,19 @@ def generate_launch_description() -> LaunchDescription:
         DeclareLaunchArgument("render_engine", default_value="ogre2"),
         DeclareLaunchArgument("detector_device", default_value="0"),
         DeclareLaunchArgument("startup_s", default_value="10.0"),
+        DeclareLaunchArgument("duration_s", default_value="260.0"),
+        DeclareLaunchArgument("route_profile", default_value="standard"),
+        DeclareLaunchArgument("map_profile", default_value="standard"),
+        DeclareLaunchArgument("fault_mode", default_value="none"),
+        DeclareLaunchArgument("require_fault_event", default_value="false"),
+        DeclareLaunchArgument(
+            "minimum_track_fraction", default_value="0.90"
+        ),
+        DeclareLaunchArgument("max_f1_rmse_m", default_value="0.20"),
+        DeclareLaunchArgument("max_later_rmse_m", default_value="0.25"),
+        DeclareLaunchArgument(
+            "mapped_predict_timeout_s", default_value="1.50"
+        ),
         DeclareLaunchArgument(
             "output_dir",
             default_value="/workspace/work/ros2_ws/results/warehouse_nav_mission",

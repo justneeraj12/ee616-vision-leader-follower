@@ -137,6 +137,19 @@
       }
     },
     {
+      "label": "EE616: Start experiment console",
+      "type": "shell",
+      "command": "bash /workspace/infrastructure/dev/run_experiment_console.sh",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "group": "simulation",
+        "showReuseMessage": false
+      }
+    },
+    {
       "label": "EE616: Open demo inspection shell",
       "type": "shell",
       "command": "bash /workspace/infrastructure/dev/monitor_gazebo_demo.sh",

@@ -399,8 +399,65 @@ switching defect that led to largest-box association, range-envelope gating,
 EKF innovation gating, and large-bearing slowdown. Cargo motion remains a
 scripted visual cue and does not claim robotic manipulation or throughput.
 
+## A029 Configurable experiment console and route stress profiles
+
+Status: Approved and implemented; repeated follow-up completed under A030
+
+Approved scope: Add bounded follower and route selection, live telemetry,
+useful operator controls, route options with different turn counts,
+segment-level error analysis, reproducible exports, and documentation before
+starting the RAPS poster. Preserve the existing mapped mission and frozen Gate
+1--7 evidence.
+
+Approval: On November 7, 2026, after receiving the objective, affected
+components, acceptance criteria, tests, risks, rollback, schedule effect, and
+next gates, the project owner said, "first lets implement these and then move to
+making the RAPs poster." The implementation was explicitly limited in the
+working update to the first gate; autonomous leader promotion and the
+independent-Nav2 cost baseline remain separate architecture stages.
+
+Delivered evidence: A new `ee616_dashboard` package provides a localhost-only
+browser interface, validated launch profiles, start/stop control, estimator and
+supervisor telemetry, YOLO latency and confidence, resource telemetry, a route
+schematic, a live estimated-error plot, and JSON snapshot export. The mapped
+mission now supports one, two, or three followers and wide, standard, and
+turn-dense routes. Initial full runs passed for a wide-route pair and a
+two-follower standard route. The turn-dense pair failed after repeated turns
+and is retained as a clearly labeled stress result. Evaluator summaries now
+include route-leg RMSE, peak error, state fractions, and rearward amplification.
+
+## A030 Convoy governance, failure containment, and repeated post-freeze matrix
+
+Status: Approved and completed; accepted outcomes and limitations recorded
+
+Approved scope: Add a low-bandwidth convoy-aware leader command governor,
+bounded leader command-dropout injection, selectable warehouse layouts,
+multi-face visual targets, a wider mapped-mission camera, one bounded Nav2
+retry, component resource attribution, repeated pair-first evidence, dashboard
+telemetry, governing documentation, and a scoped GitHub update. Preserve the
+frozen Gate 1--7 evidence and all unrelated report and meeting files.
+
+Approval: After asking to finish the project improvements before the RAPS
+poster stage, the project owner replied, "approved and make sure its good and
+update github properly" on November 7, 2026.
+
+Delivered evidence: Three nominal sparse/wide pair runs passed with 0.0860 m
+mean spacing RMSE, at least 95.8% `TRACK`, zero collision samples, and a 0.9841
+minimum real-time factor. Three bounded command-dropout pair runs passed with
+0.0959 m mean RMSE; all 180 injected-fault samples had zero leader output and
+collision samples were zero. Three three-follower runs reached a governor
+`HOLD` after visual loss with zero collision samples, but none completed the
+route. That result is accepted containment evidence and explicitly not a
+passing mission. Development runs that motivated and rejected alternative
+policies are retained. Gazebo truth remained evaluation-only. Process CPU and
+resident memory were attributed by functional group, but no
+all-independent-Nav2 cost or compute baseline was claimed. The final regression
+built six ROS packages and passed 138 tests; seven toy tests, static checks,
+Compose validation, and evidence checksums also passed.
+
 ## Next approval required
 
-The planned simulation and demonstration stages are complete. Physical-robot
-work, new experiment matrices, report authoring, or later commits and pushes
-require separate explicit approval.
+An autonomous recovery state, redundant leader architecture, an
+all-independent-Nav2 cost/compute baseline, report authoring, and publication
+changes require separate explicit approval. The scoped implementation commit
+and push were authorized under A030.
