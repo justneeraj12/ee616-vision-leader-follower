@@ -360,3 +360,40 @@ Boundary: A stopped follower whose predecessor is already outside the forward
 camera view may require operator intervention. The governor is not autonomous
 leader promotion, redundant leader hardware, person-safety control, or proof of
 mission completion after every visual loss.
+
+## D035 Add bounded local visual search after a confirmed stop
+
+Date: November 9, 2026
+
+Decision: In the approved post-freeze mapped mission only, allow a follower to
+enter `SEARCH` after `PREDICT` expires, `SAFE_STOP` has commanded zero motion,
+and local wheel odometry confirms the robot has stopped. Search commands zero
+linear speed and at most 0.20 rad/s yaw inside a plus-or-minus 60-degree
+envelope. Three range-consistent detections within 1.25 m of the predicted
+range are required to reinitialize the EKF. `REACQUIRE` then holds zero command
+for 0.50 seconds before `TRACK`. An 18-second search timeout latches
+`SAFE_STOP`. The convoy governor holds the leader throughout `SAFE_STOP`,
+`SEARCH`, and `REACQUIRE`.
+
+Reason: The retained governance matrix showed that a zero-motion follower could
+not recover when its predecessor had moved just outside the forward camera
+field of view. A bounded local scan preserves camera-only predecessor sensing
+and does not add a route planner, map, LiDAR, or Gazebo truth to a follower.
+
+Development findings: A 12-second timeout ended before a wrong-side scan could
+reverse; a 2.5 m reacquisition envelope admitted a different visual panel and
+raised chain RMSE; and a startup state race left a follower internally in
+`SAFE_STOP`. These attempts remain failed evidence. The accepted revision uses
+the longer timeout, a 1.25 m range gate, and an explicit first-measurement
+transition to `TRACK`, with regression tests for each failure.
+
+Acceptance: The ten-run matrix completed every route with zero sampled
+collisions. The forced blackout exercised `SEARCH` and `REACQUIRE`; three pair
+runs strictly passed; and all 180 leader-dropout samples commanded zero leader
+output. Five chain runs retained one or more failures of the unchanged 90%
+`TRACK`-fraction check. The aggregate is therefore
+`pass_with_metric_limits`, not an unconditional pass.
+
+Boundary: This is deterministic simulation recovery, not global relocalization,
+person-safety behavior, industrial certification, or proof that arbitrary
+occlusions will recover. Gazebo pose truth remains evaluation-only.

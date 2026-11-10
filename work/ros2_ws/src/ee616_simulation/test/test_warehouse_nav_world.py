@@ -7,11 +7,13 @@ from ee616_simulation.warehouse_nav_world import (
     MAP_WIDTH,
     NAV_CAMERA_HORIZONTAL_FOV_RAD,
     WAREHOUSE_LAYOUTS,
+    _with_industrial_visuals,
     build_warehouse_nav_world,
     render_warehouse_nav_map,
     warehouse_layout,
     warehouse_world_name,
 )
+from ee616_simulation.warehouse_mission_world import _cargo_robot
 
 
 @pytest.mark.parametrize("follower_count", [1, 2, 3])
@@ -29,6 +31,17 @@ def test_world_has_logical_stations_rows_and_lidar(follower_count):
         f"<horizontal_fov>{NAV_CAMERA_HORIZONTAL_FOV_RAD}</horizontal_fov>"
     ) == follower_count
     assert world.count("wraparound_predecessor_target_") == 3 * (follower_count + 1)
+    assert world.count("industrial_lower_skirt") == follower_count + 1
+    assert world.count("industrial_status_left") == follower_count + 1
+
+
+def test_industrial_shell_is_visual_only():
+    baseline = _cargo_robot("follower_1", -12.0, y=-6.0, camera=True)
+    styled = _with_industrial_visuals(baseline, "follower_1")
+    assert styled.count("<collision") == baseline.count("<collision")
+    assert styled.count("<sensor") == baseline.count("<sensor")
+    assert styled.count("<inertial") == baseline.count("<inertial")
+    assert "industrial_lower_skirt" in styled
 
 
 def test_world_rejects_unapproved_chain_size():

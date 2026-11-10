@@ -47,18 +47,21 @@ an argument list rather than a shell command.
 ## Live values
 
 The top cards show the mission state, Nav2 planner and controller, convoy
-governor mode, container memory, system load, GPU utilization, GPU memory, and
-process-attributed leader/follower CPU and RAM when those values are available.
+governor mode, current and peak container memory, system load, GPU device,
+utilization and memory, and current and peak process-attributed CPU and RAM.
+The GPU card reads `nvidia-smi` from the display-enabled project container and displays a
+diagnostic instead of a blank value when the device query is unavailable.
 
 The governor is an explicit command proxy between Nav2 and the leader. It uses
 follower supervisor state, estimator bearing, measurement age, and message
 freshness. It does not subscribe to Gazebo poses. It reduces leader speed for a
-turn or `PREDICT`, commands zero for `SAFE_STOP` or stale health, and requires a
-stable `TRACK` interval before resuming.
+turn or `PREDICT`, commands zero leader motion for `SAFE_STOP`, `SEARCH`,
+`REACQUIRE`, or stale health, and requires a stable `TRACK` interval before
+resuming.
 
 Each follower row shows:
 
-- `TRACK`, `PREDICT`, or `SAFE_STOP`;
+- `TRACK`, `PREDICT`, `SAFE_STOP`, `SEARCH`, or `REACQUIRE`;
 - EKF estimated range and bearing;
 - estimated spacing error relative to the requested 1.5 m separation;
 - estimated RMSE accumulated during the current console run;
@@ -81,12 +84,26 @@ work/ros2_ws/results/dashboard_runs/<timestamp>_<map>_<route>_<scenario>_<count>
 These console runs are ignored by Git and do not change the frozen Gate 1--7
 evidence.
 
+After a run, the console separates the live record from the evaluator verdict:
+
+- `PASS`: the route completed and all declared evaluator checks passed;
+- `LIMITED`: the route completed, but one or more unchanged metric checks did
+  not pass;
+- `CONTAINED`: the route did not complete, but the governor held the convoy and
+  sampled collisions remained zero; and
+- `FAILED`: the run did not meet those conditions.
+
+Process memory is the sum of resident memory reported by matching processes.
+It is useful for attribution, but shared pages mean those group values must not
+be added to the cgroup container-memory value as if they were independent.
+
 ## Route profiles and validation history
 
 | Profile | Configuration | Result |
 |---|---|---|
-| Wide | One follower, three repetitions | All passed: 0.0860 m mean spacing RMSE, at least 95.8% TRACK, zero collision samples |
-| Wide | Three followers, three repetitions | All produced a contained governor HOLD with zero collision samples; none completed the route |
+| Wide | One follower, three accepted recovery repetitions | All strictly passed: 0.0910 m mean spacing RMSE, at least 95.24% TRACK, zero collision samples |
+| Wide | Three followers, three nominal repetitions | All routes completed with zero collision samples; one strict pass, two limited only by the 90% TRACK-fraction check |
+| Wide + leader dropout | Three followers, three repetitions | All routes completed; 180 of 180 fault samples had zero leader output; all three limited only by one or more TRACK-fraction checks |
 | Standard | Two followers, one initial run | Passed before the governor revision: 0.1405 m and 0.1276 m RMSE, zero collision samples |
 | Standard | One revised governed pair | Failed diagnostic: visual continuity was lost on the final leg and the route did not complete |
 | Turn-dense stress | One follower | Failed after repeated turns; the failure is retained as diagnostic evidence |
@@ -100,12 +117,12 @@ Nav2's collision-ahead check. No evaluator robot or mapped-obstacle collision
 sample occurred.
 
 This negative result established that independent safe stopping was not
-sufficient for mission continuity. The post-freeze governance gate adds a
-low-bandwidth convoy governor, four visual target panels, and a 120-degree
-mapped mission camera. Repeated pair missions passed. In repeated
-three-follower runs, the governor contained visual loss by holding the leader,
-but the chain could not reacquire and finish the route. Both the containment
-and the incomplete mission are reported.
+sufficient for mission continuity. The governance gate added a low-bandwidth
+convoy governor, four visual target panels, and a 120-degree mapped-mission
+camera. Its original incomplete chain runs remain retained development
+evidence. The later bounded-search revision completed all six accepted
+three-follower routes, but five runs remained below the unchanged 90% `TRACK`
+fraction. Both the recovery and the remaining metric limit are reported.
 
 ## Post-run segment metrics
 
@@ -116,7 +133,9 @@ segment reports:
 - peak absolute spacing error;
 - TRACK fraction;
 - PREDICT fraction;
-- SAFE STOP fraction.
+- SAFE STOP fraction;
+- SEARCH fraction; and
+- REACQUIRE fraction.
 
 The summary also reports each follower's total RMSE relative to Follower 1.
 This makes rearward amplification measurable without claiming general string
@@ -127,8 +146,9 @@ stability.
 - The console uses a schematic route drawing, not Gazebo truth robot positions.
 - Live RMSE is estimated RMSE. Quote the post-run evaluator result in technical
   material.
-- The wide pair has repeated evidence. Other console combinations do not become
-  validated merely because they are selectable.
+- The wide pair and the accepted nominal/dropout three-follower matrices have
+  repeated evidence. Other console combinations do not become validated merely
+  because they are selectable.
 - The original turn-dense configuration failed. Do not imply that a later
   revision changes that historical result.
 - A leader command-dropout experiment demonstrates bounded containment and

@@ -9,7 +9,7 @@ SCENARIO ?= straight_aisle
 	chain-gate disturbance-gate pair-gate timing-gate gazebo-demo \
 	gazebo-demo-record gazebo-demo-shell warehouse-mission-gate \
 	warehouse-nav-mission-gate experiment-console \
-	convoy-governance-gate \
+	convoy-governance-gate search-recovery-gate \
 	yolo-dataset-v2 yolo-dataset-v3 yolo-diagnose-v2 yolo-gate yolo-gate-v2 \
 	yolo-gate-v3 yolo-model-acquire yolo-train yolo-train-v2 yolo-train-v3
 
@@ -96,6 +96,10 @@ experiment-console: prepare-display
 convoy-governance-gate:
 	LOCAL_UID=$$(id -u) LOCAL_GID=$$(id -g) $(COMPOSE) --profile gpu run --rm gpu \
 		bash /workspace/work/ros2_ws/scripts/run_convoy_governance_gate.sh
+
+search-recovery-gate:
+	LOCAL_UID=$$(id -u) LOCAL_GID=$$(id -g) $(COMPOSE) --profile gpu run --rm gpu \
+		bash /workspace/work/ros2_ws/scripts/run_search_recovery_gate.sh
 
 yolo-model-acquire:
 	LOCAL_UID=$$(id -u) LOCAL_GID=$$(id -g) $(COMPOSE) run --rm dev \

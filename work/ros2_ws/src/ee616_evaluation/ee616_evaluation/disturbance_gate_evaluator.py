@@ -129,6 +129,7 @@ class DisturbanceGateEvaluator(Node):
         self.declare_parameter("desired_range_m", 1.5)
         self.declare_parameter("max_linear_mps", 0.6)
         self.declare_parameter("max_angular_rps", 0.8)
+        self.declare_parameter("search_enabled", False)
         self.scenario = str(self.get_parameter("scenario").value)
         self.follower_count = int(self.get_parameter("follower_count").value)
         self.target_follower = int(self.get_parameter("target_follower").value)
@@ -143,6 +144,8 @@ class DisturbanceGateEvaluator(Node):
         self.desired_range_m = float(self.get_parameter("desired_range_m").value)
         self.max_linear_mps = float(self.get_parameter("max_linear_mps").value)
         self.max_angular_rps = float(self.get_parameter("max_angular_rps").value)
+        self.search_enabled = bool(self.get_parameter("search_enabled").value)
+        self.reacquisition_limit_s = 1.20 if self.search_enabled else 0.70
         self.started = time.monotonic()
         indexes = range(1, self.follower_count + 1)
         self.rows: list[dict] = []
@@ -319,6 +322,18 @@ class DisturbanceGateEvaluator(Node):
                 "track_fraction": track_fraction,
                 "predict_samples": sum(row["control_state"] == "PREDICT" for row in evaluated),
                 "safe_stop_samples": sum(row["control_state"] == "SAFE_STOP" for row in evaluated),
+                "search_samples": sum(row["control_state"] == "SEARCH" for row in evaluated),
+                "reacquire_samples": sum(row["control_state"] == "REACQUIRE" for row in evaluated),
+                "search_linear_zero": all(
+                    abs(row["linear_cmd_mps"]) <= 1.0e-6
+                    for row in evaluated
+                    if row["control_state"] == "SEARCH"
+                ),
+                "search_yaw_bounded": all(
+                    abs(row["angular_cmd_rps"]) <= 0.20 + 1.0e-6
+                    for row in evaluated
+                    if row["control_state"] == "SEARCH"
+                ),
                 "control_period_p95_ms": percentile(self.control_periods_ms[index], 0.95),
                 "inference_latency_p95_ms": percentile(
                     [row["inference_ms"] for row in evaluated if row["inference_ms"] is not None], 0.95
@@ -335,7 +350,7 @@ class DisturbanceGateEvaluator(Node):
                 "short_occlusion_observed": short["observed"],
                 "short_predict_observed": short["predict_observed"],
                 "short_no_safe_stop": not short["safe_stop_observed"],
-                "short_track_reacquisition": short["track_reacquisition_s"] is not None and short["track_reacquisition_s"] <= 0.70,
+                "short_track_reacquisition": short["track_reacquisition_s"] is not None and short["track_reacquisition_s"] <= self.reacquisition_limit_s,
             })
         if self.scenario in {"long_occlusion", "combined"}:
             scenario_checks.update({
@@ -344,7 +359,7 @@ class DisturbanceGateEvaluator(Node):
                 "long_safe_stop_observed": long["safe_stop_observed"],
                 "long_safe_stop_latency": long["safe_stop_latency_s"] is not None and long["safe_stop_latency_s"] <= 1.10,
                 "long_zero_command": long["zero_command_during_safe_stop"],
-                "long_track_reacquisition": long["track_reacquisition_s"] is not None and long["track_reacquisition_s"] <= 0.70,
+                "long_track_reacquisition": long["track_reacquisition_s"] is not None and long["track_reacquisition_s"] <= self.reacquisition_limit_s,
             })
         if self.scenario in {"actuator_bias", "combined"}:
             scenario_checks.update({
@@ -373,6 +388,10 @@ class DisturbanceGateEvaluator(Node):
                 str(index): _stop_metrics(rows) for index, rows in follower_rows.items()
             },
             "scenario_checks": scenario_checks,
+            "search_recovery": {
+                "enabled": self.search_enabled,
+                "track_reacquisition_limit_s": self.reacquisition_limit_s,
+            },
             "route_complete": route_complete,
             "failure": self.failure or None,
             "status": "pass" if not self.failure and route_complete and all(general_checks) and all(scenario_checks.values()) else "fail",

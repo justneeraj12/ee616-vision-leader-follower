@@ -32,7 +32,12 @@ def test_route_segment_metrics_separate_followers_and_supervisor_states():
             "spacing_error_m": error,
             "control_state": state,
         }
-        for error, state in [(0.1, "TRACK"), (-0.1, "PREDICT")]
+        for error, state in [
+            (0.1, "TRACK"),
+            (-0.1, "PREDICT"),
+            (0.2, "SEARCH"),
+            (0.0, "REACQUIRE"),
+        ]
     ] + [
         {
             "follower_index": 2,
@@ -42,7 +47,11 @@ def test_route_segment_metrics_separate_followers_and_supervisor_states():
         }
     ]
     metrics = route_segment_metrics(rows, 2)
-    assert metrics["1"]["NAV_AISLE_1"]["spacing_rmse_m"] == 0.1
-    assert metrics["1"]["NAV_AISLE_1"]["track_fraction"] == 0.5
-    assert metrics["1"]["NAV_AISLE_1"]["predict_fraction"] == 0.5
+    assert abs(
+        metrics["1"]["NAV_AISLE_1"]["spacing_rmse_m"] - 0.1224744871
+    ) < 1.0e-9
+    assert metrics["1"]["NAV_AISLE_1"]["track_fraction"] == 0.25
+    assert metrics["1"]["NAV_AISLE_1"]["predict_fraction"] == 0.25
+    assert metrics["1"]["NAV_AISLE_1"]["search_fraction"] == 0.25
+    assert metrics["1"]["NAV_AISLE_1"]["reacquire_fraction"] == 0.25
     assert metrics["2"]["NAV_AISLE_1"]["safe_stop_fraction"] == 1.0

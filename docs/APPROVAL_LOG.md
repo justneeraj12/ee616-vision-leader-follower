@@ -455,9 +455,44 @@ all-independent-Nav2 cost or compute baseline was claimed. The final regression
 built six ROS packages and passed 138 tests; seven toy tests, static checks,
 Compose validation, and evidence checksums also passed.
 
+## A031 Bounded visual search, final verification, and repository handoff
+
+Status: Approved and completed; metric limits retained
+
+Approved scope: Add a stopped-follower visual search and confirmed
+reacquisition sequence; hold the leader during follower recovery; improve the
+robot presentation shell and experiment-console design; repair GPU telemetry;
+run a pair-first repeated recovery and leader-dropout matrix; retain failed
+development evidence; refresh the mapped GUI video and screenshots; update all
+project documentation; prepare a factual RAPS poster draft in the existing
+poster chat; and commit and push the scoped project changes. Preserve the
+owner's IEEE report, meeting files, and unrelated local results.
+
+Approval: The project owner first approved the recovery implementation after
+requesting that a robot stop and search when it loses its predecessor. He then
+said, "yeah, lets build all these finalize" and asked that the repository be
+updated professionally. On November 9, 2026, he explicitly asked for thorough
+system testing and said to "just do everything." This authorized the scoped
+implementation, verification, documentation, poster handoff, commit, and push;
+it did not authorize report authorship or unsupported claims.
+
+Delivered evidence: The accepted matrix completed all ten routes with zero
+sampled collisions. The forced blackout exercised zero-forward bounded
+`SEARCH` and confirmed `REACQUIRE`. All three pair runs strictly passed. All
+six three-follower routes completed, but five chain runs missed one or more
+unchanged 90% `TRACK`-fraction checks; the aggregate is
+`pass_with_metric_limits`. All 180 observed leader-dropout samples commanded
+zero leader output. Three failed development matrices explain the final
+timeout, range-consistency gate, and startup-state correction. Six ROS packages
+passed 151 tests, seven toy tests passed, syntax and Compose checks passed,
+evidence hashes verified, the GPU telemetry endpoint reported the RTX 3050 Ti,
+and the refreshed 1080p GUI mission completed its route with zero sampled
+collisions. GUI timing remains presentation-only.
+
 ## Next approval required
 
-An autonomous recovery state, redundant leader architecture, an
-all-independent-Nav2 cost/compute baseline, report authoring, and publication
-changes require separate explicit approval. The scoped implementation commit
-and push were authorized under A030.
+Redundant leader architecture, autonomous leader promotion, an
+all-independent-Nav2 cost/compute baseline, report authoring, and any new
+publication change require separate explicit approval. The bounded recovery
+revision, scoped repository commit and push, and poster-draft handoff were
+authorized under A031.

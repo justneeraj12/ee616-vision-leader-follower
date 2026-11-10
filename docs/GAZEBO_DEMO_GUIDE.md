@@ -13,7 +13,7 @@ results.
 | `chain_straight` | One leader and three independently driven followers in predecessor-following order | Passed: 0.058, 0.051, and 0.050 m spacing RMSE; 95%, 99%, and 97% `TRACK`; zero collision samples |
 | `recovery` | One validated pair during a 1.3-second synthetic RGB blackout | Passed: `PREDICT` and `SAFE STOP` observed; zero command in `SAFE STOP`; 0.40 s reacquisition; zero collision samples |
 | `warehouse_mission` | Sequential loading, gradual-turn convoy transport, and sequential unloading | Passed: F1--F3 transport RMSE 0.075, 0.068, and 0.050 m; correct load/unload order; zero collision samples |
-| `warehouse_nav_mission` | Mapped receiving-to-dispatch mission through multiple aisles and turns | Pair-first repeatability gate passed; three-run mean RMSE was 0.131, 0.139, and 0.133 m; zero robot or mapped-obstacle collision samples |
+| `warehouse_nav_mission` | Mapped receiving-to-dispatch mission through multiple aisles and turns | Refreshed GUI route completed; RMSE was 0.129, 0.124, and 0.110 m; zero robot or mapped-obstacle collision samples; 0.890 GUI real-time factor is not timing evidence |
 
 The chain view shows Follower 1's RGB image and the supervisor state of all
 three followers. This reduces presentation-only observer load. Each follower's
@@ -41,9 +41,10 @@ use the separate post-freeze experiment console:
 
 The console is documented in [EXPERIMENT_CONSOLE.md](EXPERIMENT_CONSOLE.md).
 Its default sparse/wide pair profile has three passing governed repetitions.
-The governed three-follower profile produced a contained stop without route
-completion in three repetitions. The standard governed pair and turn-dense
-route are diagnostic failures, not passing demos.
+The accepted sparse/wide three-follower matrices completed all six nominal and
+dropout routes, but five runs were limited by the unchanged 90% `TRACK`-
+fraction check. The standard governed pair and turn-dense route remain retained
+diagnostic failures, not passing demos.
 
 The executable wrappers resolve the project root automatically, so they also
 work when called by absolute path from another directory. The equivalent manual
@@ -110,6 +111,12 @@ robot stack. Its header shows the current supervisor state and experiment event.
   for a bounded interval.
 - `SAFE_STOP`: the estimate is stale, so the follower commands zero linear and
   angular velocity.
+- `SEARCH` (mapped post-freeze mission only): after odometry confirms a stop,
+  the follower commands zero linear speed and a bounded scan of at most 0.20
+  rad/s within plus or minus 60 degrees.
+- `REACQUIRE` (mapped post-freeze mission only): three consistent detections
+  have reinitialized the EKF, but motion remains zero during a 0.50-second
+  confirmation hold.
 - A black dashboard image during `LONG_OCCLUSION` is an intentional synthetic
   full-frame blackout, not a rendering failure.
 
@@ -191,6 +198,13 @@ Run the mapped repeatability matrix with `make warehouse-nav-mission-gate`.
 It first runs one leader and one follower, then permits three repetitions with
 all three followers. The final summary is
 `work/ros2_ws/results/warehouse_nav_evidence/summary.json`.
+
+Run the accepted post-freeze recovery matrix with
+`make search-recovery-gate`. It forces one controlled pair blackout, repeats
+three nominal pair missions, then runs three nominal and three leader-dropout
+three-follower missions. The aggregate summary is
+`work/ros2_ws/results/search_recovery_evidence/aggregate_summary.json`. The
+runner refuses to overwrite existing evidence.
 
 ## Why Hybrid-A* instead of RRT-Connect
 

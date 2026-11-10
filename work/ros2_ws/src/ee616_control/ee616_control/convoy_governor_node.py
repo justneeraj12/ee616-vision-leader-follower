@@ -12,6 +12,7 @@ from ee616_control.convoy_governor import (
 )
 from geometry_msgs.msg import Twist, Vector3Stamped
 import rclpy
+from rclpy._rclpy_pybind11 import RCLError
 from rclpy.node import Node
 from std_msgs.msg import String
 
@@ -245,7 +246,12 @@ class ConvoyGovernorNode(Node):
 
     def destroy_node(self):
         if rclpy.ok():
-            self.publisher.publish(Twist())
+            try:
+                self.publisher.publish(Twist())
+            except (RCLError, RuntimeError):
+                # SIGINT may invalidate the RCL context between the ok() check
+                # and this best-effort final zero command.
+                pass
         return super().destroy_node()
 
 

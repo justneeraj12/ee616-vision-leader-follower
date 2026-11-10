@@ -13,8 +13,10 @@ ROUTE_PROFILES = {
         "waypoint_count": 3,
         "duration_s": 320.0,
         "evidence_status": (
-            "Three repeated governed pair runs passed. Three chain runs "
-            "stopped safely but did not complete after visual loss."
+            "In the accepted SEARCH-recovery matrix, all three pair runs "
+            "passed strictly and all three nominal chain routes completed. "
+            "Two chain runs were limited only by the unchanged 90% TRACK-"
+            "fraction check."
         ),
     },
     "standard": {
@@ -52,7 +54,10 @@ MAP_PROFILES = {
         "label": "Six-shelf flexible warehouse",
         "description": "A removable center bay creates wider internal openings.",
         "shelf_count": 6,
-        "evidence_status": "Repeated pair mission and chain containment evidence.",
+        "evidence_status": (
+            "Ten accepted recovery-matrix routes completed with zero sampled "
+            "collisions; five chain runs retained declared TRACK-fraction limits."
+        ),
     },
 }
 

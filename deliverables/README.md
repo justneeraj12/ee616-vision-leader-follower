@@ -47,9 +47,10 @@ they do not replace the repeated experiment matrices.
 - Warehouse mission recording: F1--F3 transport RMSE of 0.075, 0.068, and
   0.050 m; correct load and unload order; 0.972 real-time factor; and zero
   evaluator collision samples.
-- Mapped Hybrid-A* recording: F1--F3 transport RMSE of 0.151, 0.122, and
-  0.123 m; 92.3%, 93.1%, and 91.3% `TRACK`; all mission checks passed; and
-  zero robot or mapped-obstacle collision samples.
+- Refreshed mapped Hybrid-A* recording: F1--F3 transport RMSE of 0.129, 0.124,
+  and 0.110 m; 91.9%, 98.3%, and 94.2% `TRACK`; route completion; and zero
+  robot or mapped-obstacle collision samples. The GUI run's 0.890 real-time
+  factor missed the headless timing limit, so the video is not timing evidence.
 
 The warehouse cargo boxes move through scripted presentation joints. The
 mission evaluates convoy transport and stopping order, not grasping or robotic

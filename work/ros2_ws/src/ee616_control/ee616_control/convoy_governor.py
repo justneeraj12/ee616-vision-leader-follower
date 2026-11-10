@@ -55,7 +55,9 @@ def decide_governor(
             return GovernorDecision(
                 "HOLD", f"follower_{index} supervisor telemetry stale", 0.0, True
             )
-        if follower.state in {"SAFE_STOP", "OFFLINE", "UNSEEN"}:
+        if follower.state in {
+            "SAFE_STOP", "SEARCH", "REACQUIRE", "OFFLINE", "UNSEEN"
+        }:
             return GovernorDecision(
                 "HOLD", f"follower_{index} reported {follower.state}", 0.0, True
             )

@@ -37,6 +37,17 @@ def test_safe_stop_stale_health_and_fault_hold_leader():
     assert fault.hold and fault.mode == "FAULT_HOLD"
 
 
+def test_search_and_reacquire_hold_leader():
+    searching = decide_governor(
+        [health(state="SEARCH")], mission_state="NAV_AISLE"
+    )
+    reacquiring = decide_governor(
+        [health(state="REACQUIRE")], mission_state="NAV_AISLE"
+    )
+    assert searching.hold and searching.mode == "HOLD"
+    assert reacquiring.hold and reacquiring.mode == "HOLD"
+
+
 def test_all_tracking_is_normal_and_never_uses_truth():
     decision = decide_governor(
         [health(), health(), health()], mission_state="NAV_AISLE"

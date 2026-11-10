@@ -27,8 +27,9 @@ Each follower is independently driven. Its formation layer uses:
 - predecessor detection;
 - relative range and bearing measurement;
 - a Kalman filter or EKF;
-- bounded linear and angular control; and
-- explicit `TRACK`, `PREDICT`, and `SAFE STOP` states.
+- bounded linear and angular control;
+- explicit `TRACK`, `PREDICT`, and `SAFE STOP` states; and
+- optional post-freeze `SEARCH` and `REACQUIRE` states for mapped missions.
 
 Follower 1 tracks the leader. Follower 2 tracks Follower 1. Each later follower tracks its immediate predecessor. Every robot that has a follower behind it exposes the same rear visual target.
 
@@ -37,12 +38,21 @@ faces and uses a 120-degree forward RGB camera. The known target height remains
 0.90 m, so the same pinhole height relationship applies with the configured
 camera focal length.
 
-The convoy governor uses only follower `TRACK`, `PREDICT`, and `SAFE_STOP`
-states, estimator bearing and age, telemetry freshness, and the leader's Nav2
-command. It reduces leader speed during turns or bounded `PREDICT`, and it
-holds the leader for `SAFE_STOP`, stale follower health, or a stale leader
-navigation command. Stable `TRACK` is required before resuming. This is
-supervisory coordination, not follower localization or route data.
+The mapped-mission recovery sequence is bounded. After `PREDICT` expires, the
+follower first commands `SAFE_STOP`. Once local odometry confirms that the
+robot has stopped, `SEARCH` permits zero linear speed and at most 0.20 rad/s
+yaw within a plus-or-minus 60-degree envelope. Three detections consistent with
+each other and within 1.25 m of the predicted range are required before the EKF
+is reinitialized. `REACQUIRE` holds zero command for
+0.50 seconds before `TRACK` may resume. Search has an 18-second hard timeout;
+failure to reacquire latches `SAFE_STOP`.
+
+The convoy governor uses only follower state, estimator bearing and age,
+telemetry freshness, and the leader's Nav2 command. It reduces leader speed
+during turns or bounded `PREDICT`, and it holds the leader for `SAFE_STOP`,
+`SEARCH`, `REACQUIRE`, stale follower health, or a stale navigation command.
+Stable `TRACK` is required before resuming. This is supervisory coordination,
+not follower localization or route data.
 
 Safety-rated obstacle and person protection is separate from formation coordination. A future safety sensor must not be described as evidence that the formation controller is safe or certified.
 

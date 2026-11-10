@@ -93,6 +93,12 @@ def route_segment_metrics(rows: list[dict], follower_count: int) -> dict:
                 "safe_stop_fraction": sum(
                     row["control_state"] == "SAFE_STOP" for row in segment_rows
                 ) / sample_count,
+                "search_fraction": sum(
+                    row["control_state"] == "SEARCH" for row in segment_rows
+                ) / sample_count,
+                "reacquire_fraction": sum(
+                    row["control_state"] == "REACQUIRE" for row in segment_rows
+                ) / sample_count,
             }
         metrics[str(index)] = follower_metrics
     return metrics
@@ -431,6 +437,22 @@ class WarehouseMissionEvaluator(Node):
                 sum(row["control_state"] == "TRACK" for row in evaluated)
                 / len(evaluated) if evaluated else 0.0
             )
+            search_samples = sum(
+                row["control_state"] == "SEARCH" for row in evaluated
+            )
+            reacquire_samples = sum(
+                row["control_state"] == "REACQUIRE" for row in evaluated
+            )
+            search_linear_zero = all(
+                abs(row["linear_cmd_mps"]) <= 1.0e-9
+                for row in evaluated
+                if row["control_state"] == "SEARCH"
+            )
+            search_yaw_bounded = all(
+                abs(row["angular_cmd_rps"]) <= 0.200001
+                for row in evaluated
+                if row["control_state"] == "SEARCH"
+            )
             bounded = all(
                 0.0 <= row["linear_cmd_mps"] <= 0.600001
                 and abs(row["angular_cmd_rps"]) <= 0.800001
@@ -453,6 +475,8 @@ class WarehouseMissionEvaluator(Node):
                 "control_period_p95": period_p95 is not None and period_p95 <= 66.7,
                 "track_fraction": track_fraction >= self.minimum_track_fraction,
                 "inference_latency_p95": latency_p95 is not None and latency_p95 <= 66.7,
+                "search_linear_zero": search_linear_zero,
+                "search_yaw_bounded": search_yaw_bounded,
             }
             all_checks.extend(checks.values())
             followers[str(index)] = {
@@ -463,6 +487,10 @@ class WarehouseMissionEvaluator(Node):
                 ),
                 "collision_samples": sum(row["collision_sample"] for row in evaluated),
                 "track_fraction": track_fraction,
+                "search_samples": search_samples,
+                "reacquire_samples": reacquire_samples,
+                "search_linear_zero": search_linear_zero,
+                "search_yaw_bounded": search_yaw_bounded,
                 "control_period_p95_ms": period_p95,
                 "inference_latency_p95_ms": latency_p95,
                 "bounded_commands": bounded,

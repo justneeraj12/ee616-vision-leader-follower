@@ -32,10 +32,20 @@ class FollowerControllerNode(Node):
             "innovation_gate_sq": 100.0,
             "max_measurement_range_m": 30.0,
             "bearing_slowdown_rad": 0.0,
+            "search_settle_s": 0.25,
+            "search_angular_rps": 0.20,
+            "search_sweep_rad": 1.0471975512,
+            "search_timeout_s": 18.0,
+            "search_stop_linear_mps": 0.03,
+            "search_stop_angular_rps": 0.05,
+            "reacquire_hold_s": 0.50,
+            "reacquire_range_tolerance_m": 0.75,
             "control_rate_hz": 20.0,
         }
         for name, value in defaults.items():
             self.declare_parameter(name, value)
+        self.declare_parameter("search_enabled", False)
+        self.declare_parameter("reacquire_confirmations", 3)
         self.declare_parameter("measurement_topic", "measurement/relative")
         self.declare_parameter("odometry_topic", "odom")
         self.declare_parameter("command_topic", "cmd_vel")
@@ -43,6 +53,12 @@ class FollowerControllerNode(Node):
         self.declare_parameter("estimate_topic", "control/estimate")
         values = {name: float(self.get_parameter(name).value) for name in defaults}
         control_rate_hz = values.pop("control_rate_hz")
+        values["search_enabled"] = bool(
+            self.get_parameter("search_enabled").value
+        )
+        values["reacquire_confirmations"] = int(
+            self.get_parameter("reacquire_confirmations").value
+        )
         self.supervisor = FollowerSupervisor(**values)
         self.forward_speed = 0.0
         self.yaw_rate = 0.0

@@ -31,6 +31,70 @@ from std_msgs.msg import Float32, Float32MultiArray, String
 MAX_REQUEST_BYTES = 16_384
 
 
+def failure_explanation(failure: str | None) -> str | None:
+    """Translate known planner codes without hiding the recorded failure."""
+    if not failure:
+        return None
+    if "105" in failure or "failed to make progress" in failure.lower():
+        return (
+            "Nav2 error 105 means FAILED_TO_MAKE_PROGRESS. The leader was "
+            "held or could not advance long enough for the progress checker "
+            "to abort path tracking. Inspect follower SEARCH/SAFE_STOP state "
+            "and the route-segment metrics."
+        )
+    return "The mission reported a failure; inspect launch.log and the saved summary."
+
+
+def summarize_result(summary: dict | None) -> dict | None:
+    """Return the compact post-run record shown by the console."""
+    if not isinstance(summary, dict):
+        return None
+    status = str(summary.get("status", "unknown")).lower()
+    collision_values = list(
+        (summary.get("warehouse_obstacle_collision_samples") or {}).values()
+    )
+    follower_collisions = [
+        values.get("collision_samples", 0)
+        for values in (summary.get("followers") or {}).values()
+        if isinstance(values, dict)
+    ]
+    collision_samples = collision_values + follower_collisions
+    zero_collisions = bool(collision_samples) and all(
+        value == 0 for value in collision_samples
+    )
+    final_governor = (summary.get("governor") or {}).get("final_state") or {}
+    route_complete = bool(
+        (summary.get("mission_checks") or {}).get("route_complete")
+    )
+    if status == "pass" and route_complete:
+        outcome = "PASS"
+    elif route_complete:
+        outcome = "LIMITED"
+    elif status == "fail" and zero_collisions and final_governor.get("mode") == "HOLD":
+        outcome = "CONTAINED"
+    elif status == "fail":
+        outcome = "FAILED"
+    else:
+        outcome = status.upper()
+    failure = summary.get("failure") or (
+        summary.get("planner_state") or {}
+    ).get("failure")
+    return {
+        "outcome": outcome,
+        "status": status,
+        "route_complete": route_complete,
+        "failure": failure,
+        "failure_explanation": failure_explanation(failure),
+        "real_time_factor": summary.get("real_time_factor"),
+        "mission_checks": summary.get("mission_checks") or {},
+        "followers": summary.get("followers") or {},
+        "warehouse_obstacle_collision_samples": (
+            summary.get("warehouse_obstacle_collision_samples") or {}
+        ),
+        "governor_final_state": final_governor,
+    }
+
+
 class MissionProcess:
     """Own at most one validated ROS launch subprocess."""
 
@@ -120,6 +184,22 @@ class MissionProcess:
         with self._lock:
             self._refresh_locked()
             return self._status_locked()
+
+    def result_summary(self) -> dict | None:
+        """Read the latest evaluator summary for the current run, if present."""
+        with self._lock:
+            self._refresh_locked()
+            output_dir = self._output_dir
+        if output_dir is None or not output_dir.is_dir():
+            return None
+        candidates = sorted(output_dir.glob("*_summary.json"))
+        if not candidates:
+            return None
+        try:
+            value = json.loads(candidates[-1].read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return None
+        return value if isinstance(value, dict) else None
 
 
 class TelemetryStore:
@@ -248,6 +328,7 @@ class TelemetryStore:
                 "followers": followers,
                 "resources": dict(self.resources),
                 "process": process_status,
+                "post_run": summarize_result(self.process.result_summary()),
                 "metric_boundary": (
                     "Live spacing error and RMSE use the EKF estimate. Gazebo "
                     "ground truth remains evaluation-only and is written to the "
@@ -266,6 +347,8 @@ class ExperimentConsoleNode(Node):
     def __init__(self, process: MissionProcess) -> None:
         super().__init__("experiment_console")
         self.store = TelemetryStore(process)
+        self._resource_run_key: str | None = None
+        self._resource_peaks: dict = {}
         self.create_subscription(
             String, "/warehouse_mission/state", self._mission, 10
         )
@@ -358,7 +441,7 @@ class ExperimentConsoleNode(Node):
             result = subprocess.run(
                 [
                     "nvidia-smi",
-                    "--query-gpu=utilization.gpu,memory.used,memory.total",
+                    "--query-gpu=name,utilization.gpu,memory.used,memory.total",
                     "--format=csv,noheader,nounits",
                 ],
                 capture_output=True,
@@ -366,15 +449,56 @@ class ExperimentConsoleNode(Node):
                 text=True,
                 timeout=1.0,
             )
-            values = [value.strip() for value in result.stdout.splitlines()[0].split(",")]
+            values = [
+                value.strip()
+                for value in result.stdout.splitlines()[0].split(",")
+            ]
             resources.update({
-                "gpu_utilization_percent": float(values[0]),
-                "gpu_memory_used_mib": float(values[1]),
-                "gpu_memory_total_mib": float(values[2]),
+                "gpu_name": values[0],
+                "gpu_utilization_percent": float(values[1]),
+                "gpu_memory_used_mib": float(values[2]),
+                "gpu_memory_total_mib": float(values[3]),
+                "gpu_status": "available",
+                "gpu_provider": "nvidia-smi",
             })
-        except (FileNotFoundError, IndexError, subprocess.SubprocessError, ValueError):
-            resources["gpu_status"] = "unavailable"
+        except FileNotFoundError:
+            resources.update({
+                "gpu_status": "unavailable",
+                "gpu_diagnostic": "nvidia-smi is not mounted in the console container",
+            })
+        except (IndexError, subprocess.SubprocessError, ValueError) as error:
+            resources.update({
+                "gpu_status": "unavailable",
+                "gpu_diagnostic": f"nvidia-smi query failed: {type(error).__name__}",
+            })
         resources["components"] = self._component_resources()
+        process_status = self.store.process.status()
+        run_key = process_status.get("started_at")
+        if run_key != self._resource_run_key:
+            self._resource_run_key = run_key
+            self._resource_peaks = {}
+        resources["mission_processes_active"] = bool(process_status["running"])
+        if run_key is not None:
+            for name in (
+                "container_memory_mib",
+                "gpu_memory_used_mib",
+                "gpu_utilization_percent",
+            ):
+                value = resources.get(name)
+                if isinstance(value, (int, float)):
+                    self._resource_peaks[name] = max(
+                        float(value), float(self._resource_peaks.get(name, value))
+                    )
+            component_peaks = self._resource_peaks.setdefault("components", {})
+            for name, values in resources["components"].items():
+                peak = component_peaks.setdefault(name, {
+                    "cpu_percent": 0.0,
+                    "memory_mib": 0.0,
+                    "process_count": 0,
+                })
+                for metric in ("cpu_percent", "memory_mib", "process_count"):
+                    peak[metric] = max(peak[metric], values[metric])
+        resources["peaks"] = json.loads(json.dumps(self._resource_peaks))
         with self.store._lock:
             self.store.resources = resources
 

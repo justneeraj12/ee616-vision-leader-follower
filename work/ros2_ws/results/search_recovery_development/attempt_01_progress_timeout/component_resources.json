@@ -1,0 +1,23 @@
+{
+  "follower_perception_control": {
+    "median_cpu_percent": 41.0,
+    "median_memory_mib": 1540.08203125,
+    "peak_cpu_percent": 509.4,
+    "peak_memory_mib": 4574.46484375,
+    "sample_count": 1873
+  },
+  "leader_navigation": {
+    "median_cpu_percent": 158.1,
+    "median_memory_mib": 1206.78125,
+    "peak_cpu_percent": 675.6,
+    "peak_memory_mib": 1345.40234375,
+    "sample_count": 1873
+  },
+  "simulation_evaluation": {
+    "median_cpu_percent": 9.0,
+    "median_memory_mib": 60.24609375,
+    "peak_cpu_percent": 108.6,
+    "peak_memory_mib": 120.27734375,
+    "sample_count": 1873
+  }
+}

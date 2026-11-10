@@ -11,7 +11,14 @@ A reproducible research project for camera-only predecessor following in a flexi
 
 The leader owns the route. Each independently driven follower observes the robot immediately ahead through a forward RGB camera, combines the relative visual measurement with local wheel odometry, and uses bounded control to maintain a commanded gap. The planned implementation targets ROS 2 Jazzy and Gazebo Harmonic on constrained laptop hardware.
 
-> **Current status:** the frozen seven-gate simulation package is complete. Post-freeze work adds a configurable experiment console, two warehouse layouts, a convoy-aware leader command governor, repeated nominal and command-dropout pair results, and repeated three-follower visual-loss containment evidence. The governed pair missions passed; the governed three-follower chain stopped without sampled collisions but did not finish the route after visual loss.
+> **Current status:** the frozen seven-gate simulation package is complete. The
+> approved post-freeze recovery revision adds a configurable experiment console,
+> two warehouse layouts, a convoy-aware leader command governor, bounded
+> `SEARCH` and confirmed `REACQUIRE`, and a ten-run recovery matrix. All ten
+> routes completed with zero sampled collisions. All three pair repetitions
+> passed every strict check. Five chain runs retained declared `TRACK`-fraction
+> limits, so the aggregate result is `pass_with_metric_limits`, not an
+> unconditional pass.
 >
 > The first two YOLOv8n checkpoints remain recorded failures. After correcting an RGB/BGR runtime mismatch and stale-frame labels, v3 passed on two new sealed scenes, six nominal closed-loop pair runs, 12 staged nominal chain runs, and 18 pair-first controlled-disturbance runs. Physical robots and production safety have not been demonstrated.
 
@@ -82,7 +89,8 @@ The project combines:
 - monocular camera geometry and target detection;
 - relative-state estimation through short measurement gaps;
 - bounded range-and-bearing control;
-- explicit `TRACK`, `PREDICT`, and `SAFE STOP` behavior;
+- explicit `TRACK`, `PREDICT`, `SAFE STOP`, bounded `SEARCH`, and confirmed
+  `REACQUIRE` behavior;
 - isolated ROS 2 namespaces for repeated follower instances;
 - synchronized experiment logging and evaluation-only ground truth;
 - incremental multi-follower validation;
@@ -93,8 +101,8 @@ The project combines:
 ### Current ROS 2 and Gazebo results
 
 These are the primary project results. RMSE and MAE are errors, so lower values
-are better. The values below come from the frozen repeated experiments, not from
-a selected live demonstration.
+are better. The values below come from frozen or separately approved repeated
+experiment packages, not from a selected live demonstration.
 
 | Experiment | Main result | What it shows |
 |---|---|---|
@@ -106,11 +114,13 @@ a selected live demonstration.
 | Mapped Nav2 warehouse mission | Three-run mean transport RMSE: F1 0.1313 m, F2 0.1392 m, F3 0.1331 m; zero robot or mapped-obstacle collision samples | The leader used AMCL, a static map, LiDAR, Hybrid-A*, and Regulated Pure Pursuit through three aisle turns. Each follower remained camera-and-odometry only. |
 | Governed nominal pair | Three sparse/wide runs passed; 0.0860 m mean spacing RMSE; at least 95.8% TRACK; zero collision samples | Follower health can reduce or hold leader motion without Gazebo truth entering control. |
 | Leader command dropout | Three sparse/wide pair runs passed; all 180 injected-fault samples had zero leader output; 0.0959 m mean spacing RMSE; zero collision samples | A bounded three-second upstream command interruption was contained and the pair resumed. This is not redundant leader hardware or autonomous leader replacement. |
-| Governed chain containment | Three three-follower runs reached governor HOLD with zero collision samples; 0 of 3 completed the route | The governor prevents the leader from continuing after follower visual loss, but a stopped follower cannot always reacquire a predecessor outside its forward camera view. |
+| Bounded visual search | Forced pair blackout entered `SEARCH` and `REACQUIRE`; zero forward search command; yaw bounded to 0.20 rad/s; route completed | A stopped follower can perform a bounded local scan and require three consistent detections before resuming. This is not safety-rated behavior. |
+| Post-freeze recovery matrix | 10 of 10 routes completed; zero sampled collisions; 3 of 3 pair runs strictly passed; 4 of 9 mapped runs strictly passed | All mapped spacing checks passed. Five chain runs were limited only by the unchanged 90% `TRACK`-fraction check, with a minimum of 83.15% during leader dropout. |
+| Three-follower leader command dropout | All three routes completed; all 180 injected-fault samples had zero leader output; zero sampled collisions | The governor contained the declared three-second upstream command interruption. It is not redundant leader hardware or autonomous leader replacement. |
 | Controlled disturbances | Pair worst RMSE: 0.1247 m; combined-chain worst RMSE: F1 0.1007 m, F2 0.1242 m, F3 0.1403 m | All 18 pair-first runs passed. The combined disturbance showed error growth toward the rear. |
 | Target-laptop timing | 23.09 ms camera-to-measurement p95; 48.35 ms measurement-to-control p95; minimum real-time factor 0.9996 | Three combined-chain runs met the frozen timing limits on the target laptop. |
 | Resource use | 3,584 MiB peak container RAM; 642 MiB peak visible VRAM | The accepted timing experiment stayed within the laptop's 16 GB RAM and 4 GB VRAM limits. |
-| ROS verification | 6 packages built; 138 tests passed | The repository tests cover simulation, perception, estimation, control, evaluation, and the configurable console. |
+| ROS verification | 6 packages built; 151 tests passed | The repository tests cover simulation, perception, estimation, control, evaluation, and the configurable console. |
 
 The evaluator recorded zero collision samples in these defined Gazebo gates.
 This is simulation evidence and is not proof of physical-robot or person safety.
@@ -167,7 +177,7 @@ flowchart LR
         detect --> measure["Relative range and bearing"]
         odom["Local wheel odometry"] --> estimate["State estimator"]
         measure --> estimate
-        estimate --> supervisor["TRACK · PREDICT · SAFE STOP"]
+        estimate --> supervisor["TRACK · PREDICT · SAFE STOP · SEARCH · REACQUIRE"]
         supervisor --> control["Bounded formation controller"]
         control --> cmd["Velocity command"]
     end
@@ -199,8 +209,13 @@ Here `f` is focal length in pixels, `H` is known target height, `h` is detected 
 | `TRACK` | A recent valid measurement is available | Update the estimate and apply bounded control |
 | `PREDICT` | Detection is temporarily unavailable | Predict for no longer than the configured timeout |
 | `SAFE STOP` | The estimate is unavailable or stale | Command zero linear and angular velocity |
+| `SEARCH` | The mapped-mission follower has stopped after visual loss | Command zero linear speed and scan at most 0.20 rad/s inside a plus-or-minus 60-degree envelope |
+| `REACQUIRE` | Three consistent detections have reinitialized the EKF | Hold zero command for 0.50 seconds before returning to `TRACK` |
 
-These states define deterministic research behavior. They do not establish certified braking distance or person safety.
+`SEARCH` and `REACQUIRE` are enabled only in the approved post-freeze mapped
+mission. Search has an 18-second hard timeout and latches `SAFE STOP` if the
+predecessor is not recovered. These states define deterministic research
+behavior. They do not establish certified braking distance or person safety.
 
 ## Preliminary warehouse demonstration
 
@@ -265,14 +280,13 @@ For configurable post-freeze experiments, start the local browser console:
 ./launchers/experiment_console.sh
 ```
 
-It selects one, two, or three followers and a wide, standard, or turn-dense
 route. It displays live estimator, supervisor, detector, command, and resource
-telemetry. The default sparse/wide pair profile passed three governed
-repetitions. The revised three-follower route produced a contained stop, not a
-completed mission, in all three repetitions. The standard governed pair and
-turn-dense route are retained diagnostic failures. See the
-[experiment console guide](docs/EXPERIMENT_CONSOLE.md); do not describe a
-contained or diagnostic run as a passing mission.
+telemetry, including NVIDIA device diagnostics and current/peak values. In the
+accepted recovery matrix, the sparse/wide pair passed three strict repetitions
+and all six three-follower routes completed. Five chain runs missed only the
+unchanged 90% `TRACK`-fraction check. The turn-dense route remains a retained
+stress failure. See the [experiment console guide](docs/EXPERIMENT_CONSOLE.md);
+do not describe a metric-limited or diagnostic run as an unconditional pass.
 
 Reproduce the post-freeze pair, chain-containment, command-dropout, and
 component-resource matrix with:
@@ -284,6 +298,19 @@ make convoy-governance-gate
 The command refuses to overwrite an existing evidence directory. Results are
 under `work/ros2_ws/results/convoy_governance_evidence/`; failed development
 attempts remain under `work/ros2_ws/results/convoy_governance_development/`.
+
+Reproduce the approved bounded-search extension with:
+
+```bash
+make search-recovery-gate
+```
+
+Its accepted ten-run evidence, aggregate verdict, process-attributed resource
+record, and integrity hashes are under
+[`work/ros2_ws/results/search_recovery_evidence`](work/ros2_ws/results/search_recovery_evidence).
+The runner refuses to overwrite that directory. Three failed development
+attempts are retained separately under
+`work/ros2_ws/results/search_recovery_development/`.
 
 Run the executable wrappers from any working directory:
 

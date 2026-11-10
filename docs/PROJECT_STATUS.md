@@ -1,6 +1,6 @@
 # Project Status
 
-Last updated: November 7, 2026
+Last updated: November 9, 2026
 
 ## Current state
 
@@ -56,7 +56,17 @@ uses follower supervisor and estimate health, never Gazebo pose truth. Three
 nominal sparse/wide pair runs and three bounded command-dropout pair runs
 passed. Three sparse/wide three-follower runs reached a contained leader hold
 with zero sampled collisions, but none completed the route after visual loss.
-The incomplete chain missions are a verified limitation, not passing results.
+Those incomplete chain missions remain retained development evidence.
+
+The approved recovery revision adds a bounded zero-forward `SEARCH`, confirmed
+`REACQUIRE`, an 18-second hard timeout, and a leader hold during recovery. The
+accepted matrix completed all ten routes: one forced pair blackout, three
+nominal pair runs, three nominal three-follower runs, and three three-follower
+leader-command-dropout runs. Collision samples were zero and all 180 dropout
+samples commanded zero leader output. All three pair runs strictly passed. Five
+chain runs missed only the unchanged 90% `TRACK`-fraction check, so the
+aggregate status is `pass_with_metric_limits`. Three failed development
+matrices are retained and are not accepted results.
 
 ## Verified evidence
 
@@ -68,7 +78,7 @@ The incomplete chain missions are a verified limitation, not passing results.
 - A two-dimensional warehouse demonstration video is available in `deliverables/`.
 - The GitHub repository is public at `https://github.com/justneeraj12/ee616-vision-leader-follower` under AGPL-3.0-only for original project work.
 - The repository includes a production-style README, reproducible quickstart, contribution guidance, citation metadata, and GitHub Actions testing for Python 3.11 and 3.12.
-- Five ROS 2 packages build with `colcon`, and 61 package tests pass.
+- Six ROS 2 packages build with `colcon`, and 151 package tests pass.
 - The `/leader` and `/follower_1` namespace probes each received five local heartbeat samples.
 - Gazebo produced 15 timestamped 640×480 RGB images through the ROS bridge.
 - The NVIDIA container profile sees the RTX 3050 Ti, driver 595.91.07, and 4096 MiB VRAM.
@@ -159,10 +169,11 @@ The incomplete chain missions are a verified limitation, not passing results.
 - The final mapped-mission regression built all five ROS packages and passed
   85 tests with zero failures. All seven toy-simulation tests, Compose
   validation, static syntax checks, result hashes, and media hashes passed.
-- The recorded mapped GUI run also passed: F1--F3 transport RMSE was 0.1514 m,
-  0.1219 m, and 0.1232 m; TRACK fraction was 92.3%, 93.1%, and 91.3%; all
-  mission checks passed; and robot and mapped-obstacle collision samples were
-  zero.
+- The refreshed mapped GUI run completed the route with F1--F3 transport RMSE
+  of 0.1291 m, 0.1238 m, and 0.1097 m; TRACK fraction of 91.9%, 98.3%, and
+  94.2%; and zero robot or mapped-obstacle collision samples. Its 0.890
+  real-time factor missed the headless timing limit because the 1080p recorder
+  and GUI were active, so it is presentation media rather than timing evidence.
 - The configurable console HTTP interface, bounded profile validation, static
   assets, and telemetry endpoint passed local smoke tests. Invalid follower
   counts were rejected before starting ROS.
@@ -194,6 +205,25 @@ The incomplete chain missions are a verified limitation, not passing results.
   138 tests with zero errors, failures, or skipped tests. All seven toy tests,
   static Python and shell checks, Compose validation, and evidence checksums
   also passed.
+- The accepted bounded-search matrix completed 10 of 10 routes with zero
+  sampled collisions. The controlled blackout entered `SEARCH` and
+  `REACQUIRE`, commanded zero forward speed during search, and respected the
+  0.20 rad/s yaw bound.
+- All three nominal pair runs passed every unchanged evaluator check. Their
+  mean spacing RMSE was 0.0910 m and minimum `TRACK` fraction was 95.24%.
+- All six accepted three-follower routes completed. The nominal-chain maximum
+  RMSE was 0.1317 m and the dropout-chain maximum was 0.1189 m. Two nominal and
+  all three dropout runs missed one or more unchanged 90% `TRACK`-fraction
+  checks; the minimum dropout value was 83.15%.
+- During the three dropout-chain runs, all 180 observed fault samples had zero
+  leader output. Gazebo truth remained confined to `ee616_evaluation`.
+- The full recovery regression built all six ROS packages and passed 151 tests
+  with zero errors, failures, or skipped tests. Seven toy tests, Python and
+  shell syntax, both Compose configurations, and both recovery evidence hash
+  manifests also passed.
+- Live console GPU telemetry identifies the NVIDIA GeForce RTX 3050 Ti, reports
+  current utilization and memory, and records run peaks. The complete recovery
+  matrix attributed CPU and resident memory by functional process group.
 
 ## Evidence limitations
 
@@ -217,9 +247,10 @@ The incomplete chain missions are a verified limitation, not passing results.
   post-run evaluator CSV and JSON contain evaluation-only Gazebo truth metrics.
 - The wide pair now has repeated evidence. The two-follower standard result is
   still one initial run and must not be used as an aggregate claim.
-- The convoy governor contains chain visual loss by holding the leader, but the
-  current forward-camera and zero-motion `SAFE_STOP` design may not reacquire a
-  predecessor that is already outside the camera view.
+- The bounded search recovered the tested routes, but it remains limited to a
+  plus-or-minus 60-degree scan, a controlled visual target, and an 18-second
+  timeout. A failed search latches `SAFE_STOP`; it does not provide global
+  relocalization or prove recovery for arbitrary target loss.
 - The command-dropout scenario is a bounded software fault injection. It does
   not demonstrate redundant leader hardware, autonomous leader promotion, or
   recovery from a complete leader computer or sensor failure.
@@ -252,8 +283,9 @@ The incomplete chain missions are a verified limitation, not passing results.
 - Configurable browser experiment console, one-command launcher, route-profile
   manifest, segment-level evaluator metrics, and usage guide
 - Convoy governor, selectable standard and sparse layouts, repeated nominal and
-  command-dropout pair evidence, repeated chain-containment evidence, retained
-  failed development attempts, and component resource attribution
+  command-dropout evidence, bounded search and confirmed reacquisition,
+  accepted ten-run recovery evidence, retained failed development attempts,
+  and component resource attribution
 
 ## Repository state
 
@@ -261,16 +293,16 @@ The project is maintained in the public GitHub repository `justneeraj12/ee616-vi
 
 ## Gate sequence status
 
-All seven planned simulation gates remain frozen. The configurable console and
-convoy-governance gate are separate approved post-freeze stages and do not alter
-those results.
+All seven planned simulation gates remain frozen. The configurable console,
+convoy-governance gate, and bounded-search recovery gate are separately
+approved post-freeze stages and do not alter those results.
 
 ## Current blockers
 
 - No blocker remains inside the frozen seven-gate simulation scope.
-- Governed chain mission continuity after complete forward-camera target loss
-  remains unresolved. A new recovery state, wider sensing architecture, or
-  operator procedure would require a separate architecture decision.
+- Bounded visual search now completes the tested pair and chain routes, but five
+  chain runs remain below the unchanged 90% `TRACK`-fraction requirement. That
+  performance limit should be presented rather than hidden or threshold-tuned.
 - The all-independent-Nav2 cost and compute baseline remains unverified.
 - Physical-robot validation is unverified and was not part of these gates.
 - Any later scope change must create new evidence rather than overwrite the frozen simulation results.

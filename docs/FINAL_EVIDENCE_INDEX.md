@@ -73,7 +73,7 @@ Gate 1--7 evidence.
 | Straight three-follower chain | 0.058, 0.051, and 0.050 m spacing RMSE; 95%, 99%, and 97% `TRACK`; zero collision samples | `deliverables/Neeraj_Kanchani_EE616_Gazebo_Three_Follower_Chain_Demo.mp4` |
 | One-pair recovery | 1.3 s synthetic blackout; `PREDICT`, `SAFE_STOP`, zero command, and later `TRACK` observed | `deliverables/Neeraj_Kanchani_EE616_Gazebo_Recovery_Demo.mp4` |
 | Scripted-route warehouse mission | Sequential visual loading, transport, and unloading; repeated pair-first matrix passed | `deliverables/Neeraj_Kanchani_EE616_Warehouse_Mission_Demo.mp4` |
-| Mapped Hybrid-A* warehouse mission | Pair-first matrix plus three full runs passed; zero robot and mapped-obstacle collision samples | `deliverables/Neeraj_Kanchani_EE616_Hybrid_AStar_Warehouse_Demo.mp4` |
+| Mapped Hybrid-A* warehouse mission | Refreshed GUI route completed with zero robot and mapped-obstacle collision samples; GUI real-time factor was 0.890, so it is not timing evidence | `deliverables/Neeraj_Kanchani_EE616_Hybrid_AStar_Warehouse_Demo.mp4` |
 
 See `docs/GAZEBO_DEMO_GUIDE.md` for the exact commands and interpretation
 limits. The recovery recording intentionally uses the validated pair rather than
@@ -99,6 +99,34 @@ scripted visual events, not robotic manipulation or measured throughput. The
 failed target-switching development attempt is retained under
 `work/ros2_ws/results/warehouse_nav_development_failures/`.
 
+## Post-freeze bounded-search recovery evidence
+
+The approved recovery extension does not modify the September 30 Gate 7
+archive. Its accepted machine-readable evidence is under
+`work/ros2_ws/results/search_recovery_evidence/`.
+
+- One controlled pair blackout and nine repeated mapped missions completed all
+  10 routes with zero sampled collisions.
+- The controlled run entered `SEARCH` and `REACQUIRE`; search commanded zero
+  forward speed and stayed within the 0.20 rad/s yaw limit.
+- All three nominal pair runs passed every unchanged evaluator check. Mean
+  spacing RMSE was 0.0910 m and minimum `TRACK` fraction was 95.24%.
+- All three nominal three-follower routes completed. Maximum spacing RMSE was
+  0.1317 m. Two runs missed only an unchanged 90% `TRACK`-fraction check.
+- All three three-follower leader-dropout routes completed. Maximum spacing
+  RMSE was 0.1189 m. All 180 fault samples commanded zero leader output, but
+  all three runs missed one or more unchanged `TRACK`-fraction checks; the
+  minimum was 83.15%.
+- The aggregate status is `pass_with_metric_limits`: 4 of 9 mapped runs passed
+  every strict check, while all routes, spacing limits, command bounds,
+  collision checks, and declared fault-containment checks passed.
+
+The recovery state is a plus-or-minus 60-degree local scan with an 18-second
+timeout. It is not global relocalization or safety-rated behavior. Three failed
+development matrices are retained under
+`work/ros2_ws/results/search_recovery_development/`; they are not accepted
+results. `SHA256SUMS` files cover both accepted and development records.
+
 ## Reproduction commands
 
 From the project root:
@@ -110,9 +138,13 @@ make chain-gate
 make disturbance-gate
 make timing-gate
 make warehouse-nav-mission-gate
+make search-recovery-gate
 ```
 
-These commands overwrite their corresponding result directories. Preserve the frozen package before intentionally collecting a new experimental revision.
+Frozen gate commands require deliberate evidence handling. The post-freeze
+search-recovery runner refuses to overwrite its existing evidence directory.
+Preserve every accepted package before intentionally collecting a new
+experimental revision.
 
 ## Integrity verification
 

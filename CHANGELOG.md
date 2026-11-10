@@ -16,6 +16,14 @@ This file records reviewable project milestones. Detailed evidence and current l
 
 ### Added
 
+- Bounded zero-forward follower `SEARCH`, confirmed `REACQUIRE`, hard timeout,
+  target-consistency gate, and convoy hold during recovery
+- Ten-run post-freeze recovery matrix with accepted and failed-development
+  evidence, component resources, and SHA-256 manifests
+- Redesigned experiment console with explicit run outcomes, GPU diagnostics,
+  and current/peak resource telemetry
+- Industrial visual robot shell and refreshed 1080p mapped-mission recording
+  and screenshots
 - Local browser experiment console with bounded follower, route, layout, and
   command-dropout selections plus estimator, governor, and resource telemetry
 - Convoy-aware leader command governor using follower health without Gazebo
@@ -43,12 +51,22 @@ This file records reviewable project milestones. Detailed evidence and current l
 
 ### Verified
 
+- Ten of ten recovery-matrix routes completed with zero sampled collisions;
+  all three pair repetitions strictly passed
+- The controlled blackout exercised bounded zero-forward `SEARCH` and
+  confirmed `REACQUIRE`
+- All 180 observed three-follower leader-dropout samples commanded zero leader
+  output; five chain runs retained unchanged `TRACK`-fraction metric limits
+- Six ROS packages build and 151 tests pass; seven toy tests, static checks,
+  Compose validation, and accepted/development evidence hashes pass
+- Live console telemetry identifies the RTX 3050 Ti and reports GPU utilization,
+  memory, diagnostics, and run peaks
 - Three governed sparse/wide nominal pair runs passed with 0.0860 m mean
   spacing RMSE and zero collision samples
 - Three bounded command-dropout pair runs passed; all 180 fault samples had
   zero leader output and collision samples were zero
-- Three governed three-follower runs reached a contained hold with zero
-  collision samples but did not complete the route after visual loss
+- The original three governed chain-containment failures remain retained as
+  development evidence rather than being overwritten
 - One mapped pair run and three full mapped warehouse runs passed with zero
   robot or mapped-obstacle collision samples
 - Mapped full-chain mean spacing RMSE was 0.1313 m, 0.1392 m, and 0.1331 m;

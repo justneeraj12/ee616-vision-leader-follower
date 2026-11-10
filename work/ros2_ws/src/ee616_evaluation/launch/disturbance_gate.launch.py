@@ -38,7 +38,7 @@ def _generated_dir() -> Path:
 def _as_bool(value: str) -> bool:
     normalized = value.strip().lower()
     if normalized not in {"true", "false"}:
-        raise ValueError("gui must be true or false")
+        raise ValueError("boolean launch values must be true or false")
     return normalized == "true"
 
 
@@ -52,6 +52,9 @@ def _configure(context: LaunchContext):
     detector_device = LaunchConfiguration("detector_device").perform(context)
     startup_extension_s = float(
         LaunchConfiguration("startup_extension_s").perform(context)
+    )
+    search_enabled = _as_bool(
+        LaunchConfiguration("search_enabled").perform(context)
     )
     if not 0.0 <= startup_extension_s <= 30.0:
         raise ValueError("startup_extension_s must be between 0 and 30")
@@ -140,7 +143,12 @@ def _configure(context: LaunchContext):
                 package="ee616_control", executable="follower_controller", namespace=namespace,
                 parameters=[
                     str(control_share / "config" / "pair_control.yaml"),
-                    {"command_topic": "controller_cmd_vel", "use_sim_time": True},
+                    {
+                        "command_topic": "controller_cmd_vel",
+                        "search_enabled": search_enabled,
+                        "search_timeout_s": 18.0,
+                        "use_sim_time": True,
+                    },
                 ], output="screen",
             ),
         ])
@@ -154,6 +162,7 @@ def _configure(context: LaunchContext):
             "output_dir": output_dir,
             "duration_s": duration_s,
             "warmup_s": 4.0 + startup_extension_s,
+            "search_enabled": search_enabled,
             "use_sim_time": True,
         }], output="screen",
     )
@@ -176,6 +185,7 @@ def generate_launch_description() -> LaunchDescription:
         DeclareLaunchArgument("render_engine", default_value="ogre2"),
         DeclareLaunchArgument("detector_device", default_value="0"),
         DeclareLaunchArgument("startup_extension_s", default_value="4.0"),
+        DeclareLaunchArgument("search_enabled", default_value="false"),
         DeclareLaunchArgument("output_dir", default_value="/workspace/work/ros2_ws/results/disturbance_gate"),
         OpaqueFunction(function=_configure),
     ])

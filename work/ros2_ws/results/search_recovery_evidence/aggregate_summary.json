@@ -1,0 +1,135 @@
+{
+  "experiment": "bounded_search_recovery_gate",
+  "status": "pass_with_metric_limits",
+  "controlled_run_count": 1,
+  "run_count": 9,
+  "route_completed_run_count": 9,
+  "strict_evaluator_pass_count": 4,
+  "search_sample_count": 198,
+  "reacquire_sample_count": 131,
+  "groups": {
+    "sparse_wide_nominal_1f": {
+      "run_count": 3,
+      "evaluator_statuses": [
+        "pass",
+        "pass",
+        "pass"
+      ],
+      "strict_evaluator_pass_count": 3,
+      "failed_checks_by_run": [
+        [],
+        [],
+        []
+      ],
+      "minimum_real_time_factor": 0.9884485114533329,
+      "mean_spacing_rmse_m": {
+        "1": 0.09101154817873697
+      },
+      "maximum_spacing_rmse_m": {
+        "1": 0.09531499307661238
+      },
+      "minimum_track_fraction": {
+        "1": 0.9524390243902439
+      },
+      "search_sample_count": 5,
+      "reacquire_sample_count": 7,
+      "warehouse_obstacle_collision_sample_total": 0,
+      "fault_samples": 0,
+      "fault_zero_command_samples": 0
+    },
+    "sparse_wide_nominal_3f": {
+      "run_count": 3,
+      "evaluator_statuses": [
+        "pass",
+        "fail",
+        "fail"
+      ],
+      "strict_evaluator_pass_count": 1,
+      "failed_checks_by_run": [
+        [],
+        [
+          "follower_3.track_fraction"
+        ],
+        [
+          "follower_2.track_fraction"
+        ]
+      ],
+      "minimum_real_time_factor": 0.9858618501343139,
+      "mean_spacing_rmse_m": {
+        "1": 0.09704497226412774,
+        "2": 0.11655960724314361,
+        "3": 0.10811350657712578
+      },
+      "maximum_spacing_rmse_m": {
+        "1": 0.10097654257402613,
+        "2": 0.13169917474339649,
+        "3": 0.12701716751277217
+      },
+      "minimum_track_fraction": {
+        "1": 0.9511599511599511,
+        "2": 0.8901098901098901,
+        "3": 0.8923654568210263
+      },
+      "search_sample_count": 49,
+      "reacquire_sample_count": 52,
+      "warehouse_obstacle_collision_sample_total": 0,
+      "fault_samples": 0,
+      "fault_zero_command_samples": 0
+    },
+    "sparse_wide_leader_dropout_3f": {
+      "run_count": 3,
+      "evaluator_statuses": [
+        "fail",
+        "fail",
+        "fail"
+      ],
+      "strict_evaluator_pass_count": 0,
+      "failed_checks_by_run": [
+        [
+          "follower_3.track_fraction"
+        ],
+        [
+          "follower_2.track_fraction"
+        ],
+        [
+          "follower_2.track_fraction",
+          "follower_3.track_fraction"
+        ]
+      ],
+      "minimum_real_time_factor": 0.9843975021584588,
+      "mean_spacing_rmse_m": {
+        "1": 0.09827264687561908,
+        "2": 0.09536668414495982,
+        "3": 0.10911060376382149
+      },
+      "maximum_spacing_rmse_m": {
+        "1": 0.11072876586219796,
+        "2": 0.10576880745983462,
+        "3": 0.11893834111608242
+      },
+      "minimum_track_fraction": {
+        "1": 0.9162735849056604,
+        "2": 0.8491189427312775,
+        "3": 0.8314977973568282
+      },
+      "search_sample_count": 144,
+      "reacquire_sample_count": 72,
+      "warehouse_obstacle_collision_sample_total": 0,
+      "fault_samples": 180,
+      "fault_zero_command_samples": 180
+    }
+  },
+  "acceptance_note": "This gate requires completed routes, zero sampled collisions, bounded zero-forward SEARCH, and complete fault containment. The unchanged evaluator's stricter spacing and TRACK-fraction verdict is reported separately and is not relaxed.",
+  "ground_truth_boundary": "Gazebo truth is consumed only by ee616_evaluation and never by perception, estimation, supervision, or control.",
+  "controlled_search": {
+    "status": "pass",
+    "route_complete": true,
+    "search_sample_count": 3,
+    "reacquire_sample_count": 2,
+    "spacing_rmse_m": 0.15348991052623243,
+    "track_fraction": 0.91,
+    "collision_samples": 0
+  },
+  "total_run_count": 10,
+  "total_route_completed_run_count": 10
+}

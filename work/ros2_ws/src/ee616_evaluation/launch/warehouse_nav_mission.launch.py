@@ -262,11 +262,34 @@ def _configure(context: LaunchContext):
                     str(control_share / "config" / "pair_control.yaml"),
                     {
                         "innovation_gate_sq": 25.0,
-                        "max_measurement_range_m": 2.5,
-                        "bearing_slowdown_rad": 0.52,
+                        # The ordinary EKF innovation gate still rejects a
+                        # sudden target switch.  SEARCH uses three consistent
+                        # frames, so its bounded envelope may include the
+                        # extra separation accumulated while the leader is
+                        # brought to a governed stop at a corner.
+                        "max_measurement_range_m": 4.0,
+                        # Reduce forward speed progressively once the target
+                        # exceeds 20 degrees.  This limits inside-corner
+                        # compression without commanding reverse motion.
+                        "bearing_slowdown_rad": 0.35,
                         "track_timeout_s": 0.25,
                         "predict_timeout_s": mapped_predict_timeout_s,
                         "predict_speed_scale": 0.35,
+                        "search_enabled": True,
+                        "search_settle_s": 0.25,
+                        "search_angular_rps": 0.20,
+                        "search_sweep_rad": 1.0471975512,
+                        # At 0.20 rad/s, 18 seconds lets the bounded search
+                        # scan the last-known side, reverse at 60 degrees,
+                        # and cover the opposite camera boundary before the
+                        # supervisor latches SAFE_STOP.
+                        "search_timeout_s": 18.0,
+                        "reacquire_confirmations": 3,
+                        "reacquire_hold_s": 0.50,
+                        # Reject the observed switch from a roughly 1.4 m
+                        # predecessor estimate to a different panel at 3.5 m,
+                        # while allowing bounded separation during a hold.
+                        "reacquire_range_tolerance_m": 1.25,
                         "use_sim_time": True,
                     },
                 ],

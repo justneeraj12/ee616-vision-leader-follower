@@ -135,6 +135,72 @@ def _with_nav_wide_angle_camera(robot: str) -> str:
     )
 
 
+def _with_industrial_visuals(robot: str, name: str) -> str:
+    """Add a presentation shell without changing dynamics or sensor geometry."""
+    if name == "leader":
+        primary = "0.20 0.36 0.30 1"
+        accent = "0.45 0.66 0.52 1"
+    else:
+        palette = {
+            "follower_1": ("0.20 0.27 0.31 1", "0.22 0.52 0.67 1"),
+            "follower_2": ("0.22 0.27 0.25 1", "0.43 0.62 0.49 1"),
+            "follower_3": ("0.28 0.27 0.22 1", "0.68 0.55 0.28 1"),
+        }
+        primary, accent = palette.get(
+            name, ("0.22 0.27 0.25 1", "0.43 0.62 0.49 1")
+        )
+    shell = f"""
+        <!-- Visual-only industrial cart shell. Collision, inertia, wheels,
+             cameras, LiDAR, and learned-target geometry remain unchanged. -->
+        <visual name="industrial_lower_skirt">
+          <pose>0 0 -0.035 0 0 0</pose>
+          <geometry><box><size>0.58 0.46 0.14</size></box></geometry>
+          <material><ambient>{primary}</ambient><diffuse>{primary}</diffuse></material>
+        </visual>
+        <visual name="industrial_upper_deck">
+          <pose>-0.01 0 0.15 0 0 0</pose>
+          <geometry><box><size>0.52 0.38 0.08</size></box></geometry>
+          <material><ambient>0.08 0.10 0.11 1</ambient><diffuse>0.12 0.14 0.15 1</diffuse></material>
+        </visual>
+        <visual name="industrial_front_bumper">
+          <pose>0.285 0 -0.04 0 0 0</pose>
+          <geometry><box><size>0.03 0.48 0.13</size></box></geometry>
+          <material><ambient>{accent}</ambient><diffuse>{accent}</diffuse><emissive>0.04 0.08 0.06 1</emissive></material>
+        </visual>
+        <visual name="industrial_sensor_hood">
+          <pose>0.20 0 0.25 0 0 0</pose>
+          <geometry><box><size>0.13 0.28 0.13</size></box></geometry>
+          <material><ambient>{primary}</ambient><diffuse>{primary}</diffuse></material>
+        </visual>
+        <visual name="industrial_status_left">
+          <pose>0.08 0.211 0.09 0 0 0</pose>
+          <geometry><box><size>0.22 0.012 0.035</size></box></geometry>
+          <material><ambient>{accent}</ambient><diffuse>{accent}</diffuse><emissive>{accent}</emissive></material>
+        </visual>
+        <visual name="industrial_status_right">
+          <pose>0.08 -0.211 0.09 0 0 0</pose>
+          <geometry><box><size>0.22 0.012 0.035</size></box></geometry>
+          <material><ambient>{accent}</ambient><diffuse>{accent}</diffuse><emissive>{accent}</emissive></material>
+        </visual>
+        <visual name="industrial_status_mast">
+          <pose>0 0 0.48 0 0 0</pose>
+          <geometry><cylinder><radius>0.07</radius><length>0.52</length></cylinder></geometry>
+          <material><ambient>0.10 0.12 0.13 1</ambient><diffuse>0.14 0.16 0.17 1</diffuse></material>
+        </visual>
+        <visual name="industrial_status_beacon">
+          <pose>0 0 0.76 0 0 0</pose>
+          <geometry><cylinder><radius>0.105</radius><length>0.08</length></cylinder></geometry>
+          <material><ambient>{accent}</ambient><diffuse>{accent}</diffuse></material>
+        </visual>
+"""
+    needle = "      </link>\n      <link name=\"left_wheel\">"
+    return robot.replace(
+        needle,
+        f"{shell}      </link>\n      <link name=\"left_wheel\">",
+        1,
+    )
+
+
 def _aisle_stripe(name: str, x: float, y: float, sx: float, sy: float) -> str:
     return f"""
     <model name="{name}"><static>true</static><pose>{x} {y} 0.006 0 0 0</pose>
@@ -177,15 +243,20 @@ def build_warehouse_nav_world(
     if follower_count not in {1, 2, 3}:
         raise ValueError("follower_count must be 1, 2, or 3")
     layout = warehouse_layout(map_profile)
-    robots = [_nav_leader(-10.0, -6.0)]
+    robots = [_with_industrial_visuals(
+        _nav_leader(-10.0, -6.0), "leader"
+    )]
     robots.extend(
-        _with_nav_wide_angle_camera(
-            _with_wraparound_target(_cargo_robot(
-                f"follower_{index}",
-                -10.0 - 2.0 * index,
-                y=-6.0,
-                camera=True,
-            ))
+        _with_industrial_visuals(
+            _with_nav_wide_angle_camera(
+                _with_wraparound_target(_cargo_robot(
+                    f"follower_{index}",
+                    -10.0 - 2.0 * index,
+                    y=-6.0,
+                    camera=True,
+                ))
+            ),
+            f"follower_{index}",
         )
         for index in range(1, follower_count + 1)
     )
