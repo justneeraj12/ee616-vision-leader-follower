@@ -5,6 +5,10 @@ and archived outputs from the toy baseline. Numerical claims should be checked
 against the machine-readable experiment results rather than inferred from a
 video.
 
+The editable RAPS Fall 2026 poster draft and rendered proofs are under
+[`raps/`](raps/README.md). It is a review draft, not a submitted or faculty-
+approved final poster.
+
 ## Gazebo demonstrations
 
 | File | Purpose |

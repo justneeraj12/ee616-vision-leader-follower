@@ -41,6 +41,8 @@ navigation path is:
 6. [Configurable experiment console](docs/EXPERIMENT_CONSOLE.md) - follower and
    route selection, live telemetry, result locations, and current pass/fail
    boundaries.
+7. [RAPS Fall 2026 poster draft](deliverables/raps/README.md) - editable
+   PowerPoint plus PDF and PNG proofs for owner review.
 
 The fastest visual review is the
 [mapped Hybrid-A* warehouse mission](deliverables/Neeraj_Kanchani_EE616_Hybrid_AStar_Warehouse_Demo.mp4),
